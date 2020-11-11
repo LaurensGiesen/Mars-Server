@@ -1,0 +1,85 @@
+package be.howest.ti.mars.logic.domain;
+
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+public class User {
+    private final String firstName;
+    private final String lastName;
+    private String eMail;
+    private final int id;
+    private final String dateOfBirth;
+    private int subscriptionId;
+    private final Map<String,Integer> harvest;
+    private final Map<String,Integer> history;
+
+    public User(int id, String firstName, String lastName, String eMail, String dateOfBirth, int subscriptionId, Map<String, Integer> harvest, Map<String, Integer> history) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.eMail = eMail;
+        this.dateOfBirth = dateOfBirth;
+        this.subscriptionId = subscriptionId;
+        this.harvest = harvest;
+        this.history = history;
+    }
+
+    public User(int id, String firstName, String lastName, String eMail, String dateOfBirth, int subscriptionId) {
+        this(id, firstName, lastName, eMail, dateOfBirth, subscriptionId, new HashMap<>(), new HashMap<>());
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getEmail() {
+        return eMail;
+    }
+
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public int getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public Map<String, Integer> getHarvest() {
+        return harvest;
+    }
+
+    public Map<String, Integer> getHistory() {
+        return history;
+    }
+
+    public void setEmail(String email) {
+       this.eMail = email;
+    }
+
+    public void setSubscriptionId(int id) {
+        this.subscriptionId = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}
