@@ -5,16 +5,10 @@ import java.util.Objects;
 public class Plant {
     private final String name;
     private final int price;
-    private int count;
-
-    public Plant(String name, int price, int count) {
-        this.name = name;
-        this.price = price;
-        this.count = count;
-    }
 
     public Plant(String name, int price) {
-        this(name, price, 0);
+        this.name = name;
+        this.price = price;
     }
 
     public String getName() {
@@ -23,18 +17,6 @@ public class Plant {
 
     public int getPrice() {
         return price;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void increment() {
-        count++;
-    }
-
-    public void decrement() {
-        count--;
     }
 
     @Override

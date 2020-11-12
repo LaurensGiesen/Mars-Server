@@ -6,16 +6,10 @@ public class Seed {
 
     private final String name;
     private final int price;
-    private int count;
-
-    public Seed(String name, int price, int count) {
-        this.name = name;
-        this.price = price;
-        this.count = count;
-    }
 
     public Seed(String name, int price) {
-        this(name, price, 0);
+        this.name = name;
+        this.price = price;
     }
 
     public String getName() {
@@ -24,18 +18,6 @@ public class Seed {
 
     public int getPrice() {
         return price;
-    }
-
-    public int getCount() {
-        return count;
-    }
-
-    public void increment() {
-        count++;
-    }
-
-    public void decrement() {
-        count--;
     }
 
     @Override
