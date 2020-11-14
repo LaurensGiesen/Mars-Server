@@ -11,10 +11,10 @@ public class User {
     private final int id;
     private final String dateOfBirth;
     private int subscriptionId;
-    private final Map<Plant,Integer> harvest;
-    private final Map<Plant,Integer> history;
+    private final Map<Product,Integer> harvest;
+    private final Map<Product,Integer> history;
 
-    public User(int id, String firstName, String lastName, String eMail, String dateOfBirth, int subscriptionId, Map<Plant, Integer> harvest, Map<Plant, Integer> history) {
+    public User(int id, String firstName, String lastName, String eMail, String dateOfBirth, int subscriptionId, Map<Product, Integer> harvest, Map<Product, Integer> history) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -53,11 +53,11 @@ public class User {
         return subscriptionId;
     }
 
-    public Map<Plant, Integer> getHarvest() {
+    public Map<Product, Integer> getHarvest() {
         return harvest;
     }
 
-    public Map<Plant, Integer> getHistory() {
+    public Map<Product, Integer> getHistory() {
         return history;
     }
 
