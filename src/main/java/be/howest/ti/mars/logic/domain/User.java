@@ -8,36 +8,43 @@ import java.util.Objects;
 public class User {
     private final String firstName;
     private final String lastName;
-    private String eMail;
+    private String email;
     private int id;
     private final Date dateOfBirth;
-    private int subscriptionId;
-    private final Map<Product,Integer> harvest;
-    private final Map<Product,Integer> history;
+    private Subscription subscription;
+    private final Map<Product, Integer> harvested;
+    private final Map<Product, Integer> history;
+    private Basket basket;
+    private double totalPrice;
+    private final Map<Plant, Integer> planted;
+    private Location location;
 
-    public User(int id, String firstName, String lastName, String eMail, Date dateOfBirth, int subscriptionId, Map<Product, Integer> harvest, Map<Product, Integer> history) {
+
+    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location, Map<Product, Integer> harvested, Map<Product, Integer> history, Map<Plant, Integer> planted, Basket basket, double totalPrice) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.eMail = eMail;
+        this.email = email;
+        this.location = location;
         this.dateOfBirth = dateOfBirth;
-        this.subscriptionId = subscriptionId;
-        this.harvest = harvest;
+        this.subscription = subscription;
+        this.harvested = harvested;
         this.history = history;
+        this.basket = basket;
+        this.totalPrice = totalPrice;
+        this.planted = planted;
     }
 
-    public User(int id, String firstName, String lastName, String eMail, Date dateOfBirth, int subscriptionId) {
-        this(id, firstName, lastName, eMail, dateOfBirth, subscriptionId, new HashMap<>(), new HashMap<>());
+    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location) {
+        this(id, firstName, lastName, email, dateOfBirth, subscription, location, new HashMap<>(), new HashMap<>(), new HashMap<>(), new Basket(), 0.0);
     }
 
-
+    public User(String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location) {
+        this(-1, firstName, lastName, email, dateOfBirth, subscription, location, new HashMap<>(), new HashMap<>(), new HashMap<>(), new Basket(), 0.0);
+    }
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -49,34 +56,57 @@ public class User {
     }
 
     public String getEmail() {
-        return eMail;
+        return email;
     }
 
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public int getSubscriptionId() {
-        return subscriptionId;
-    }
-
-    public Map<Product, Integer> getHarvest() {
-        return harvest;
+    public Map<Product, Integer> getHarvested() {
+        return harvested;
     }
 
     public Map<Product, Integer> getHistory() {
         return history;
     }
 
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public Map<Plant, Integer> getPlanted() {
+        return planted;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
     public void setEmail(String email) {
-       this.eMail = email;
+        this.email = email;
     }
 
-    public void setSubscriptionId(int id) {
-        this.subscriptionId = id;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Basket getBasket() {
+        return basket;
+    }
+
+    public void changeSubscription(Subscription subscription) {
+        this.subscription = subscription;
     }
 
 
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
 
     @Override
     public boolean equals(Object o) {

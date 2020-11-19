@@ -21,7 +21,7 @@ public class DatabaseUsersRepository implements UsersRepository {
             stmt.setString(2, user.getLastName());
             stmt.setString(3, user.getEmail());
             stmt.setDate(4, user.getDateOfBirth());
-            stmt.setInt(5, user.getSubscriptionId());
+            stmt.setObject(5, user.getSubscription());
 
             stmt.executeUpdate();
             ResultSet rsKey = stmt.getGeneratedKeys();
