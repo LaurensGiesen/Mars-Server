@@ -1,7 +1,5 @@
 package be.howest.ti.mars.logic.domain;
 
-
-
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,10 +12,10 @@ public class User {
     private int id;
     private final Date dateOfBirth;
     private int subscriptionId;
-    private final Map<String,Integer> harvest;
-    private final Map<String,Integer> history;
+    private final Map<Product,Integer> harvest;
+    private final Map<Product,Integer> history;
 
-    public User(int id, String firstName, String lastName, String eMail, Date dateOfBirth, int subscriptionId, Map<String, Integer> harvest, Map<String, Integer> history) {
+    public User(int id, String firstName, String lastName, String eMail, String dateOfBirth, int subscriptionId, Map<Product, Integer> harvest, Map<Product, Integer> history) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -62,11 +60,11 @@ public class User {
         return subscriptionId;
     }
 
-    public Map<String, Integer> getHarvest() {
+    public Map<Product, Integer> getHarvest() {
         return harvest;
     }
 
-    public Map<String, Integer> getHistory() {
+    public Map<Product, Integer> getHistory() {
         return history;
     }
 
@@ -77,6 +75,8 @@ public class User {
     public void setSubscriptionId(int id) {
         this.subscriptionId = id;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
