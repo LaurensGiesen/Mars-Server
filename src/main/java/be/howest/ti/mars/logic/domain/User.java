@@ -12,12 +12,15 @@ public class User {
     private int id;
     private final Date dateOfBirth;
     private Subscription subscription;
-    private final Map<Product,Integer> harvested;
-    private final Map<Product,Integer> history;
+    private final Map<Product, Integer> harvested;
+    private final Map<Product, Integer> history;
+    private Basket basket;
+    private double totalPrice;
     private final Map<Plant, Integer> planted;
     private Location location;
 
-    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location, Map<Product, Integer> harvested, Map<Product, Integer> history, Map<Plant, Integer> planted) {
+
+    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location, Map<Product, Integer> harvested, Map<Product, Integer> history, Map<Plant, Integer> planted, Basket basket, double totalPrice) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -27,15 +30,17 @@ public class User {
         this.subscription = subscription;
         this.harvested = harvested;
         this.history = history;
+        this.basket = basket;
+        this.totalPrice = totalPrice;
         this.planted = planted;
     }
 
     public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location) {
-        this(id, firstName, lastName, email, dateOfBirth, subscription,location, new HashMap<>(), new HashMap<>(), new HashMap<>());
+        this(id, firstName, lastName, email, dateOfBirth, subscription, location, new HashMap<>(), new HashMap<>(), new HashMap<>(), new Basket(), 0.0);
     }
 
     public User(String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location) {
-        this(-1,firstName, lastName, email, dateOfBirth, subscription, location, new HashMap<>(), new HashMap<>(), new HashMap<>());
+        this(-1, firstName, lastName, email, dateOfBirth, subscription, location, new HashMap<>(), new HashMap<>(), new HashMap<>(), new Basket(), 0.0);
     }
 
     public int getId() {
@@ -79,15 +84,24 @@ public class User {
     }
 
     public void setEmail(String email) {
-       this.email = email;
+        this.email = email;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
+    public Basket getBasket() {
+        return basket;
+    }
+
     public void changeSubscription(Subscription subscription) {
         this.subscription = subscription;
+    }
+
+
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
     public void setLocation(Location location) {
