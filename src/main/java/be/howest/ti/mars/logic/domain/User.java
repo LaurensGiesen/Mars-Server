@@ -14,8 +14,10 @@ public class User {
     private int subscriptionId;
     private final Map<Product,Integer> harvest;
     private final Map<Product,Integer> history;
+    private Basket basket;
+    private double totalPrice;
 
-    public User(int id, String firstName, String lastName, String eMail, Date dateOfBirth, int subscriptionId, Map<Product, Integer> harvest, Map<Product, Integer> history) {
+    public User(int id, String firstName, String lastName, String eMail, Date dateOfBirth, int subscriptionId, Map<Product, Integer> harvest, Map<Product, Integer> history, Basket basket, double totalPrice) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -24,13 +26,13 @@ public class User {
         this.subscriptionId = subscriptionId;
         this.harvest = harvest;
         this.history = history;
+        this.basket = basket;
+        this.totalPrice = totalPrice;
     }
 
     public User(int id, String firstName, String lastName, String eMail, Date dateOfBirth, int subscriptionId) {
-        this(id, firstName, lastName, eMail, dateOfBirth, subscriptionId, new HashMap<>(), new HashMap<>());
+        this(id, firstName, lastName, eMail, dateOfBirth, subscriptionId, new HashMap<>(), new HashMap<>(), new Basket(), 0);
     }
-
-
 
     public int getId() {
         return id;
@@ -76,7 +78,15 @@ public class User {
         this.subscriptionId = id;
     }
 
+    public Basket getBasket() {
+        return basket;
+    }
 
+
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
 
     @Override
     public boolean equals(Object o) {
