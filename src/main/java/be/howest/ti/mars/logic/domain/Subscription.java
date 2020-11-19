@@ -42,7 +42,7 @@ public class Subscription {
         return description;
     }
 
-    public void setType(SubscriptionType type) {
+    public void changeSubscription(SubscriptionType type) {
         this.type = type;
         this.price = takePriceFromType(type);
         this.description = takeDescriptionFromType(type);
