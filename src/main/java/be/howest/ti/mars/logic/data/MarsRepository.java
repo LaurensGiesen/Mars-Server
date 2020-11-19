@@ -2,6 +2,8 @@ package be.howest.ti.mars.logic.data;
 
 import org.h2.tools.Server;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /*
@@ -17,9 +19,9 @@ To make this class useful, please complete it with the topics seen in the module
 public class MarsRepository {
     private static final MarsRepository INSTANCE = new MarsRepository();
     private Server dbWebConsole;
-    private String username;
-    private String password;
-    private String url;
+    private String username = "group-14"; // = "group-14"
+    private String password = "t3sfe1k3nUe"; // = "t3sfe1k3nUe"
+    private String url  = "jdbc:h2:~/mars-db"; //jdbc:h2:/opt/group-14/db-14 //jdbc:h2:~/mars-db
 
     private MarsRepository() { }
 
@@ -39,5 +41,9 @@ public class MarsRepository {
         INSTANCE.dbWebConsole = Server.createWebServer(
                 "-ifNotExists",
                 "-webPort", String.valueOf(console)).start();
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(getInstance().url, getInstance().username, getInstance().password);
     }
 }
