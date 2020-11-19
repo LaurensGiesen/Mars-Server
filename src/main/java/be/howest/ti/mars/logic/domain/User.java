@@ -15,7 +15,7 @@ public class User {
     private final Map<Product,Integer> harvest;
     private final Map<Product,Integer> history;
 
-    public User(int id, String firstName, String lastName, String eMail, String dateOfBirth, int subscriptionId, Map<Product, Integer> harvest, Map<Product, Integer> history) {
+    public User(int id, String firstName, String lastName, String eMail, Date dateOfBirth, int subscriptionId, Map<Product, Integer> harvest, Map<Product, Integer> history) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,7 +26,7 @@ public class User {
         this.history = history;
     }
 
-    public User(int id, String firstName, String lastName, String eMail, String dateOfBirth, int subscriptionId) {
+    public User(int id, String firstName, String lastName, String eMail, Date dateOfBirth, int subscriptionId) {
         this(id, firstName, lastName, eMail, dateOfBirth, subscriptionId, new HashMap<>(), new HashMap<>());
     }
 
