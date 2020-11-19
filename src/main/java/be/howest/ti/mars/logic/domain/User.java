@@ -26,7 +26,7 @@ public class User {
         this.history = history;
     }
 
-    public User(int id, String firstName, String lastName, String eMail, Date dateOfBirth, int subscriptionId) {
+    public User(int id, String firstName, String lastName, String eMail, String dateOfBirth, int subscriptionId) {
         this(id, firstName, lastName, eMail, dateOfBirth, subscriptionId, new HashMap<>(), new HashMap<>());
     }
 
