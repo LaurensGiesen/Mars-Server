@@ -167,7 +167,8 @@ public class WebServer extends AbstractVerticle {
                 .allowedMethod(HttpMethod.GET)
                 .allowedMethod(HttpMethod.POST)
                 .allowedMethod(HttpMethod.DELETE)
-                .allowedMethod(HttpMethod.PUT);
+                .allowedMethod(HttpMethod.PUT)
+                .allowedMethod(HttpMethod.OPTIONS);
     }
 
     private void onBadRequest(RoutingContext ctx) {

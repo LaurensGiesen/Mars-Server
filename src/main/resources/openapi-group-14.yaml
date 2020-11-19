@@ -10,7 +10,7 @@ servers:
     description: 'Public web api'
 paths:
   /api/message:
-    post:
+    get:
       description: Get a nice message
       operationId: getMessage
       responses:
@@ -27,7 +27,7 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          text/plain:
             schema:
               type: object
               properties:
@@ -39,7 +39,7 @@ paths:
                   type: string
                 birthDay:
                   type: string
-                adress:
+                address:
                   type: string
                 number:
                   type: string
@@ -56,7 +56,7 @@ paths:
                 - lastname
                 - email
                 - birthDay
-                - adress
+                - address
                 - number
                 - dome
                 - crop1

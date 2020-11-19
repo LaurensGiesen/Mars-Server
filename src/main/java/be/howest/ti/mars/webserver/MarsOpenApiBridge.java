@@ -5,6 +5,7 @@ import be.howest.ti.mars.logic.domain.*;
 import io.vertx.core.json.Json;
 import io.vertx.ext.web.RoutingContext;
 
+import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -97,6 +98,13 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
     @Override
     public Boolean createUser(RoutingContext ctx) {
         LOGGER.info("createUser");
+        String firstname = ctx.getBodyAsJson().getString("firstname");
+        String lastname = ctx.getBodyAsJson().getString("lastname");
+        String email = ctx.getBodyAsJson().getString("email");
+        String number = ctx.getBodyAsJson().getString("number");
+        String dome = ctx.getBodyAsJson().getString("dome");
+        User user = new User(firstname, lastname, email, new Date(267265), new Subscription(SubscriptionType.BASIC), new Location(dome,number + ""));
+        LOGGER.warning(user.toString());
         return true;
     }
 }
