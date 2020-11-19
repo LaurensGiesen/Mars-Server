@@ -20,4 +20,48 @@ paths:
             application/json:
               schema:
                 type: string
-  
+  /register:
+    post:
+      summary: Build a building
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                firstname:
+                  type: string
+                lastname:
+                  type: string
+                email:
+                  type: string
+                birthDay:
+                  type: string
+                adress:
+                  type: string
+                number:
+                  type: string
+                dome:
+                  type: string
+                crop1:
+                  type: string
+                crop2:
+                  type: string
+                crop3:
+                  type: string
+              required:
+                - firstname
+                - lastname
+                - email
+                - birthDay
+                - adress
+                - number
+                - dome
+                - crop1
+                - crop2
+                - crop3
+      responses:
+        200:
+          description: Ok
