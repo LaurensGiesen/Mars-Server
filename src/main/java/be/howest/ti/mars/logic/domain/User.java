@@ -20,7 +20,7 @@ public class User {
     private Location location;
 
 
-    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location, Map<Product, Integer> harvested, Map<Product, Integer> history, Map<Plant, Integer> planted, Basket basket, double totalPrice) {
+    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,19 +28,15 @@ public class User {
         this.location = location;
         this.dateOfBirth = dateOfBirth;
         this.subscription = subscription;
-        this.harvested = harvested;
-        this.history = history;
-        this.basket = basket;
-        this.totalPrice = totalPrice;
-        this.planted = planted;
-    }
-
-    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location) {
-        this(id, firstName, lastName, email, dateOfBirth, subscription, location, new HashMap<>(), new HashMap<>(), new HashMap<>(), new Basket(), 0.0);
+        this.harvested = new HashMap<>();
+        this.history = new HashMap<>();
+        this.basket = new Basket();
+        this.totalPrice = 0.0;
+        this.planted = new HashMap<>();
     }
 
     public User(String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location) {
-        this(-1, firstName, lastName, email, dateOfBirth, subscription, location, new HashMap<>(), new HashMap<>(), new HashMap<>(), new Basket(), 0.0);
+        this(-1, firstName, lastName, email, dateOfBirth, subscription, location);
     }
 
     public int getId() {
@@ -98,7 +94,6 @@ public class User {
     public void changeSubscription(Subscription subscription) {
         this.subscription = subscription;
     }
-
 
     public double getTotalPrice() {
         return totalPrice;
