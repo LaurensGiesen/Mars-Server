@@ -4,6 +4,7 @@ import be.howest.ti.mars.logic.domain.User;
 import be.howest.ti.mars.logic.exceptions.*;
 
 import java.sql.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,12 +39,12 @@ public class DatabaseUsersRepository implements UsersRepository {
 
     @Override
     public List<User> getUsers() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public List<User> findUser(User user) {
-        return null;
+        return Collections.emptyList();
     }
 
 //    public static void main(String[] args) {
