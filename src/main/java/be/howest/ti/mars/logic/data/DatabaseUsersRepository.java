@@ -16,7 +16,8 @@ public class DatabaseUsersRepository implements UsersRepository {
     @Override
     public void addUser(User user) {
         try (Connection con = MarsRepository.getConnection();
-             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER, Statement.RETURN_GENERATED_KEYS)
+             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER, Statement.RETURN_GENERATED_KEYS);
+             ResultSet rsKey = stmt.getGeneratedKeys();
         ) {
             stmt.setString(1, user.getFirstName());
             stmt.setString(2, user.getLastName());
@@ -25,7 +26,6 @@ public class DatabaseUsersRepository implements UsersRepository {
             stmt.setObject(5, user.getSubscription());
 
             stmt.executeUpdate();
-            ResultSet rsKey = stmt.getGeneratedKeys();
             rsKey.next();
 
             user.setId(rsKey.getInt(1));
