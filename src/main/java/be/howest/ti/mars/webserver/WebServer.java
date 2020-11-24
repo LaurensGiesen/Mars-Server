@@ -131,6 +131,7 @@ public class WebServer extends AbstractVerticle {
 
     private void addRoutes(OpenAPI3RouterFactory factory) {
         addRouteWithCtxFunction(factory, "getMessage", bridge::getMessage);
+        addRouteWithCtxFunction(factory, "createUser", bridge::createUser);
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,
@@ -166,7 +167,8 @@ public class WebServer extends AbstractVerticle {
                 .allowedMethod(HttpMethod.GET)
                 .allowedMethod(HttpMethod.POST)
                 .allowedMethod(HttpMethod.DELETE)
-                .allowedMethod(HttpMethod.PUT);
+                .allowedMethod(HttpMethod.PUT)
+                .allowedMethod(HttpMethod.OPTIONS);
     }
 
     private void onBadRequest(RoutingContext ctx) {

@@ -56,7 +56,7 @@ In Intelij choose gradle task run.
 ## Public locations
  - H2 web client
    - https://project-ii.ti.howest.be/db-14
-   - url: jdbc:h2:/opt/group-14/db-14
+       - url: jdbc:h2:/opt/group-14/db-14
    - username:group-14
    - password: see leho
  - Web api
