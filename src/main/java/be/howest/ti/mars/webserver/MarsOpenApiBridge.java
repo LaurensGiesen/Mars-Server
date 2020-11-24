@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
@@ -103,7 +104,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String number = ctx.getBodyAsJson().getString("number");
         String dome = ctx.getBodyAsJson().getString("dome");
         User user = new User(firstname, lastname, email, new Date(267265), new Subscription(SubscriptionType.BASIC), new Location(dome,number + ""));
-        LOGGER.info(user.toString());
+        LOGGER.log(Level.WARNING, user.toString());
         return true;
     }
 }
