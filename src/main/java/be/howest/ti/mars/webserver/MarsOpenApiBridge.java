@@ -104,7 +104,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String number = ctx.getBodyAsJson().getString("number");
         String dome = ctx.getBodyAsJson().getString("dome");
         User user = new User(firstname, lastname, email, new Date(267265), new Subscription(SubscriptionType.BASIC), new Location(dome,number + ""));
-        LOGGER.warning(user.toString());
+        LOGGER.info(user.toString());
         return true;
     }
 }
