@@ -12,6 +12,10 @@ public class Favorite {
         this.favorites = new LinkedList<>();
     }
 
+    public void removeFromFavorites(Product product) {
+        favorites.remove(product);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
