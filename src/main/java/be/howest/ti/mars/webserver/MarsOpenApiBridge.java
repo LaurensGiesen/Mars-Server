@@ -2,7 +2,6 @@ package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.domain.*;
-import io.vertx.core.json.Json;
 import io.vertx.ext.web.RoutingContext;
 
 import java.sql.Date;
