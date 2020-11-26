@@ -24,12 +24,12 @@ public class DatabaseSeedsRepository implements SeedsRepository {
              ResultSet rs = stmt.executeQuery()) {
             List<Seed> allSeeds = new ArrayList<>();
             while (rs.next()) {
-                int id = rs.getInt("seedid");
+                int id = rs.getInt("seed_id");
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
-                double weight = rs.getDouble("weight");
+                int amount = rs.getInt("amount");
                 String type = rs.getString("type");
-                Seed seed = new Seed(id, name, price,weight, type);
+                Seed seed = new Seed(id, name, price,amount, type);
                 allSeeds.add(seed);
             }
             return allSeeds;
@@ -49,9 +49,9 @@ public class DatabaseSeedsRepository implements SeedsRepository {
                 int id = rs.getInt("seedid");
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
-                double weight = rs.getDouble("weight");
+                int amount = rs.getInt("amount");
                 String type = rs.getString("type");
-                Seed seed = new Seed(id, name, price,weight, type);
+                Seed seed = new Seed(id, name, price,amount, type);
                 fruitSeeds.add(seed);
             }
             return fruitSeeds;
@@ -71,9 +71,9 @@ public class DatabaseSeedsRepository implements SeedsRepository {
                 int id = rs.getInt("seedid");
                 String name = rs.getString("name");
                 double price = rs.getDouble("price");
-                double weight = rs.getDouble("weight");
+                int amount = rs.getInt("amount");
                 String type = rs.getString("type");
-                Seed seed = new Seed(id, name, price,weight, type);
+                Seed seed = new Seed(id, name, price,amount, type);
                 vegetableSeeds.add(seed);
             }
             return vegetableSeeds;
