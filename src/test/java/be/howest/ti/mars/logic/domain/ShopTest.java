@@ -38,5 +38,5 @@ class ShopTest {
     void getSeeds() {
         assertEquals(Collections.emptyList(), shop.getPlants());
         //moet aangepast worden wanneer de User klasse volledig af is
-    }*/ 
+    }*/
 }
