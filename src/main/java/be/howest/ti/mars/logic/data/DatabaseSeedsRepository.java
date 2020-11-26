@@ -16,7 +16,7 @@ public class DatabaseSeedsRepository implements SeedsRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseSeedsRepository.class.getName());
     private static final String SQL_SELECT_ALL_SEEDS = "select * from seeds";
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT = "select * from seeds where type='fruit'";
-
+    private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE = "select * from seeds where type='vegetable'";
     @Override
     public List<Seed> getAllSeeds() {
         try (Connection con = MarsRepository.getConnection();
@@ -63,7 +63,23 @@ public class DatabaseSeedsRepository implements SeedsRepository {
 
     @Override
     public List<Seed> getAllSeedsWhereTypeIsVegetable() {
-        return null;
+        try (Connection con = MarsRepository.getConnection();
+             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE);
+             ResultSet rs = stmt.executeQuery()) {
+            List<Seed> vegetableSeeds = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt("seedid");
+                String name = rs.getString("name");
+                double price = rs.getDouble("price");
+                double weight = rs.getDouble("weight");
+                String type = rs.getString("type");
+                Seed seed = new Seed(id, name, price,weight, type);
+                vegetableSeeds.add(seed);
+            }
+            return vegetableSeeds;
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new SeedException("Unable to get all vegetable-seeds");
+        }
     }
-
 }
