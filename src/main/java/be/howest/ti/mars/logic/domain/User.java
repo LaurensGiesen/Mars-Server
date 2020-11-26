@@ -12,11 +12,9 @@ public class User {
     private int id;
     private final Date dateOfBirth;
     private Subscription subscription;
-    private final Map<Product, Integer> harvested;
-    private final Map<Product, Integer> history;
-    private Basket basket;
-    private double totalPrice;
-    private final Map<Plant, Integer> planted;
+    private final ProductCollection harvested;
+    private final ProductCollection history;
+    private final Basket basket;
     private final Favorite favorites;
     private final Address address;
 
@@ -30,11 +28,9 @@ public class User {
         this.subscription = subscription;
         this.favorites = favorites;
         this.address = address;
-        this.harvested = new HashMap<>();
-        this.history = new HashMap<>();
+        this.harvested = new Harvest();
+        this.history = new History();
         this.basket = new Basket();
-        this.totalPrice = 0.0;
-        this.planted = new HashMap<>();
     }
 
     public User(String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
@@ -61,20 +57,8 @@ public class User {
         return dateOfBirth;
     }
 
-    public Map<Product, Integer> getHarvested() {
-        return harvested;
-    }
-
-    public Map<Product, Integer> getHistory() {
-        return history;
-    }
-
     public Subscription getSubscription() {
         return subscription;
-    }
-
-    public Map<Plant, Integer> getPlanted() {
-        return planted;
     }
 
     public void setEmail(String email) {
@@ -93,13 +77,20 @@ public class User {
         this.subscription = subscription;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-
     public Favorite getFavorites() {
         return favorites;
+    }
+
+    public ProductCollection getHarvested() {
+        return harvested;
+    }
+
+    public ProductCollection getHistory() {
+        return history;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     @Override
@@ -114,8 +105,8 @@ public class User {
                 ", harvested=" + harvested +
                 ", history=" + history +
                 ", basket=" + basket +
-                ", totalPrice=" + totalPrice +
-                ", planted=" + planted +
+                //", totalPrice=" + totalPrice +
+                //", planted=" + planted +
                 '}';
     }
 
