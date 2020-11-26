@@ -118,6 +118,6 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String newDate = split[2] + "-" + split[0] + "-" + split[1];
         User user = new User(firstname, lastname, email, Date.valueOf(newDate), new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
         LOGGER.log(Level.WARNING, "User: {0} " , user);
-        return true;
+        return true; 
     }
 }
