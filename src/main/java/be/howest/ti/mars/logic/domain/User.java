@@ -96,9 +96,6 @@ public class User {
         return totalPrice;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
 
     public Favorite getFavorites() {
         return favorites;
