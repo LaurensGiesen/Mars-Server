@@ -20,7 +20,7 @@ public class Subscription implements Serializable {
             return 0.0; //free
         } else if (type.equals(SubscriptionType.BASIC)) {
             return 10.0; //must be changed
-        }else if(type.equals(SubscriptionType.BASIC)){
+        }else if(type.equals(SubscriptionType.PREMIUM)){
             return 20.0; //must be changed
         }
         throw new UsersException("Invalid Subscription Type");
