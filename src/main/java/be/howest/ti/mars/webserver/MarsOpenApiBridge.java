@@ -104,6 +104,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String lastname = ctx.getBodyAsJson().getString("lastname");
         String email = ctx.getBodyAsJson().getString("email");
         String date = ctx.getBodyAsJson().getString("birthDay");
+        String street = ctx.getBodyAsJson().getString("adress");
         String number = ctx.getBodyAsJson().getString("number");
         String dome = ctx.getBodyAsJson().getString("dome");
         Product crop1 = new Seed(ctx.getBodyAsJson().getString("crop1"), -1);
@@ -115,7 +116,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         products.add(crop3);
         String[] split = date.split("-");
         String newDate = split[2] + "-" + split[0] + "-" + split[1];
-        User user = new User(firstname, lastname, email, Date.valueOf(newDate), new Subscription(SubscriptionType.BASIC), new Location(dome,number + ""), new Favorite(products));
+        User user = new User(firstname, lastname, email, Date.valueOf(newDate), new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
         LOGGER.log(Level.WARNING, "User: {0} " , user);
         return true;
     }
