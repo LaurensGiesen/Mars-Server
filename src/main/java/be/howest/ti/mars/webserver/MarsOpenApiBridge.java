@@ -4,9 +4,9 @@ import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.domain.*;
 import io.vertx.ext.web.RoutingContext;
 
-import java.sql.Date;
+import java.time.LocalDate;
+
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -103,20 +103,16 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String lastname = ctx.getBodyAsJson().getString("lastname");
         String email = ctx.getBodyAsJson().getString("email");
         String date = ctx.getBodyAsJson().getString("birthDay");
-        String street = ctx.getBodyAsJson().getString("adress");
+        String street = ctx.getBodyAsJson().getString("address");
         int number = ctx.getBodyAsJson().getInteger("number");
         String dome = ctx.getBodyAsJson().getString("dome");
-        Product crop1 = new Seed(-1,ctx.getBodyAsJson().getString("crop1"), -1, -1, "");
-        Product crop2 = new Seed(-1,ctx.getBodyAsJson().getString("crop2"), -1, -1, "");
-        Product crop3 = new Seed(-1,ctx.getBodyAsJson().getString("crop3"), -1, -1, "");
-        List<Product> products = new LinkedList<>();
-        products.add(crop1);
-        products.add(crop2);
-        products.add(crop3);
-        String[] split = date.split("-");
-        String newDate = split[2] + "-" + split[0] + "-" + split[1];
-        User user = new User(firstname, lastname, email, Date.valueOf(newDate), new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
+        Product crop1 = new Seed(1, ctx.getBodyAsJson().getString("crop1"), -1,1 ,"NYI");
+        Product crop2 = new Seed(1,ctx.getBodyAsJson().getString("crop2"),  -1,1 ,"NYI");
+        Product crop3 = new Seed(1, ctx.getBodyAsJson().getString("crop3"), -1,1 ,"NYI");
+        List<Product> products = controller.createFavorites(crop1,crop2,crop3);
+        LocalDate newDate = controller.createDate(date);
+        User user = new User(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
         LOGGER.log(Level.WARNING, "User: {0} " , user);
-        return true; 
+        return controller.createUser(user);
     }
 }

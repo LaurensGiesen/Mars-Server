@@ -42,7 +42,7 @@ paths:
                 address:
                   type: string
                 number:
-                  type: string
+                  type: number
                 dome:
                   type: string
                 crop1:
