@@ -1,6 +1,7 @@
 package be.howest.ti.mars.logic.domain;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -10,7 +11,7 @@ public class User {
     private final String lastName;
     private String email;
     private int id;
-    private final Date dateOfBirth;
+    private final LocalDate dateOfBirth;
     private Subscription subscription;
     private final Map<Product, Integer> harvested;
     private final Map<Product, Integer> history;
@@ -21,7 +22,7 @@ public class User {
     private final Address address;
 
 
-    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
+    public User(int id, String firstName, String lastName, String email, LocalDate dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,7 +38,7 @@ public class User {
         this.planted = new HashMap<>();
     }
 
-    public User(String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
+    public User(String firstName, String lastName, String email, LocalDate dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
         this(-1, firstName, lastName, email, dateOfBirth, subscription, address, favorites);
     }
     
@@ -57,7 +58,7 @@ public class User {
         return email;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 

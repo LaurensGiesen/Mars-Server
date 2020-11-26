@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.data;
 
+import be.howest.ti.mars.logic.domain.User;
 import org.h2.tools.Server;
 
 import java.sql.Connection;
@@ -17,11 +18,14 @@ To make this class useful, please complete it with the topics seen in the module
     Use the @Before or @Before each (depending on the type of test) to quickly setup a fully populated db.
  */
 public class MarsRepository {
+
+    private static final UsersRepository database = new DatabaseUsersRepository();
+
     private static final MarsRepository INSTANCE = new MarsRepository();
     private Server dbWebConsole;
-    private String username = "group-14"; // = "group-14"
-    private String password = "t3sfe1k3nUe"; // = "t3sfe1k3nUe"
-    private String url  = "jdbc:h2:~/mars-db"; //jdbc:h2:/opt/group-14/db-14 //jdbc:h2:~/mars-db
+    private String username; //= "group-14"; // = "group-14"
+    private String password;//= "t3sfe1k3nUe"; // = "t3sfe1k3nUe"
+    private String url;  //= "jdbc:h2:~/mars-db"; //jdbc:h2:/opt/group-14/db-14 //jdbc:h2:~/mars-db
 
     private MarsRepository() { }
 
@@ -46,4 +50,9 @@ public class MarsRepository {
     public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(getInstance().url, getInstance().username, getInstance().password);
     }
+
+    public Boolean createUser(User user){
+        return database.addUser(user);
+    }
+
 }

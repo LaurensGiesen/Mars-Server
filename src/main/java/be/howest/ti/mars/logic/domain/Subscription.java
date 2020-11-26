@@ -1,10 +1,13 @@
 package be.howest.ti.mars.logic.domain;
 
-public class Subscription {
+import be.howest.ti.mars.logic.exceptions.UsersException;
+
+import java.io.Serializable;
+
+public class Subscription implements Serializable {
     private SubscriptionType type;
     private double price;
     private String description;
-
 
     public Subscription(SubscriptionType type) {
         this.type = type;
@@ -17,8 +20,10 @@ public class Subscription {
             return 0.0; //free
         } else if (type.equals(SubscriptionType.BASIC)) {
             return 10.0; //must be changed
+        }else if(type.equals(SubscriptionType.BASIC)){
+            return 20.0; //must be changed
         }
-        return 20.0; //must be changed
+        throw new UsersException("Invalid Subscription Type");
     }
 
     private String takeDescriptionFromType(SubscriptionType type) {
@@ -26,8 +31,10 @@ public class Subscription {
             return "Free to use"; //must be finished to describe functionality on this type
         } else if (type.equals(SubscriptionType.BASIC)) {
             return "Basic version"; //must be finished to describe functionality on this type
+        }else if( type.equals(SubscriptionType.PREMIUM) ){
+            return "Premium version"; //must be finished to describe functionality on this type
         }
-        return "Premium version"; //must be finished to describe functionality on this type
+        throw new UsersException("Invalid Subscription Type");
     }
 
     public SubscriptionType getType() {
@@ -41,4 +48,5 @@ public class Subscription {
     public String getDescription() {
         return description;
     }
+
 }
