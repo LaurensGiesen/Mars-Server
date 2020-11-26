@@ -2,6 +2,7 @@ package be.howest.ti.mars.logic.domain;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,6 +24,9 @@ class BasketTest {
 
     @Test
     void removeProductFromBasket() {
+        addProductToBasket();
+        basket.removeProductFromBasket(s1);
+        assertEquals(Collections.emptyList(), basket.getProducts());
     }
 
     @Test
