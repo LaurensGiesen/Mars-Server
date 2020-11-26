@@ -1,8 +1,6 @@
 package be.howest.ti.mars.logic.domain;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class User {
@@ -105,8 +103,6 @@ public class User {
                 ", harvested=" + harvested +
                 ", history=" + history +
                 ", basket=" + basket +
-                //", totalPrice=" + totalPrice +
-                //", planted=" + planted +
                 '}';
     }
 
