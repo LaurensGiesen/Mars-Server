@@ -6,8 +6,10 @@ import io.vertx.ext.web.RoutingContext;
 
 import java.sql.Date;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -101,10 +103,20 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String firstname = ctx.getBodyAsJson().getString("firstname");
         String lastname = ctx.getBodyAsJson().getString("lastname");
         String email = ctx.getBodyAsJson().getString("email");
+        String date = ctx.getBodyAsJson().getString("birthDay");
         String street = ctx.getBodyAsJson().getString("adress");
         int number = ctx.getBodyAsJson().getInteger("number");
         String dome = ctx.getBodyAsJson().getString("dome");
-        User user = new User(firstname, lastname, email, new Date(267265), new Subscription(SubscriptionType.BASIC), new Address(street, number,dome));
+        Product crop1 = new Seed(ctx.getBodyAsJson().getString("crop1"), -1);
+        Product crop2 = new Seed(ctx.getBodyAsJson().getString("crop2"), -1);
+        Product crop3 = new Seed(ctx.getBodyAsJson().getString("crop3"), -1);
+        List<Product> products = new LinkedList<>();
+        products.add(crop1);
+        products.add(crop2);
+        products.add(crop3);
+        String[] split = date.split("-");
+        String newDate = split[2] + "-" + split[0] + "-" + split[1];
+        User user = new User(firstname, lastname, email, Date.valueOf(newDate), new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
         LOGGER.log(Level.WARNING, "User: {0} " , user);
         return true;
     }

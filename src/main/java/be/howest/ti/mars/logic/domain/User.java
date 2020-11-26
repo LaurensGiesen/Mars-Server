@@ -17,16 +17,18 @@ public class User {
     private Basket basket;
     private double totalPrice;
     private final Map<Plant, Integer> planted;
-    private Address address;
+    private final Favorite favorites;
+    private final Address address;
 
 
-    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address) {
+    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.subscription = subscription;
+        this.favorites = favorites;
         this.address = address;
         this.harvested = new HashMap<>();
         this.history = new HashMap<>();
@@ -35,10 +37,10 @@ public class User {
         this.planted = new HashMap<>();
     }
 
-    public User(String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address) {
-        this(-1, firstName, lastName, email, dateOfBirth, subscription, address);
+    public User(String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
+        this(-1, firstName, lastName, email, dateOfBirth, subscription, address, favorites);
     }
-
+    
     public int getId() {
         return id;
     }
@@ -93,6 +95,11 @@ public class User {
 
     public double getTotalPrice() {
         return totalPrice;
+    }
+
+
+    public Favorite getFavorites() {
+        return favorites;
     }
 
     @Override
