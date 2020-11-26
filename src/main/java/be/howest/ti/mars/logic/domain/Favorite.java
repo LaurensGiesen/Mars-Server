@@ -29,4 +29,8 @@ public class Favorite {
     public List<Product> getFavorites() {
         return favorites;
     }
+
+    public int getId() {
+        return id;
+    }
 }

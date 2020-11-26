@@ -9,7 +9,7 @@ public class User {
     private int id;
     private final LocalDate dateOfBirth;
     private Subscription subscription;
-    private final ProductCollection harvested;
+    private final ProductCollection harvest;
     private final ProductCollection history;
     private final Basket basket;
     private final Favorite favorites;
@@ -25,7 +25,7 @@ public class User {
         this.subscription = subscription;
         this.favorites = favorites;
         this.address = address;
-        this.harvested = new Harvest();
+        this.harvest = new Harvest();
         this.history = new History();
         this.basket = new Basket();
     }
@@ -78,8 +78,8 @@ public class User {
         return favorites;
     }
 
-    public ProductCollection getHarvested() {
-        return harvested;
+    public ProductCollection getHarvest() {
+        return harvest;
     }
 
     public ProductCollection getHistory() {
@@ -99,7 +99,7 @@ public class User {
                 ", id=" + id +
                 ", dateOfBirth=" + dateOfBirth +
                 ", subscription=" + subscription +
-                ", harvested=" + harvested +
+                ", harvested=" + harvest +
                 ", history=" + history +
                 ", basket=" + basket +
                 '}';

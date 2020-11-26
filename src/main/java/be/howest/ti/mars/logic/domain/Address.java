@@ -28,4 +28,8 @@ public class Address {
     public String getDome() {
         return dome;
     }
+
+    public int getId() {
+        return id;
+    }
 }
