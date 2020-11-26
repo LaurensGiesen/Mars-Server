@@ -1,14 +1,31 @@
 package be.howest.ti.mars.logic.domain;
 
+
 import java.util.Objects;
 
 public abstract class Product {
+    private int productId;
     private final String name;
     private final double price;
+    private final int amount;
 
-    public Product(String name, double price) {
-        this.price = price;
+    public Product(int productId, String name, double price, int amount) {
+        this.productId = productId;
         this.name = name;
+        this.price = price;
+        this.amount = amount;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 
     public String getName() {
