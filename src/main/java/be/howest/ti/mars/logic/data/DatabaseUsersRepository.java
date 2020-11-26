@@ -17,7 +17,7 @@ public class DatabaseUsersRepository implements UsersRepository {
     public void addUser(User user) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER, Statement.RETURN_GENERATED_KEYS);
-             ResultSet rsKey = stmt.getGeneratedKeys();
+             ResultSet rsKey = stmt.getGeneratedKeys()
         ) {
             stmt.setString(1, user.getFirstName());
             stmt.setString(2, user.getLastName());
@@ -34,7 +34,6 @@ public class DatabaseUsersRepository implements UsersRepository {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new UsersException("Unable to add a user");
         }
-
     }
 
     @Override
@@ -47,10 +46,4 @@ public class DatabaseUsersRepository implements UsersRepository {
         return Collections.emptyList();
     }
 
-//    public static void main(String[] args) {
-//        User user = new User(-1, "Timo", "vertonghen", "timo.vertonghen@gmail.com",new Date(2000, 12,20), 1);
-//        DatabaseUsersRepository repo = new DatabaseUsersRepository();
-//        repo.addUser(user);
-//
-//    }
 }
