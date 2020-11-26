@@ -101,9 +101,10 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String firstname = ctx.getBodyAsJson().getString("firstname");
         String lastname = ctx.getBodyAsJson().getString("lastname");
         String email = ctx.getBodyAsJson().getString("email");
-        String number = ctx.getBodyAsJson().getString("number");
+        String street = ctx.getBodyAsJson().getString("adress");
+        int number = ctx.getBodyAsJson().getInteger("number");
         String dome = ctx.getBodyAsJson().getString("dome");
-        User user = new User(firstname, lastname, email, new Date(267265), new Subscription(SubscriptionType.BASIC), new Location(dome,number + ""));
+        User user = new User(firstname, lastname, email, new Date(267265), new Subscription(SubscriptionType.BASIC), new Address(street, number,dome));
         LOGGER.log(Level.WARNING, "User: {0} " , user);
         return true;
     }
