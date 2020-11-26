@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface SeedsRepository {
     List<Seed> getAllSeeds();
-    List<Seed> getAllFruits();
-    List<Seed> getAllVeggies();
+    List<Seed> getAllSeedsWhereTypeIsFruit();
+    List<Seed> getAllSeedsWhereTypeIsVegetable();
 }
