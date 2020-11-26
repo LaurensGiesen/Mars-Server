@@ -2,13 +2,13 @@ package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.domain.*;
-import io.vertx.core.json.Json;
 import io.vertx.ext.web.RoutingContext;
 
 import java.sql.Date;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
@@ -104,7 +104,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String number = ctx.getBodyAsJson().getString("number");
         String dome = ctx.getBodyAsJson().getString("dome");
         User user = new User(firstname, lastname, email, new Date(267265), new Subscription(SubscriptionType.BASIC), new Location(dome,number + ""));
-        LOGGER.warning(user.toString());
+        LOGGER.log(Level.WARNING, "User: {0} " , user);
         return true;
     }
 }
