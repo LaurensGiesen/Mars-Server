@@ -18,6 +18,7 @@ public class User {
     private double totalPrice;
     private final Map<Plant, Integer> planted;
     private final Favorite favorites;
+    private final Address address;
 
 
     public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
