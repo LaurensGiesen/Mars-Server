@@ -32,10 +32,11 @@ public class Basket {
         products.remove(product);
     }
 
-    public void calculateTotalPrice() {
+    public double calculateTotalPrice() {
         for ( Product product : products ) {
             totalPrice += product.getPrice();
         }
+        return totalPrice;
     }
 
     @Override

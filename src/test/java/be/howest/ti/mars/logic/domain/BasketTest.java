@@ -31,5 +31,9 @@ class BasketTest {
 
     @Test
     void calculateTotalPrice() {
+        addProductToBasket();
+        basket.addProductToBasket(p1);
+
+        assertEquals(3, basket.calculateTotalPrice());
     }
 }
