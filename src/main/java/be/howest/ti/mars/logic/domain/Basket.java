@@ -20,6 +20,10 @@ public class Basket {
         return basketId;
     }
 
+    public List<Product> getProducts() {
+        return products;
+    }
+
     public void addProductToBasket(Product product) {
         products.add(product);
     }
