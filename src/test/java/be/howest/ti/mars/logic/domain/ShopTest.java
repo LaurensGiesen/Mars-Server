@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class ShopTest {
     Date u1Date = new Date(1980,10,8);
     Subscription u1Subscription = new Subscription(SubscriptionType.BASIC);
-    Location u1Location = new Location("2.1654", "25.35468");
-    User u1 = new User(1, "Jan", "Janssens", "jan.janssens@student.howest.be", u1Date, u1Subscription, u1Location);
+    Address u1Address = new Address("Marsstraat", 2, "Dome 1");
+    User u1 = new User(1, "Jan", "Janssens", "jan.janssens@student.howest.be", u1Date, u1Subscription, u1Address);
 
     Date u2Date = new Date(1994,6,4);
     Subscription u2Subscription = new Subscription(SubscriptionType.PREMIUM);
-    Location u2Location = new Location("46.16871", "84.2315");
-    User u2 = new User(2, "Piet", "DeLange", "piet.delange@student.howest.be", u2Date, u2Subscription, u2Location);
+    Address u2Address = new Address("Marsstreet", 25, "Dome 1");
+    User u2 = new User(2, "Piet", "DeLange", "piet.delange@student.howest.be", u2Date, u2Subscription, u2Address);
 
     Shop shop = new Shop();
 
