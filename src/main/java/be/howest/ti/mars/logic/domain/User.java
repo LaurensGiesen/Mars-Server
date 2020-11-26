@@ -17,17 +17,17 @@ public class User {
     private Basket basket;
     private double totalPrice;
     private final Map<Plant, Integer> planted;
-    private Location location;
+    private Address address;
 
 
-    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location) {
+    public User(int id, String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.location = location;
         this.dateOfBirth = dateOfBirth;
         this.subscription = subscription;
+        this.address = address;
         this.harvested = new HashMap<>();
         this.history = new HashMap<>();
         this.basket = new Basket();
@@ -35,8 +35,8 @@ public class User {
         this.planted = new HashMap<>();
     }
 
-    public User(String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Location location) {
-        this(-1, firstName, lastName, email, dateOfBirth, subscription, location);
+    public User(String firstName, String lastName, String email, Date dateOfBirth, Subscription subscription, Address address) {
+        this(-1, firstName, lastName, email, dateOfBirth, subscription, address);
     }
 
     public int getId() {
@@ -75,10 +75,6 @@ public class User {
         return planted;
     }
 
-    public Location getLocation() {
-        return location;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }
@@ -99,10 +95,6 @@ public class User {
         return totalPrice;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     @Override
     public String toString() {
         return "User{" +
@@ -117,7 +109,6 @@ public class User {
                 ", basket=" + basket +
                 ", totalPrice=" + totalPrice +
                 ", planted=" + planted +
-                ", location=" + location +
                 '}';
     }
 
