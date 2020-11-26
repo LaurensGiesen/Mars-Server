@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BasketTest {
 
-    Product s1 = new Seed("TomatoSeed", 1);
+    Product s1 = new Seed(-1, "TomatoSeed", 1, -1, "");
     Product p1 = new Plant("Waterkers", 2);
     Basket basket = new Basket();
 

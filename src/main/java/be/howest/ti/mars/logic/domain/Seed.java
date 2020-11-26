@@ -1,18 +1,14 @@
 package be.howest.ti.mars.logic.domain;
 
-public class Seed{
+public class Seed extends Product{
 
     private final int id;
-    private final String name;
-    private final double price;
     private final double weight;
     private final String type;
 
-
     public Seed(int id, String name, double price, double weight, String type) {
+        super(name, price);
         this.id = id;
-        this.name = name;
-        this.price = price;
         this.weight = weight;
         this.type = type;
     }
@@ -21,13 +17,6 @@ public class Seed{
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
 
     public double getWeight() {
         return weight;
@@ -39,6 +28,6 @@ public class Seed{
 
     @Override
     public String toString() {
-        return name;
+        return super.getName();
     }
 }
