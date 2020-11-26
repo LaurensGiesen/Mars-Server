@@ -105,7 +105,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String email = ctx.getBodyAsJson().getString("email");
         String date = ctx.getBodyAsJson().getString("birthDay");
         String street = ctx.getBodyAsJson().getString("adress");
-        String number = ctx.getBodyAsJson().getString("number");
+        int number = ctx.getBodyAsJson().getInteger("number");
         String dome = ctx.getBodyAsJson().getString("dome");
         Product crop1 = new Seed(ctx.getBodyAsJson().getString("crop1"), -1);
         Product crop2 = new Seed(ctx.getBodyAsJson().getString("crop2"), -1);
