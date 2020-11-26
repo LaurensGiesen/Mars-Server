@@ -11,24 +11,21 @@ import java.util.logging.Logger;
 
 public class DatabaseUsersRepository implements UsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
-    private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscriptionid) VALUES(?,?,?,?,?)";
+    private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_Type) VALUES(?,?,?,?,?)";
 
     @Override
-    public void addUser(User user) {
+    public Boolean addUser(User user) {
         try (Connection con = MarsRepository.getConnection();
-             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER, Statement.RETURN_GENERATED_KEYS);
-             ResultSet rsKey = stmt.getGeneratedKeys()
+             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER);
+
         ) {
             stmt.setString(1, user.getFirstName());
             stmt.setString(2, user.getLastName());
             stmt.setString(3, user.getEmail());
-            stmt.setDate(4, user.getDateOfBirth());
-            stmt.setObject(5, user.getSubscription());
-
+            stmt.setDate(4, java.sql.Date.valueOf(user.getDateOfBirth()));
+            stmt.setString(5, user.getSubscription().getDescription());
             stmt.executeUpdate();
-            rsKey.next();
-
-            user.setId(rsKey.getInt(1));
+            return true;
 
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
