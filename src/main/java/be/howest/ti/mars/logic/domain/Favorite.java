@@ -12,8 +12,8 @@ public class Favorite {
         this.favorites = new LinkedList<>();
     }
 
-    public void addToFavorites(Product product) {
-        favorites.add(product);
+    public void removeFromFavorites(Product product) {
+        favorites.remove(product);
     }
 
     @Override
