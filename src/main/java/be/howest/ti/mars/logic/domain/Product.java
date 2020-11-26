@@ -4,18 +4,18 @@ import java.util.Objects;
 
 public abstract class Product {
     private final String name;
-    private final int price;
+    private final double price;
 
-    public Product(String name, int price) {
-        this.name = name;
+    public Product(String name, double price) {
         this.price = price;
+        this.name = name;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return price;
     }
 
