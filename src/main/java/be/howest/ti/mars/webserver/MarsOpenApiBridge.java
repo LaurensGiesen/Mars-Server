@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -107,9 +106,9 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String street = ctx.getBodyAsJson().getString("adress");
         int number = ctx.getBodyAsJson().getInteger("number");
         String dome = ctx.getBodyAsJson().getString("dome");
-        Product crop1 = new Seed(ctx.getBodyAsJson().getString("crop1"), -1);
-        Product crop2 = new Seed(ctx.getBodyAsJson().getString("crop2"), -1);
-        Product crop3 = new Seed(ctx.getBodyAsJson().getString("crop3"), -1);
+        Product crop1 = new Seed(-1,ctx.getBodyAsJson().getString("crop1"), -1, -1, "");
+        Product crop2 = new Seed(-1,ctx.getBodyAsJson().getString("crop2"), -1, -1, "");
+        Product crop3 = new Seed(-1,ctx.getBodyAsJson().getString("crop3"), -1, -1, "");
         List<Product> products = new LinkedList<>();
         products.add(crop1);
         products.add(crop2);
