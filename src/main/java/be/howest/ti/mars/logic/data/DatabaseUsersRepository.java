@@ -9,23 +9,24 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DatabaseUsersRepository implements UsersRepository {
+public class DatabaseUsersRepository implements DatabaseInterface {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
     private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_Type) VALUES(?,?,?,?,?)";
 
-    @Override
-    public Boolean addUser(User user) {
+
+    public void add(Object user) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER);
 
         ) {
-            stmt.setString(1, user.getFirstName());
-            stmt.setString(2, user.getLastName());
-            stmt.setString(3, user.getEmail());
-            stmt.setDate(4, java.sql.Date.valueOf(user.getDateOfBirth()));
-            stmt.setString(5, user.getSubscription().getDescription());
+            User user1 = (User) user;
+            stmt.setString(1, user1.getFirstName());
+            stmt.setString(2, user1.getLastName());
+            stmt.setString(3, user1.getEmail());
+            stmt.setDate(4, java.sql.Date.valueOf(user1.getDateOfBirth()));
+            stmt.setString(5, user1.getSubscription().getDescription());
             stmt.executeUpdate();
-            return true;
+            //return true;
 
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
@@ -34,12 +35,11 @@ public class DatabaseUsersRepository implements UsersRepository {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<Object> getAll() {
         return Collections.emptyList();
     }
 
-    @Override
-    public List<User> findUser(User user) {
+    public List<Object> find(String user) {
         return Collections.emptyList();
     }
 
