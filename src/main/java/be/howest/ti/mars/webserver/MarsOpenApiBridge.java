@@ -113,6 +113,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         LocalDate newDate = controller.createDate(date);
         User user = new User(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
         LOGGER.log(Level.WARNING, "User: {0} " , user);
-        return controller.createUser(user);
+        controller.createUser(user);
+        return true;
     }
 }

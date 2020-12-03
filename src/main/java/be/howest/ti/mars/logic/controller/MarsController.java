@@ -38,7 +38,7 @@ public class MarsController {
         return LocalDate.of(Integer.parseInt(split[2]), Integer.parseInt(split[1]), Integer.parseInt(split[0]));
     }
 
-    public Boolean createUser(User user) {
-        return repo.createUser(user);
+    public void createUser(User user) {
+        repo.createUser(user);
     }
 }

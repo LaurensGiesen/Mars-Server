@@ -12,17 +12,23 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DatabaseSeedsRepository implements SeedsRepository {
+public class DatabaseSeedsRepository implements DatabaseInterface {
     private static final Logger LOGGER = Logger.getLogger(DatabaseSeedsRepository.class.getName());
     private static final String SQL_SELECT_ALL_SEEDS = "select * from seeds";
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT = "select * from seeds where type='fruit'";
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE = "select * from seeds where type='vegetable'";
+
     @Override
-    public List<Seed> getAllSeeds() {
+    public void add(Object obj) {
+
+    }
+
+    @Override
+    public List<Object> getAll() {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALL_SEEDS);
              ResultSet rs = stmt.executeQuery()) {
-            List<Seed> allSeeds = new ArrayList<>();
+            List<Object> allSeeds = new ArrayList<>();
             while (rs.next()) {
                 int id = rs.getInt("seed_id");
                 String name = rs.getString("name");
@@ -40,6 +46,10 @@ public class DatabaseSeedsRepository implements SeedsRepository {
     }
 
     @Override
+    public List<Object> find(String name) {
+        return null;
+    }
+
     public List<Seed> getAllSeedsWhereTypeIsFruit() {
         try (Connection con = MarsRepository.getConnection();
         PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT);
@@ -61,7 +71,6 @@ public class DatabaseSeedsRepository implements SeedsRepository {
         }
     }
 
-    @Override
     public List<Seed> getAllSeedsWhereTypeIsVegetable() {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE);
