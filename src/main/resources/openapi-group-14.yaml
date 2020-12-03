@@ -145,3 +145,42 @@ paths:
         '500':
           description: Internal Server Error
 
+  /addProductToFavorite:
+    post:
+      summary: Add a product to you favorits
+      operationId: addProductToFavorite
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              items:
+                $ref: '#/components/schemas/Product'
+
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Invalid Authentication
+        '500':
+          description: Internal Server Error
+
+  /addProcuctToBasket:
+    post:
+      summary: Add a product to your basket
+      operationId: AddProductToBasket
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              items:
+                $ref: '#/components/schemas/Product'
+
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Invalid Authentication
+        '500':
+          description: Internal Server Error
