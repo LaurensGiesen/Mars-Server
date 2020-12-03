@@ -1,17 +1,20 @@
 package be.howest.ti.mars.logic.data;
 import be.howest.ti.mars.logic.domain.Plant;
 import be.howest.ti.mars.logic.domain.Product;
+import be.howest.ti.mars.logic.domain.User;
 import be.howest.ti.mars.logic.exceptions.PlantException;
 import be.howest.ti.mars.logic.exceptions.SeedException;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DataBaseProductsRepository implements DatabaseInterface {
-    private static final Logger LOGGER = Logger.getLogger(DataBaseProductsRepository.class.getName());
+public class DataBasePlantRepository implements DatabaseInterface {
+    private static final Logger LOGGER = Logger.getLogger(DataBasePlantRepository.class.getName());
+
     private static final String SQL_SELECT_ALL_PRODUCTS = "select * from products";
     private static final String SQL_ADD_PRODUCT = "insert into products(name, price, amount, date, image) values(?,?,?,?,?)";
     private static final String SQL_FIND_PRODUCT = "select * from products where name like (?)";
@@ -19,14 +22,12 @@ public class DataBaseProductsRepository implements DatabaseInterface {
     public void add(Object plant) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_ADD_PRODUCT, Statement.RETURN_GENERATED_KEYS)) {
-
             Plant plant1 = (Plant) plant;
             stmt.setString(1, plant1.getName());
             stmt.setDouble(2, plant1.getPrice());
             stmt.setInt(3, plant1.getAmount());
-            stmt.setDate(4, plant1.getDate());
+            stmt.setDate(4, Date.valueOf(plant1.getDate()));
             stmt.setString(5, plant1.getImage());
-
             stmt.executeUpdate();
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
@@ -41,14 +42,7 @@ public class DataBaseProductsRepository implements DatabaseInterface {
              ResultSet rs = stmt.executeQuery()) {
             List<Object> allProducts = new ArrayList<>();
             while (rs.next()) {
-                int productId = rs.getInt("product_id");
-                String name = rs.getString("name");
-                double price = rs.getDouble("price");
-                Date date = rs.getDate("date");
-                int amount = rs.getInt("amount");
-                String image = rs.getString("image");
-                Product product = new Plant(productId, name, price, date,amount, image);
-                allProducts.add(product);
+                allProducts.add(DatabaseProductRepository.ResultSetToProduct(rs,false));
             }
             return allProducts;
         } catch (SQLException ex) {
@@ -64,18 +58,11 @@ public class DataBaseProductsRepository implements DatabaseInterface {
 
         ) { stmt.setString(1, ch);
             try (ResultSet rs = stmt.executeQuery()) {
-                List<Object> productsByname = new ArrayList<>();
+                List<Object> productsByName = new ArrayList<>();
                 while (rs.next()) {
-                    int productId = rs.getInt("product_id");
-                    String name = rs.getString("name");
-                    double price = rs.getDouble("price");
-                    int amount = rs.getInt("amount");
-                    Date date = rs.getDate("date");
-                    String image = rs.getString("image");
-                    Product product = new Plant(productId, name, price,date,amount, image);
-                    productsByname.add(product);
+                    productsByName.add(DatabaseProductRepository.ResultSetToProduct(rs,false));
                 }
-                return productsByname;
+                return productsByName;
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());

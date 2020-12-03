@@ -49,4 +49,8 @@ public class DatabaseUsersRepository implements DatabaseInterface {
         return Collections.emptyList();
     }
 
+    public User getById(int ownerId) {
+        LOGGER.log(Level.WARNING, "NYI");
+        return null;
+    }
 }

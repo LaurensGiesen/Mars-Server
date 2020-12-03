@@ -2,7 +2,6 @@ package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.Seed;
 import be.howest.ti.mars.logic.exceptions.SeedException;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,24 +24,7 @@ public class DatabaseSeedsRepository implements DatabaseInterface {
 
     @Override
     public List<Object> getAll() {
-        try (Connection con = MarsRepository.getConnection();
-             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALL_SEEDS);
-             ResultSet rs = stmt.executeQuery()) {
-            List<Object> allSeeds = new ArrayList<>();
-            while (rs.next()) {
-                int id = rs.getInt("seed_id");
-                String name = rs.getString("name");
-                double price = rs.getDouble("price");
-                int amount = rs.getInt("amount");
-                String type = rs.getString("type");
-                Seed seed = new Seed(id, name, price,amount, type);
-                allSeeds.add(seed);
-            }
-            return allSeeds;
-        } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new SeedException("Unable to get all Seeds");
-        }
+        return getByQuery(SQL_SELECT_ALL_SEEDS);
     }
 
     @Override
@@ -51,44 +33,25 @@ public class DatabaseSeedsRepository implements DatabaseInterface {
     }
 
     public List<Seed> getAllSeedsWhereTypeIsFruit() {
-        try (Connection con = MarsRepository.getConnection();
-        PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT);
-        ResultSet rs = stmt.executeQuery()) {
-            List<Seed> fruitSeeds = new ArrayList<>();
-            while (rs.next()) {
-                int id = rs.getInt("seedid");
-                String name = rs.getString("name");
-                double price = rs.getDouble("price");
-                int amount = rs.getInt("amount");
-                String type = rs.getString("type");
-                Seed seed = new Seed(id, name, price,amount, type);
-                fruitSeeds.add(seed);
-            }
-            return fruitSeeds;
-        } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new SeedException("Unable to get all fruit-seeds");
-        }
+        return (List<Seed>)(Seed) getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT);
     }
 
     public List<Seed> getAllSeedsWhereTypeIsVegetable() {
+        return (List<Seed>)(Seed) getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE);
+    }
+
+    public List<Object> getByQuery(String query){
         try (Connection con = MarsRepository.getConnection();
-             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE);
+             PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
-            List<Seed> vegetableSeeds = new ArrayList<>();
+            List<Object> seeds = new ArrayList<>();
             while (rs.next()) {
-                int id = rs.getInt("seedid");
-                String name = rs.getString("name");
-                double price = rs.getDouble("price");
-                int amount = rs.getInt("amount");
-                String type = rs.getString("type");
-                Seed seed = new Seed(id, name, price,amount, type);
-                vegetableSeeds.add(seed);
+                seeds.add(DatabaseProductRepository.ResultSetToProduct(rs,true));
             }
-            return vegetableSeeds;
+            return seeds;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new SeedException("Unable to get all vegetable-seeds");
+            throw new SeedException("Unable to get all Seeds");
         }
     }
 }
