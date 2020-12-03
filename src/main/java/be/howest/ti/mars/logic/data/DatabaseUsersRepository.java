@@ -9,27 +9,30 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DatabaseUsersRepository implements UsersRepository {
+public class DatabaseUsersRepository implements DatabaseInterface {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
     private static final String SQL_INSERT_USER = "insert into users(userid, firstname, lastname, email, date_of_birth, subscriptionID, favorite_id, basket_id, address_id) VALUES(?,?,?,?,?,?,?,?,?)";
 
-    @Override
-    public Boolean addUser(User user) {
+
+    public void add(Object user) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER);
 
         ) {
-            stmt.setInt(1, user.getId());
-            stmt.setString(2, user.getFirstName());
-            stmt.setString(3, user.getLastName());
-            stmt.setString(4, user.getEmail());
-            stmt.setDate(5, java.sql.Date.valueOf(user.getDateOfBirth()));
-            stmt.setInt(6, user.getSubscription().getType().getValue());
-            stmt.setInt(7, user.getFavorites().getId());
-            stmt.setInt(8, user.getBasket().getId());
-            stmt.setInt(9, user.getAddress().getId());
+
+            User user1 = (User) user;
+
+            stmt.setInt(1, user1.getId());
+            stmt.setString(2, user1.getFirstName());
+            stmt.setString(3, user1.getLastName());
+            stmt.setString(4, user1.getEmail());
+            stmt.setDate(5, java.sql.Date.valueOf(user1.getDateOfBirth()));
+            stmt.setInt(6, user1.getSubscription().getType().getValue());
+            stmt.setInt(7, user1.getFavorites().getId());
+            stmt.setInt(8, user1.getBasket().getId());
+            stmt.setInt(9, user1.getAddress().getId());
             stmt.executeUpdate();
-            return true;
+            //return true;
 
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
@@ -38,12 +41,11 @@ public class DatabaseUsersRepository implements UsersRepository {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<Object> getAll() {
         return Collections.emptyList();
     }
 
-    @Override
-    public List<User> findUser(User user) {
+    public List<Object> find(String user) {
         return Collections.emptyList();
     }
 

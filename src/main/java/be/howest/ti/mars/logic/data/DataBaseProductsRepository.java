@@ -10,28 +10,24 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DataBaseProductsRepository implements ProductsRepository {
+public class DataBaseProductsRepository implements DatabaseInterface {
     private static final Logger LOGGER = Logger.getLogger(DataBaseProductsRepository.class.getName());
     private static final String SQL_SELECT_ALL_PRODUCTS = "select * from products";
     private static final String SQL_ADD_PRODUCT = "insert into products(name, price, amount, date, image) values(?,?,?,?,?)";
     private static final String SQL_FIND_PRODUCT = "select * from products where name like (?)";
-    @Override
-    public void addPlant(Plant plant) {
+
+    public void add(Object plant) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_ADD_PRODUCT, Statement.RETURN_GENERATED_KEYS)) {
 
-
-            stmt.setString(1, plant.getName());
-            stmt.setDouble(2, plant.getPrice());
-            stmt.setInt(3, plant.getAmount());
-            stmt.setDate(4, plant.getDate());
-            stmt.setString(5, plant.getImage());
+            Plant plant1 = (Plant) plant;
+            stmt.setString(1, plant1.getName());
+            stmt.setDouble(2, plant1.getPrice());
+            stmt.setInt(3, plant1.getAmount());
+            stmt.setDate(4, plant1.getDate());
+            stmt.setString(5, plant1.getImage());
 
             stmt.executeUpdate();
-            ResultSet rsKey = stmt.getGeneratedKeys();
-            rsKey.next();
-
-            plant.setProductId(rsKey.getInt(1));
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new PlantException("Unable to add plants");
@@ -39,11 +35,11 @@ public class DataBaseProductsRepository implements ProductsRepository {
     }
 
     @Override
-    public List<Product> getProducts() {
+    public List<Object> getAll() {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALL_PRODUCTS);
              ResultSet rs = stmt.executeQuery()) {
-            List<Product> allProducts = new ArrayList<>();
+            List<Object> allProducts = new ArrayList<>();
             while (rs.next()) {
                 int productId = rs.getInt("product_id");
                 String name = rs.getString("name");
@@ -61,14 +57,14 @@ public class DataBaseProductsRepository implements ProductsRepository {
         }
     }
 
-    @Override
-    public List<Product> findProduct(String ch) {
+
+    public List<Object> find(String ch) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_FIND_PRODUCT)
 
         ) { stmt.setString(1, ch);
             try (ResultSet rs = stmt.executeQuery()) {
-                List<Product> productsByname = new ArrayList<>();
+                List<Object> productsByname = new ArrayList<>();
                 while (rs.next()) {
                     int productId = rs.getInt("product_id");
                     String name = rs.getString("name");

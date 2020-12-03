@@ -19,7 +19,7 @@ To make this class useful, please complete it with the topics seen in the module
  */
 public class MarsRepository {
 
-    private static final UsersRepository database = new DatabaseUsersRepository();
+    private static final DatabaseUsersRepository database = new DatabaseUsersRepository();
 
     private static final MarsRepository INSTANCE = new MarsRepository();
     private Server dbWebConsole;
@@ -51,8 +51,8 @@ public class MarsRepository {
         return DriverManager.getConnection(getInstance().url, getInstance().username, getInstance().password);
     }
 
-    public Boolean createUser(User user){
-        return database.addUser(user);
+    public void createUser(User user){
+        database.add((Object) user);
     }
 
 }
