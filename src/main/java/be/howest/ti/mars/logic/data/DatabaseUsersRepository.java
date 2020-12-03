@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 public class DatabaseUsersRepository implements DatabaseInterface {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
-    private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_Type) VALUES(?,?,?,?,?)";
+    private static final String SQL_INSERT_USER = "insert into users(userid, firstname, lastname, email, date_of_birth, subscriptionID, favorite_id, basket_id, address_id) VALUES(?,?,?,?,?,?,?,?,?)";
 
 
     public void add(Object user) {
@@ -19,12 +19,15 @@ public class DatabaseUsersRepository implements DatabaseInterface {
              PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER);
 
         ) {
-            User user1 = (User) user;
-            stmt.setString(1, user1.getFirstName());
-            stmt.setString(2, user1.getLastName());
-            stmt.setString(3, user1.getEmail());
-            stmt.setDate(4, java.sql.Date.valueOf(user1.getDateOfBirth()));
-            stmt.setString(5, user1.getSubscription().getDescription());
+            stmt.setInt(1, user.getId());
+            stmt.setString(2, user.getFirstName());
+            stmt.setString(3, user.getLastName());
+            stmt.setString(4, user.getEmail());
+            stmt.setDate(5, java.sql.Date.valueOf(user.getDateOfBirth()));
+            stmt.setInt(6, user.getSubscription().getType().getValue());
+            stmt.setInt(7, user.getFavorites().getId());
+            stmt.setInt(8, user.getBasket().getId());
+            stmt.setInt(9, user.getAddress().getId());
             stmt.executeUpdate();
             //return true;
 

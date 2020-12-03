@@ -23,9 +23,9 @@ public class MarsRepository {
 
     private static final MarsRepository INSTANCE = new MarsRepository();
     private Server dbWebConsole;
-    private String username; //= "group-14"; // = "group-14"
-    private String password;//= "t3sfe1k3nUe"; // = "t3sfe1k3nUe"
-    private String url;  //= "jdbc:h2:~/mars-db"; //jdbc:h2:/opt/group-14/db-14 //jdbc:h2:~/mars-db
+    private String username;
+    private String password;
+    private String url;
 
     private MarsRepository() { }
 

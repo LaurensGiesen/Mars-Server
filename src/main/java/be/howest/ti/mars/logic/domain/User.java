@@ -1,9 +1,5 @@
 package be.howest.ti.mars.logic.domain;
-
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class User {
@@ -13,11 +9,9 @@ public class User {
     private int id;
     private final LocalDate dateOfBirth;
     private Subscription subscription;
-    private final Map<Product, Integer> harvested;
-    private final Map<Product, Integer> history;
-    private Basket basket;
-    private double totalPrice;
-    private final Map<Plant, Integer> planted;
+    private final ProductCollection harvest;
+    private final ProductCollection history;
+    private final Basket basket;
     private final Favorite favorites;
     private final Address address;
 
@@ -31,11 +25,9 @@ public class User {
         this.subscription = subscription;
         this.favorites = favorites;
         this.address = address;
-        this.harvested = new HashMap<>();
-        this.history = new HashMap<>();
+        this.harvest = new Harvest();
+        this.history = new History();
         this.basket = new Basket();
-        this.totalPrice = 0.0;
-        this.planted = new HashMap<>();
     }
 
     public User(String firstName, String lastName, String email, LocalDate dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
@@ -62,20 +54,8 @@ public class User {
         return dateOfBirth;
     }
 
-    public Map<Product, Integer> getHarvested() {
-        return harvested;
-    }
-
-    public Map<Product, Integer> getHistory() {
-        return history;
-    }
-
     public Subscription getSubscription() {
         return subscription;
-    }
-
-    public Map<Plant, Integer> getPlanted() {
-        return planted;
     }
 
     public void setEmail(String email) {
@@ -94,13 +74,20 @@ public class User {
         this.subscription = subscription;
     }
 
-    public double getTotalPrice() {
-        return totalPrice;
-    }
-
-
     public Favorite getFavorites() {
         return favorites;
+    }
+
+    public ProductCollection getHarvest() {
+        return harvest;
+    }
+
+    public ProductCollection getHistory() {
+        return history;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     @Override
@@ -112,11 +99,9 @@ public class User {
                 ", id=" + id +
                 ", dateOfBirth=" + dateOfBirth +
                 ", subscription=" + subscription +
-                ", harvested=" + harvested +
+                ", harvested=" + harvest +
                 ", history=" + history +
                 ", basket=" + basket +
-                ", totalPrice=" + totalPrice +
-                ", planted=" + planted +
                 '}';
     }
 

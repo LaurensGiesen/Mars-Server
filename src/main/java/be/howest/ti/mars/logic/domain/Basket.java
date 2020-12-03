@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.Objects;
 
 public class Basket {
-    private List<Product> products;
+
+    private final int id;
+    private final List<Product> products;
     private int basketId;
     private int totalPrice;
 
     public Basket() {
+        this.id = -1;
         this.products = new LinkedList<>();
         this.basketId = nextBasketId();
         this.totalPrice = 0;
@@ -58,5 +61,9 @@ public class Basket {
     @Override
     public int hashCode() {
         return Objects.hash(basketId);
+    }
+
+    public int getId() {
+        return id;
     }
 }
