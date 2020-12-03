@@ -8,6 +8,27 @@ servers:
     description: 'Local development implementation'
   - url: https://project-ii.ti.howest.be/mars-14
     description: 'Public web api'
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: "integer"
+        name:
+          type: "string"
+        price:
+          type: "number"
+        owner:
+          type: "string"
+        date:
+          type: "string"
+        amount:
+          type: "integer"
+        image:
+          type: "string"
+
 paths:
   /api/message:
     get:
@@ -65,3 +86,17 @@ paths:
       responses:
         200:
           description: Ok
+
+  /getProducts:
+    get:
+      summary: Get all products
+      operationId: getAllProducts
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Product'
