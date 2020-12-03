@@ -28,6 +28,11 @@ components:
           type: "integer"
         image:
           type: "string"
+        type:
+          type: "string"
+          enum: ["seed", "product"]
+          default: "product"
+
 
 paths:
   /api/message:
@@ -84,12 +89,8 @@ paths:
                 - crop2
                 - crop3
       responses:
-        '200':
-          description: OK
-        '401':
-          description: Invalid Authentication
-        '500':
-          description: Internal Server Error
+        200:
+          description: Ok
 
   /getProducts:
     get:
@@ -105,7 +106,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/Product'
 
-
   /addProduct:
     post:
       summary: Add new product
@@ -115,16 +115,16 @@ paths:
         content:
           text/plain:
             schema:
-                items:
-                  $ref: '#/components/schemas/Product'
+              items:
+                $ref: '#/components/schemas/Product'
 
       responses:
         '200':
           description: OK
         '401':
-            description: Invalid Authentication
+          description: Absent or mallformed authentication
         '500':
-            description: Internal Server Error
+          description: Internal Server Error
 
   /product/{productId}:
     delete:
@@ -136,7 +136,6 @@ paths:
           required: true
           schema:
             type: integer
-
       responses:
         '200':
           description: OK
@@ -145,18 +144,17 @@ paths:
         '500':
           description: Internal Server Error
 
-  /addProductToFavorite:
-    post:
+
+  /addProductToFavorite/{productId}:
+    get:
       summary: Add a product to you favorits
       operationId: addProductToFavorite
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              items:
-                $ref: '#/components/schemas/Product'
-
+      parameters:
+        - name: "productId"
+          in: "path"
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           description: OK
@@ -165,18 +163,16 @@ paths:
         '500':
           description: Internal Server Error
 
-  /addProcuctToBasket:
-    post:
+  /addProcuctToBasket/{productId}:
+    get:
       summary: Add a product to your basket
       operationId: AddProductToBasket
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              items:
-                $ref: '#/components/schemas/Product'
-
+      parameters:
+        - name: "productId"
+          in: "path"
+          required: true
+          schema:
+            type: integer
       responses:
         '200':
           description: OK
