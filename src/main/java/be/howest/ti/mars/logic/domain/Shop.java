@@ -12,16 +12,16 @@ public class Shop {
     }
 
     public void buyAndSellPlant(Plant plant, User buyer, User seller, int quantity) {
-        int amountOfPlantsSeller = seller.getHarvested().get(plant);
-        int amountOfPlantsBuyer = buyer.getHarvested().get(plant);
-        if (seller.getHarvested().get(plant) == null) {
+        int amountOfPlantsSeller = seller.getHarvest().getProducts().get(plant);
+        int amountOfPlantsBuyer = buyer.getHarvest().getProducts().get(plant);
+        if (seller.getHarvest().getProducts().get(plant) == null) {
             throw new IllegalStateException("seller doesn't have the plant");
         }
         if (quantity >= amountOfPlantsSeller) {
             throw new IllegalStateException("seller hasn't enough plants");
         }
-        seller.getHarvested().replace(plant, amountOfPlantsSeller - quantity);
-        buyer.getHarvested().replace(plant, amountOfPlantsBuyer + quantity);
+        seller.getHarvest().getProducts().replace(plant, amountOfPlantsSeller - quantity);
+        buyer.getHarvest().getProducts().replace(plant, amountOfPlantsBuyer + quantity);
     }
 
     public List<Plant> getPlants() {
