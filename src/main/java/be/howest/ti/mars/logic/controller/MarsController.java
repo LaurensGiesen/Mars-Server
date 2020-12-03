@@ -30,9 +30,15 @@ public class MarsController {
 
     public List<Product> createFavorites(Product crop1, Product crop2, Product crop3) {
         List<Product> products = new LinkedList<>();
-        products.add(crop1);
-        products.add(crop2);
-        products.add(crop3);
+        if (crop1 != null){
+            products.add(crop1);
+        }
+        if (crop2 != null){
+            products.add(crop2);
+        }
+        if (crop3 != null){
+            products.add(crop3);
+        }
         return products;
     }
 
@@ -51,7 +57,7 @@ public class MarsController {
         User owner = repo.getUserById(ownerId);
         if (type.equals("seed")) {
             product = new Seed(id, name, price, owner, date1, amount, image);
-        } else if (type.equals("crop")){
+        } else if (type.equals("plant")){
             product = new Plant(id, name, price, owner, date1, amount, image);
         }else {
             LOGGER.log(Level.SEVERE, "Invalid Product Type");

@@ -73,8 +73,8 @@ public class MarsRepository {
     }
 
     public Product getSeedByName(String crop1) {
-        if ((Seed) databaseProduct.find(crop1).get(0) != null){
-            throw new SeedException();
+        if (databaseProduct.find(crop1) != null){
+            return null;
         }
         return (Seed) databaseProduct.find(crop1).get(0);
     }

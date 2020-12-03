@@ -127,9 +127,6 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         int amount = ctx.getBodyAsJson().getInteger("amount");
         String image = ctx.getBodyAsJson().getString("image");
         String type = ctx.getBodyAsJson().getString("type");
-
         return controller.createProduct(id, name, price, ownerId, date,amount,image,type);
-
     }
-
 }

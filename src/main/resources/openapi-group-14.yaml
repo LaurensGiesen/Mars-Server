@@ -29,9 +29,9 @@ components:
         address:
           type: string
           example: "The Moon"
-        nuber:
+        number:
           type: number
-          example: "1234567890"
+          example: 1234567890
         dome:
           type: string
           example: "1337"
@@ -71,9 +71,9 @@ components:
           example: "picture.png"
         type:
           type: "string"
-          enum: ["seed", "product"]
-          default: "product"
-          example: "product"
+          enum: ["seed", "plant"]
+          default: "plant"
+          example: "plant"
 
 
 
@@ -91,7 +91,7 @@ paths:
                 type: string
   /register:
     post:
-      summary: Build a building
+      summary: Register a new user
       operationId: createUser
       requestBody:
         required: true
