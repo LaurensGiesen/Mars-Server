@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BasketTest {
 
-    Product s1 = new Seed(-1, "TomatoSeed", 1, -1, "");
-    Product p1 = new Plant(-1,"Waterkers", 2, new Date(2020, 10, 5), 5, "");
+    /*Product s1 = new Seed(-1, "TomatoSeed", 1, -1, "");
+    Product p1 = new Plant(-1, "Waterkers", 2, new Date(2020, 10, 5), 5, "");
     Basket basket = new Basket();
 
     @Test
@@ -36,5 +36,5 @@ class BasketTest {
         basket.addProductToBasket(p1);
 
         assertEquals(3, basket.calculateTotalPrice());
-    }
+    }*/
 }
