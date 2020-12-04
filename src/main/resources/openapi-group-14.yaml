@@ -11,27 +11,69 @@ servers:
 
 components:
   schemas:
+    User:
+      type: object
+      properties:
+        firstname:
+          type: string
+          example: "John"
+        lastname:
+          type: string
+          example: "Doe"
+        email:
+          type: string
+          example: "John.Doe@gmail.com"
+        birthDay:
+          type: string
+          example: "2000-01-01"
+        address:
+          type: string
+          example: "The Moon"
+        number:
+          type: number
+          example: 1234567890
+        dome:
+          type: string
+          example: "1337"
+        crop1:
+          type: string
+          example: "Apple"
+        crop2:
+          type: string
+          example: "Carrot"
+        crop3:
+          type: string
+          example: "Raspberry Pi"
+
     Product:
       type: object
       properties:
         id:
           type: "integer"
+          example: 1
         name:
           type: "string"
+          example: "Alice"
         price:
           type: "number"
+          example: 5
         ownerId:
           type: "number"
+          example: 1
         date:
           type: "string"
+          example: "2000-01-01"
         amount:
           type: "integer"
+          example: 10
         image:
           type: "string"
+          example: "picture.png"
         type:
           type: "string"
-          enum: ["seed", "product"]
-          default: "product"
+          enum: ["seed", "plant"]
+          default: "plant"
+          example: "plant"
 
 
 
@@ -49,7 +91,7 @@ paths:
                 type: string
   /register:
     post:
-      summary: Build a building
+      summary: Register a new user
       operationId: createUser
       requestBody:
         required: true
@@ -57,38 +99,8 @@ paths:
           text/plain:
             schema:
               type: object
-              properties:
-                firstname:
-                  type: string
-                lastname:
-                  type: string
-                email:
-                  type: string
-                birthDay:
-                  type: string
-                address:
-                  type: string
-                number:
-                  type: number
-                dome:
-                  type: string
-                crop1:
-                  type: string
-                crop2:
-                  type: string
-                crop3:
-                  type: string
-              required:
-                - firstname
-                - lastname
-                - email
-                - birthDay
-                - address
-                - number
-                - dome
-                - crop1
-                - crop2
-                - crop3
+              items:
+                $ref: "#/components/schemas/User"
       responses:
         200:
           description: Ok

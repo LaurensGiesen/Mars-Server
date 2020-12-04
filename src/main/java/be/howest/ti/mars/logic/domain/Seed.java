@@ -1,16 +1,11 @@
 package be.howest.ti.mars.logic.domain;
 
+import java.time.LocalDate;
+
 public class Seed extends Product{
 
-    private final String type;
-
-    public Seed(int id, String name, double price, int amount, String type) {
-        super(id, name, price, amount);
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
+    public Seed(int productId, String name, double price, User owner, LocalDate date, int amount, String image) {
+        super(productId, name, price, owner, date, amount, image);
     }
 
     @Override

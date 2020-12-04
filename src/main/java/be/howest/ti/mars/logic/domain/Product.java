@@ -1,19 +1,26 @@
 package be.howest.ti.mars.logic.domain;
 
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public abstract class Product {
     private int productId;
     private final String name;
     private final double price;
+    private final User owner;
+    private final LocalDate date;
     private final int amount;
+    private final String image;
 
-    public Product(int productId, String name, double price, int amount) {
+    public Product(int productId, String name, double price, User owner, LocalDate date, int amount, String image) {
         this.productId = productId;
         this.name = name;
         this.price = price;
+        this.owner = owner;
+        this.date = date;
         this.amount = amount;
+        this.image = image;
     }
 
     public int getProductId() {
@@ -47,5 +54,17 @@ public abstract class Product {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getImage() {
+        return image;
     }
 }

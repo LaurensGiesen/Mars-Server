@@ -106,14 +106,27 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String street = ctx.getBodyAsJson().getString("address");
         int number = ctx.getBodyAsJson().getInteger("number");
         String dome = ctx.getBodyAsJson().getString("dome");
-        Product crop1 = new Seed(1, ctx.getBodyAsJson().getString("crop1"), -1,1 ,"NYI");
-        Product crop2 = new Seed(1,ctx.getBodyAsJson().getString("crop2"),  -1,1 ,"NYI");
-        Product crop3 = new Seed(1, ctx.getBodyAsJson().getString("crop3"), -1,1 ,"NYI");
+        Product crop1 = controller.getSeedByName(ctx.getBodyAsJson().getString("crop1"));
+        Product crop2 = controller.getSeedByName(ctx.getBodyAsJson().getString("crop2"));
+        Product crop3 = controller.getSeedByName(ctx.getBodyAsJson().getString("crop3"));
         List<Product> products = controller.createFavorites(crop1,crop2,crop3);
         LocalDate newDate = controller.createDate(date);
         User user = new User(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
         LOGGER.log(Level.WARNING, "User: {0} " , user);
         controller.createUser(user);
         return true;
+    }
+
+    public boolean addProduct(RoutingContext ctx){
+        LOGGER.info("addProduct");
+        int id= ctx.getBodyAsJson().getInteger("id");
+        String name = ctx.getBodyAsJson().getString("name");
+        Double price = ctx.getBodyAsJson().getDouble("price");
+        int ownerId = ctx.getBodyAsJson().getInteger("ownerId");
+        String date = ctx.getBodyAsJson().getString("date");
+        int amount = ctx.getBodyAsJson().getInteger("amount");
+        String image = ctx.getBodyAsJson().getString("image");
+        String type = ctx.getBodyAsJson().getString("type");
+        return controller.createProduct(id, name, price, ownerId, date,amount,image,type);
     }
 }
