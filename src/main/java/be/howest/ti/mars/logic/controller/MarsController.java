@@ -41,4 +41,8 @@ public class MarsController {
     public void createUser(User user) {
         repo.createUser(user);
     }
+
+    public void getPlants() {
+        repo.getPlants();
+    }
 }

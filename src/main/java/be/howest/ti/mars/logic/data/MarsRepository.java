@@ -55,4 +55,7 @@ public class MarsRepository {
         database.add((Object) user);
     }
 
+    public void getPlants() {
+
+    }
 }
