@@ -1,11 +1,15 @@
 package be.howest.ti.mars.logic.data;
 
+import be.howest.ti.mars.logic.domain.Product;
+import be.howest.ti.mars.logic.domain.Seed;
 import be.howest.ti.mars.logic.domain.User;
+import be.howest.ti.mars.logic.exceptions.SeedException;
 import org.h2.tools.Server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
 /*
 MBL: this is only a starter class to use a H2 database.
@@ -19,13 +23,17 @@ To make this class useful, please complete it with the topics seen in the module
  */
 public class MarsRepository {
 
-    private static final DatabaseUsersRepository database = new DatabaseUsersRepository();
+
+    private final Logger LOGGER = Logger.getLogger(getClass().getName());
+    private final DatabaseUsersRepository databaseUser = new DatabaseUsersRepository();
+    private final DataBasePlantRepository databaseProduct = new DataBasePlantRepository();
 
     private static final MarsRepository INSTANCE = new MarsRepository();
     private Server dbWebConsole;
     private String username;
     private String password;
     private String url;
+
 
     private MarsRepository() { }
 
@@ -52,10 +60,27 @@ public class MarsRepository {
     }
 
     public void createUser(User user){
-        database.add((Object) user);
+        databaseUser.add((Object) user);
+    }
+
+    public void createProduct(Product product) {
+        databaseProduct.add(product);
+    }
+
+    public User getUserById(int ownerId) {
+
+        return databaseUser.getById(ownerId);
+    }
+
+    public Product getSeedByName(String crop1) {
+        if (databaseProduct.find(crop1) != null){
+            return null;
+        }
+        return (Seed) databaseProduct.find(crop1).get(0);
     }
 
     public void getPlants() {
 
     }
+
 }
