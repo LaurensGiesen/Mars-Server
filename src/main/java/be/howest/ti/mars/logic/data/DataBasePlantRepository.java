@@ -1,5 +1,6 @@
 package be.howest.ti.mars.logic.data;
 import be.howest.ti.mars.logic.domain.Plant;
+import be.howest.ti.mars.logic.domain.Seed;
 import be.howest.ti.mars.logic.exceptions.PlantException;
 import be.howest.ti.mars.logic.exceptions.SeedException;
 

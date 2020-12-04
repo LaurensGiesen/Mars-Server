@@ -22,7 +22,6 @@ public class DatabaseUsersRepository implements DatabaseInterface {
         ) {
 
             User user1 = (User) user;
-
             stmt.setInt(1, 1);
             stmt.setString(2, user1.getFirstName());
             stmt.setString(3, user1.getLastName());
@@ -33,7 +32,6 @@ public class DatabaseUsersRepository implements DatabaseInterface {
             stmt.setInt(8, user1.getBasket().getId());
             stmt.setInt(9, user1.getAddress().getId());
             stmt.executeUpdate();
-            //return true;
 
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());

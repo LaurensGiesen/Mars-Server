@@ -1,14 +1,16 @@
 package be.howest.ti.mars.logic.data;
 
+import be.howest.ti.mars.logic.domain.Plant;
 import be.howest.ti.mars.logic.domain.Product;
 import be.howest.ti.mars.logic.domain.Seed;
 import be.howest.ti.mars.logic.domain.User;
-import be.howest.ti.mars.logic.exceptions.SeedException;
+import be.howest.ti.mars.logic.exceptions.ProductException;
 import org.h2.tools.Server;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Logger;
 
 /*
@@ -26,7 +28,8 @@ public class MarsRepository {
 
     private final Logger LOGGER = Logger.getLogger(getClass().getName());
     private final DatabaseUsersRepository databaseUser = new DatabaseUsersRepository();
-    private final DataBasePlantRepository databaseProduct = new DataBasePlantRepository();
+    private final DataBasePlantRepository databasePlant = new DataBasePlantRepository();
+    private final DatabaseSeedsRepository databaseSeed = new DatabaseSeedsRepository();
 
     private static final MarsRepository INSTANCE = new MarsRepository();
     private Server dbWebConsole;
@@ -64,23 +67,32 @@ public class MarsRepository {
     }
 
     public void createProduct(Product product) {
-        databaseProduct.add(product);
+        if (product.getClass().equals(Plant.class)){
+            databasePlant.add(product);
+        }else if (product.getClass().equals(Seed.class)){
+            databaseSeed.add(product);
+        }else{
+            throw new ProductException();
+        }
+
     }
 
     public User getUserById(int ownerId) {
-
         return databaseUser.getById(ownerId);
     }
 
     public Product getSeedByName(String crop1) {
-        if (databaseProduct.find(crop1) != null){
+        if (databaseSeed.find(crop1) == null){
             return null;
         }
-        return (Seed) databaseProduct.find(crop1).get(0);
+        return (Seed) databaseSeed.find(crop1).get(0);
     }
 
-    public void getPlants() {
-
+    public List<Plant> getPlants() {
+        return (List<Plant>)(List) databasePlant.getAll();
     }
 
+    public List<Seed> getSeeds() {
+        return (List<Seed>) (List) databaseSeed.getAll();
+    }
 }

@@ -51,27 +51,29 @@ public class MarsController {
         repo.createUser(user);
     }
 
-    public void getPlants() {
-        repo.getPlants();
+    public List<Plant> getPlants() {
+        return repo.getPlants();
     }
 
     public boolean createProduct(int id, String name, Double price, int ownerId, String date, int amount, String image, String type) {
         LocalDate date1 = createDate(date);
-        Product product;
         User owner = repo.getUserById(ownerId);
         if (type.equals("seed")) {
-            product = new Seed(id, name, price, owner, date1, amount, image);
+            repo.createProduct(new Seed(id, name, price, owner, date1, amount, image));
         } else if (type.equals("plant")){
-            product = new Plant(id, name, price, owner, date1, amount, image);
+            repo.createProduct(new Plant(id, name, price, owner, date1, amount, image));
         }else {
             LOGGER.log(Level.SEVERE, "Invalid Product Type");
             throw new ProductException();
         }
-        repo.createProduct(product);
         return true;
     }
 
     public Product getSeedByName(String crop1) {
         return repo.getSeedByName(crop1);
+    }
+
+    public List<Seed> getSeeds() {
+        return repo.getSeeds();
     }
 }

@@ -20,7 +20,7 @@ public class DatabaseProductRepository {
         LocalDate date = rs.getDate("date").toLocalDate();
         int amount = rs.getInt("amount");
         String image = rs.getString("image");
-        int ownerId = rs.getInt("ownerId");
+        int ownerId = rs.getInt("owner_id");
         User owner = databaseUser.getById(ownerId);
         if (seed){
             return new Seed(id, name, price, owner, date, amount, image);
