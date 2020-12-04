@@ -119,18 +119,14 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
 
     public boolean addProduct(RoutingContext ctx){
         LOGGER.info("addProduct");
-        System.out.println("fooooooo");
         int id= ctx.getBodyAsJson().getInteger("id");
         String name = ctx.getBodyAsJson().getString("name");
         Double price = ctx.getBodyAsJson().getDouble("price");
-        System.out.println("fooooooo");
         int ownerId = ctx.getBodyAsJson().getInteger("ownerId");
         String date = ctx.getBodyAsJson().getString("date");
         int amount = ctx.getBodyAsJson().getInteger("amount");
-        System.out.println("fooooooo");
         String image = ctx.getBodyAsJson().getString("image");
         String type = ctx.getBodyAsJson().getString("type");
-        System.out.println("fooooooo");
         return controller.createProduct(id, name, price, ownerId, date,amount,image,type);
     }
 }

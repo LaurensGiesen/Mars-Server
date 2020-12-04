@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DatabaseUsersRepository implements DatabaseInterface {
+public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
     private static final String SQL_INSERT_USER = "insert into users(userid, firstname, lastname, email, date_of_birth, subscriptionID, favorite_id, basket_id, address_id) VALUES(?,?,?,?,?,?,?,?,?)";
 
@@ -39,7 +39,6 @@ public class DatabaseUsersRepository implements DatabaseInterface {
         }
     }
 
-    @Override
     public List<Object> getAll() {
         return Collections.emptyList();
     }

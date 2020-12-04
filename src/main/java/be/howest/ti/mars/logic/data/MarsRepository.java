@@ -1,9 +1,6 @@
 package be.howest.ti.mars.logic.data;
 
-import be.howest.ti.mars.logic.domain.Plant;
-import be.howest.ti.mars.logic.domain.Product;
-import be.howest.ti.mars.logic.domain.Seed;
-import be.howest.ti.mars.logic.domain.User;
+import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
 import org.h2.tools.Server;
 
@@ -28,8 +25,7 @@ public class MarsRepository {
 
     private final Logger LOGGER = Logger.getLogger(getClass().getName());
     private final DatabaseUsersRepository databaseUser = new DatabaseUsersRepository();
-    private final DataBasePlantRepository databasePlant = new DataBasePlantRepository();
-    private final DatabaseSeedsRepository databaseSeed = new DatabaseSeedsRepository();
+    private final DatabaseProductRepository databaseProduct = new DatabaseProductRepository();
 
     private static final MarsRepository INSTANCE = new MarsRepository();
     private Server dbWebConsole;
@@ -68,9 +64,9 @@ public class MarsRepository {
 
     public void createProduct(Product product) {
         if (product.getClass().equals(Plant.class)){
-            databasePlant.add(product);
+            databaseProduct.add(product, ProductType.PLANT);
         }else if (product.getClass().equals(Seed.class)){
-            databaseSeed.add(product);
+            databaseProduct.add(product,ProductType.SEED);
         }else{
             throw new ProductException();
         }
@@ -82,17 +78,17 @@ public class MarsRepository {
     }
 
     public Product getSeedByName(String crop1) {
-        if (databaseSeed.find(crop1) == null){
+        if (databaseProduct.find(crop1, ProductType.SEED) == null){
             return null;
         }
-        return (Seed) databaseSeed.find(crop1).get(0);
+        return (Seed) databaseProduct.find(crop1,ProductType.PLANT).get(0);
     }
 
     public List<Plant> getPlants() {
-        return (List<Plant>)(List) databasePlant.getAll();
+        return (List<Plant>)(List) databaseProduct.getAll(ProductType.PLANT);
     }
 
     public List<Seed> getSeeds() {
-        return (List<Seed>) (List) databaseSeed.getAll();
+        return (List<Seed>) (List) databaseProduct.getAll(ProductType.SEED);
     }
 }
