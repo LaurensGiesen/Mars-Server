@@ -43,7 +43,12 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
     public List<Plant> getPlants(RoutingContext ctx) {
         LOGGER.info("getPlants");
         List<Plant> plants = new LinkedList<>();
-        controller.getProduct(ProductType.PLANT).forEach(product -> plants.add((Plant) product));
+        try{
+            controller.getProduct(ProductType.PLANT).forEach(product -> plants.add((Plant) product));
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
         return plants;
     }
 

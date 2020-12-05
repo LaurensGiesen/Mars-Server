@@ -41,9 +41,9 @@ public class DatabaseProductRepository{
 
     public List<Product> find(String search, ProductType type){
         if (type == ProductType.PLANT){
-            return findProduct(search, SQL_FIND_PLANT);
+            return findProduct(search, SQL_FIND_PLANT,type);
         } else if(type == ProductType.SEED){
-            return findProduct(search, SQL_FIND_SEED);
+            return findProduct(search, SQL_FIND_SEED,type);
         }else {
             throw new ProductException();
         }
@@ -51,9 +51,9 @@ public class DatabaseProductRepository{
 
     public List<Product> getAll(ProductType type) {
         if (type == ProductType.PLANT){
-            return getByQuery(SQL_SELECT_ALL_PLANT);
+            return getByQuery(SQL_SELECT_ALL_PLANT,type);
         } else if (type == ProductType.SEED) {
-            return getByQuery(SQL_SELECT_ALL_SEEDS);
+            return getByQuery(SQL_SELECT_ALL_SEEDS,type);
         }else{
             throw new ProductException();
         }
@@ -61,13 +61,13 @@ public class DatabaseProductRepository{
 
     public List<Seed> getAllSeedsWhereTypeIsFruit() {
         List<Seed> seeds = new LinkedList<>();
-        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT).forEach(seed -> seeds.add((Seed) seed));
+        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT, ProductType.SEED).forEach(seed -> seeds.add((Seed) seed));
         return seeds;
     }
 
     public List<Seed> getAllSeedsWhereTypeIsVegetable() {
         List<Seed> seeds = new LinkedList<>();
-        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE).forEach(seed -> seeds.add((Seed) seed));
+        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE, ProductType.SEED).forEach(seed -> seeds.add((Seed) seed));
         return seeds;
 
     }
@@ -89,7 +89,7 @@ public class DatabaseProductRepository{
         }
     }
 
-    public List<Product> findProduct(String search, String query) {
+    public List<Product> findProduct(String search, String query, ProductType type) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)
 
@@ -97,7 +97,7 @@ public class DatabaseProductRepository{
             try (ResultSet rs = stmt.executeQuery()) {
                 List<Product> productsByName = new ArrayList<>();
                 while (rs.next()) {
-                    productsByName.add(DatabaseProductRepository.resultSetToProduct(rs,false));
+                    productsByName.add(DatabaseProductRepository.resultSetToProduct(rs,type));
                 }
                 return productsByName;
             }
@@ -107,22 +107,22 @@ public class DatabaseProductRepository{
         }
     }
 
-    public List<Product> getByQuery(String query){
+    public List<Product> getByQuery(String query, ProductType type){
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
-            List<Product> seeds = new ArrayList<>();
+            List<Product> products = new ArrayList<>();
             while (rs.next()) {
-                seeds.add(DatabaseProductRepository.resultSetToProduct(rs,true));
+                products.add(DatabaseProductRepository.resultSetToProduct(rs,type));
             }
-            return seeds;
+            return products;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new SeedException("Unable to get all Seeds");
         }
     }
 
-    public static Product resultSetToProduct(ResultSet rs, boolean seed) throws SQLException {
+    public static Product resultSetToProduct(ResultSet rs, ProductType type) throws SQLException {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         double price = rs.getDouble("price");
@@ -131,9 +131,11 @@ public class DatabaseProductRepository{
         String image = rs.getString("image");
         int ownerId = rs.getInt("owner_id");
         User owner = databaseUser.getById(ownerId);
-        if (seed){
+        if (type == ProductType.SEED){
             return new Seed(id, name, price, owner, date, amount, image);
+        }else if (type == ProductType.PLANT){
+            return new Plant(id, name, price, owner, date, amount, image);
         }
-        return new Plant(id, name, price, owner, date, amount, image);
+        throw new ProductException();
     }
 }
