@@ -91,7 +91,7 @@ paths:
                 type: string
   /register:
     post:
-      summary: Build a building
+      summary: create new user
       operationId: createUser
       requestBody:
         required: true

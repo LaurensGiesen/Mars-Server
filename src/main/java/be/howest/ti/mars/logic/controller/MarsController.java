@@ -1,18 +1,9 @@
 package be.howest.ti.mars.logic.controller;
 
-import be.howest.ti.mars.logic.data.DatabaseUsersRepository;
 import be.howest.ti.mars.logic.data.MarsRepository;
-import be.howest.ti.mars.logic.domain.Plant;
-import be.howest.ti.mars.logic.domain.Product;
-import be.howest.ti.mars.logic.domain.Seed;
-import be.howest.ti.mars.logic.domain.User;
+import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
-import be.howest.ti.mars.logic.exceptions.UsersException;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -51,8 +42,8 @@ public class MarsController {
         repo.createUser(user);
     }
 
-    public List<Plant> getPlants() {
-        return repo.getPlants();
+    public List<Product> getProduct(ProductType type) {
+        return repo.getProduct(type);
     }
 
     public boolean createProduct(int id, String name, Double price, int ownerId, String date, int amount, String image, String type) {
@@ -73,7 +64,4 @@ public class MarsController {
         return repo.getSeedByName(crop1);
     }
 
-    public List<Seed> getSeeds() {
-        return repo.getSeeds();
-    }
 }

@@ -7,6 +7,7 @@ import io.vertx.ext.web.RoutingContext;
 import java.time.LocalDate;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,13 +34,17 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
     @Override
     public List<Seed> getSeeds(RoutingContext ctx) {
         LOGGER.info("getSeeds");
-        return controller.getSeeds();
+        List<Seed> seeds = new LinkedList<>();
+        controller.getProduct(ProductType.SEED).forEach(product -> seeds.add((Seed) product));
+        return seeds;
     }
 
     @Override
     public List<Plant> getPlants(RoutingContext ctx) {
         LOGGER.info("getPlants");
-        return controller.getPlants();
+        List<Plant> plants = new LinkedList<>();
+        controller.getProduct(ProductType.PLANT).forEach(product -> plants.add((Plant) product));
+        return plants;
     }
 
     @Override

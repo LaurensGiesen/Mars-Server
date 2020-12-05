@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Logger;
 
 /*
 MBL: this is only a starter class to use a H2 database.
@@ -22,8 +21,6 @@ To make this class useful, please complete it with the topics seen in the module
  */
 public class MarsRepository {
 
-
-    private final Logger LOGGER = Logger.getLogger(getClass().getName());
     private final DatabaseUsersRepository databaseUser = new DatabaseUsersRepository();
     private final DatabaseProductRepository databaseProduct = new DatabaseProductRepository();
 
@@ -59,7 +56,7 @@ public class MarsRepository {
     }
 
     public void createUser(User user){
-        databaseUser.add((Object) user);
+        databaseUser.add(user);
     }
 
     public void createProduct(Product product) {
@@ -81,14 +78,10 @@ public class MarsRepository {
         if (databaseProduct.find(crop1, ProductType.SEED) == null){
             return null;
         }
-        return (Seed) databaseProduct.find(crop1,ProductType.PLANT).get(0);
+        return databaseProduct.find(crop1,ProductType.PLANT).get(0);
     }
 
-    public List<Plant> getPlants() {
-        return (List<Plant>)(List) databaseProduct.getAll(ProductType.PLANT);
-    }
-
-    public List<Seed> getSeeds() {
-        return (List<Seed>) (List) databaseProduct.getAll(ProductType.SEED);
+    public List<Product> getProduct(ProductType type) {
+        return databaseProduct.getAll(type);
     }
 }

@@ -8,6 +8,7 @@ import be.howest.ti.mars.logic.exceptions.SeedException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,11 +60,16 @@ public class DatabaseProductRepository{
     }
 
     public List<Seed> getAllSeedsWhereTypeIsFruit() {
-        return (List<Seed>)(List) getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT);
+        List<Seed> seeds = new LinkedList<>();
+        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT).forEach(seed -> seeds.add((Seed) seed));
+        return seeds;
     }
 
     public List<Seed> getAllSeedsWhereTypeIsVegetable() {
-        return (List<Seed>)(List) getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE);
+        List<Seed> seeds = new LinkedList<>();
+        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE).forEach(seed -> seeds.add((Seed) seed));
+        return seeds;
+
     }
 
     private void addProduct(Product product, String query) {
@@ -91,7 +97,7 @@ public class DatabaseProductRepository{
             try (ResultSet rs = stmt.executeQuery()) {
                 List<Product> productsByName = new ArrayList<>();
                 while (rs.next()) {
-                    productsByName.add(DatabaseProductRepository.ResultSetToProduct(rs,false));
+                    productsByName.add(DatabaseProductRepository.resultSetToProduct(rs,false));
                 }
                 return productsByName;
             }
@@ -107,7 +113,7 @@ public class DatabaseProductRepository{
              ResultSet rs = stmt.executeQuery()) {
             List<Product> seeds = new ArrayList<>();
             while (rs.next()) {
-                seeds.add(DatabaseProductRepository.ResultSetToProduct(rs,true));
+                seeds.add(DatabaseProductRepository.resultSetToProduct(rs,true));
             }
             return seeds;
         } catch (SQLException ex) {
@@ -116,7 +122,7 @@ public class DatabaseProductRepository{
         }
     }
 
-    public static Product ResultSetToProduct(ResultSet rs, boolean seed) throws SQLException {
+    public static Product resultSetToProduct(ResultSet rs, boolean seed) throws SQLException {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         double price = rs.getDouble("price");
