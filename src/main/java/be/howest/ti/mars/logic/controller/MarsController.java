@@ -46,13 +46,13 @@ public class MarsController {
         return repo.getProduct(type);
     }
 
-    public boolean createProduct(int id, String name, Double price, int ownerId, String date, int amount, String image, String type) {
+    public boolean createProduct(String name, Double price, int ownerId, String date, int amount, String image, String type) {
         LocalDate date1 = createDate(date);
         User owner = repo.getUserById(ownerId);
         if (type.equals("seed")) {
-            repo.createProduct(new Seed(id, name, price, owner, date1, amount, image));
+            repo.createProduct(name, price, owner, date1, amount, image, ProductType.SEED);
         } else if (type.equals("plant")){
-            repo.createProduct(new Plant(id, name, price, owner, date1, amount, image));
+            repo.createProduct(name, price, owner, date1, amount, image, ProductType.PLANT);
         }else {
             LOGGER.log(Level.SEVERE, "Invalid Product Type");
             throw new ProductException();

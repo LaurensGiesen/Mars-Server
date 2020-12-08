@@ -7,6 +7,7 @@ import org.h2.tools.Server;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 /*
@@ -59,16 +60,7 @@ public class MarsRepository {
         databaseUser.add(user);
     }
 
-    public void createProduct(Product product) {
-        if (product.getClass().equals(Plant.class)){
-            databaseProduct.add(product, ProductType.PLANT);
-        }else if (product.getClass().equals(Seed.class)){
-            databaseProduct.add(product,ProductType.SEED);
-        }else{
-            throw new ProductException();
-        }
 
-    }
 
     public User getUserById(int ownerId) {
         return databaseUser.getById(ownerId);
@@ -83,5 +75,9 @@ public class MarsRepository {
 
     public List<Product> getProduct(ProductType type) {
         return databaseProduct.getAll(type);
+    }
+
+    public void createProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
+        databaseProduct.add(name,price,owner,date1,amount,image,type);
     }
 }

@@ -9,7 +9,7 @@ public class Location {
     private BigDecimal longitude;
     private BigDecimal latitude;
     private int locationId;
-    private List<Plant> advisedPlants;
+    private List<Product> advisedPlants;
     private double temperature;
     private int dli; // daily light integral -> value must be between 20 and 30
     private String humidity; // must be a percentage
@@ -39,7 +39,7 @@ public class Location {
         return latitude;
     }
 
-    public void setAdvisedPlants(List<Plant> advisedPlants) {
+    public void setAdvisedPlants(List<Product> advisedPlants) {
         this.advisedPlants = advisedPlants;
     }
 

@@ -32,24 +32,15 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
     }
 
     @Override
-    public List<Seed> getSeeds(RoutingContext ctx) {
+    public List<Product> getSeeds(RoutingContext ctx) {
         LOGGER.info("getSeeds");
-        List<Seed> seeds = new LinkedList<>();
-        controller.getProduct(ProductType.SEED).forEach(product -> seeds.add((Seed) product));
-        return seeds;
+        return controller.getProduct(ProductType.SEED);
     }
 
     @Override
-    public List<Plant> getPlants(RoutingContext ctx) {
+    public List<Product> getPlants(RoutingContext ctx) {
         LOGGER.info("getPlants");
-        List<Plant> plants = new LinkedList<>();
-        try{
-            controller.getProduct(ProductType.PLANT).forEach(product -> plants.add((Plant) product));
-
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-        return plants;
+        return controller.getProduct(ProductType.PLANT);
     }
 
     @Override
@@ -129,7 +120,6 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
 
     public boolean addProduct(RoutingContext ctx){
         LOGGER.info("addProduct");
-        int id= ctx.getBodyAsJson().getInteger("id");
         String name = ctx.getBodyAsJson().getString("name");
         Double price = ctx.getBodyAsJson().getDouble("price");
         int ownerId = ctx.getBodyAsJson().getInteger("ownerId");
@@ -137,6 +127,6 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         int amount = ctx.getBodyAsJson().getInteger("amount");
         String image = ctx.getBodyAsJson().getString("image");
         String type = ctx.getBodyAsJson().getString("type");
-        return controller.createProduct(id, name, price, ownerId, date,amount,image,type);
+        return controller.createProduct(name, price, ownerId, date,amount,image,type);
     }
 }
