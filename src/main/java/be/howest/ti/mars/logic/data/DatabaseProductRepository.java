@@ -1,9 +1,7 @@
 package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.*;
-import be.howest.ti.mars.logic.exceptions.PlantException;
 import be.howest.ti.mars.logic.exceptions.ProductException;
-import be.howest.ti.mars.logic.exceptions.SeedException;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -19,21 +17,21 @@ public class DatabaseProductRepository{
     private static final Logger LOGGER = Logger.getLogger(DatabaseProductRepository.class.getName());
 
     private static final String SQL_SELECT_ALL_PLANT = "select * from plants";
-    private static final String SQL_ADD_PLANT = "insert into plants(id, name, price, owner_id, date, amount, image) values(?,?,?,?,?,?,?)";
+    private static final String SQL_ADD_PLANT = "insert into plants(name, price, owner_id, date, amount, image) values(?,?,?,?,?,?)";
     private static final String SQL_FIND_PLANT = "select * from plants where name like (?)";
 
-    private static final String SQL_ADD_SEED = "insert into seeds(id, name, price, owner_id, date, amount, image) values(?,?,?,?,?,?,?)";
+    private static final String SQL_ADD_SEED = "insert into seeds(name, price, owner_id, date, amount, image) values(?,?,?,?,?,?)";
     private static final String SQL_SELECT_ALL_SEEDS = "select * from seeds";
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT = "select * from seeds where type='fruit'";
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE = "select * from seeds where type='vegetable'";
     private static final String SQL_FIND_SEED = "select * from seeds where name like (?)";
 
 
-    public void add(Product product, ProductType type) {
+    public void add(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
         if (type == ProductType.PLANT){
-            addProduct(product, SQL_ADD_PLANT);
+            addProduct(name,price,owner,date1,amount,image, SQL_ADD_PLANT);
         } else if(type == ProductType.SEED){
-            addProduct(product, SQL_ADD_SEED);
+            addProduct(name,price,owner,date1,amount,image, SQL_ADD_SEED);
         }else{
             throw new ProductException();
         }
@@ -59,33 +57,32 @@ public class DatabaseProductRepository{
         }
     }
 
-    public List<Seed> getAllSeedsWhereTypeIsFruit() {
-        List<Seed> seeds = new LinkedList<>();
-        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT, ProductType.SEED).forEach(seed -> seeds.add((Seed) seed));
-        return seeds;
+    public List<Product> getAllSeedsWhereTypeIsFruit() {
+        List<Product> products = new LinkedList<>();
+        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT, ProductType.SEED);
+        return products;
     }
 
-    public List<Seed> getAllSeedsWhereTypeIsVegetable() {
-        List<Seed> seeds = new LinkedList<>();
-        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE, ProductType.SEED).forEach(seed -> seeds.add((Seed) seed));
-        return seeds;
+    public List<Product> getAllSeedsWhereTypeIsVegetable() {
+        List<Product> products = new LinkedList<>();
+        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE, ProductType.SEED);
+        return products;
 
     }
 
-    private void addProduct(Product product, String query) {
+    private void addProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, String query) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setInt(1, product.getProductId());
-            stmt.setString(2, product.getName());
-            stmt.setDouble(3, product.getPrice());
-            stmt.setInt(4, product.getOwner().getId());
-            stmt.setDate(5, Date.valueOf(product.getDate()));
-            stmt.setInt(6, product.getAmount());
-            stmt.setString(7, product.getImage());
+            stmt.setString(1, name);
+            stmt.setDouble(2, price);
+            stmt.setInt(3, owner.getId());
+            stmt.setDate(4, Date.valueOf(date1));
+            stmt.setInt(5, amount);
+            stmt.setString(6, image);
             stmt.executeUpdate();
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new PlantException("Unable to add plants");
+            throw new ProductException("Unable to add plants");
         }
     }
 
@@ -103,7 +100,7 @@ public class DatabaseProductRepository{
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new PlantException("Unable to find products");
+            throw new ProductException("Unable to find products");
         }
     }
 
@@ -118,7 +115,7 @@ public class DatabaseProductRepository{
             return products;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new SeedException("Unable to get all Seeds");
+            throw new ProductException("Unable to get all Seeds");
         }
     }
 
@@ -131,11 +128,6 @@ public class DatabaseProductRepository{
         String image = rs.getString("image");
         int ownerId = rs.getInt("owner_id");
         User owner = databaseUser.getById(ownerId);
-        if (type == ProductType.SEED){
-            return new Seed(id, name, price, owner, date, amount, image);
-        }else if (type == ProductType.PLANT){
-            return new Plant(id, name, price, owner, date, amount, image);
-        }
-        throw new ProductException();
+        return new Product(id, name, price, owner, date, amount, image, type);
     }
 }

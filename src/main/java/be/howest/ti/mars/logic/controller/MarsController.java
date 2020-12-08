@@ -38,21 +38,17 @@ public class MarsController {
         return LocalDate.of(Integer.parseInt(split[2]), Integer.parseInt(split[1]), Integer.parseInt(split[0]));
     }
 
-    public void createUser(User user) {
-        repo.createUser(user);
-    }
-
     public List<Product> getProduct(ProductType type) {
         return repo.getProduct(type);
     }
 
-    public boolean createProduct(int id, String name, Double price, int ownerId, String date, int amount, String image, String type) {
+    public boolean createProduct(String name, Double price, int ownerId, String date, int amount, String image, String type) {
         LocalDate date1 = createDate(date);
         User owner = repo.getUserById(ownerId);
         if (type.equals("seed")) {
-            repo.createProduct(new Seed(id, name, price, owner, date1, amount, image));
+            repo.createProduct(name, price, owner, date1, amount, image, ProductType.SEED);
         } else if (type.equals("plant")){
-            repo.createProduct(new Plant(id, name, price, owner, date1, amount, image));
+            repo.createProduct(name, price, owner, date1, amount, image, ProductType.PLANT);
         }else {
             LOGGER.log(Level.SEVERE, "Invalid Product Type");
             throw new ProductException();
@@ -64,4 +60,11 @@ public class MarsController {
         return repo.getSeedByName(crop1);
     }
 
+    public int createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
+        return repo.createUser(firstname, lastname, email, newDate, subscription, address);
+    }
+
+    public void addFavoriteToUser(int id, List<Product> products) {
+        repo.addFavoriteToUser(id,products);
+    }
 }

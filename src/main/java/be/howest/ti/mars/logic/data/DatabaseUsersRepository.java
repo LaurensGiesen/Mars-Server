@@ -12,26 +12,27 @@ import java.util.logging.Logger;
 
 public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
-    private static final String SQL_INSERT_USER = "insert into users(userid, firstname, lastname, email, date_of_birth, subscriptionID, favorite_id, basket_id, address_id) VALUES(?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscriptionID, address_id) VALUES(?,?,?,?,?,?)";
+    private static final String SQL_INSERT_FAVORITE = "insert into favorites(firstname, lastname, email, date_of_birth, subscriptionID, address_id) VALUES(?,?,?,?,?,?)";
 
 
-    public void add(Object user) {
+    public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
         try (Connection con = MarsRepository.getConnection();
-             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER);
-
+             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER,
+                     Statement.RETURN_GENERATED_KEYS);
         ) {
-
-            User user1 = (User) user;
-            stmt.setInt(1, 1);
-            stmt.setString(2, user1.getFirstName());
-            stmt.setString(3, user1.getLastName());
-            stmt.setString(4, user1.getEmail());
-            stmt.setDate(5, java.sql.Date.valueOf(user1.getDateOfBirth()));
-            stmt.setInt(6, user1.getSubscription().getType().getValue());
-            stmt.setInt(7, user1.getFavorites().getId());
-            stmt.setInt(8, user1.getBasket().getId());
-            stmt.setInt(9, user1.getAddress().getId());
+            stmt.setString(1, firstname);
+            stmt.setString(2, lastname);
+            stmt.setString(3, email);
+            stmt.setDate(4, java.sql.Date.valueOf(newDate));
+            stmt.setInt(5, subscription.getType().getValue());
+            stmt.setInt(6, address.getId());
             stmt.executeUpdate();
+
+            try (ResultSet autoId = stmt.getGeneratedKeys()) {
+                autoId.next();
+                return autoId.getInt(1);
+            }
 
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
@@ -51,5 +52,13 @@ public class DatabaseUsersRepository {
         LOGGER.log(Level.WARNING, "NYI");
         LocalDate date = LocalDate.now();
         return new User(ownerId, "NYI","NYI","NYI@gmail.com",date ,new Subscription(SubscriptionType.BASIC),new Address("NYI",1337,"NYI"), new Favorite());
+    }
+
+    public void addFavorite(int id, List<Product> products) {
+        products.forEach(product -> addFavorite(id, product));
+    }
+
+    public void addFavorite(int id, Product product) {
+        LOGGER.log(Level.WARNING,"NYI");
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Map {
     private List<User> users;
-    private List<Plant> plants;
+    private List<Product> plants;
     private List<Location> locations;
     private Shop shop;
 
@@ -21,12 +21,12 @@ public class Map {
         return users;
     }
 
-    public List<Plant> getPlants() {
+    public List<Product> getPlants() {
         return plants;
     }
 
-    public Plant getPlant(String name) {
-        for (Plant plant : plants) {
+    public Product getPlant(String name) {
+        for (Product plant : plants) {
             if (plant.getName().equals(name)) {
                 return plant;
             }
@@ -47,7 +47,7 @@ public class Map {
         locations.add(location);
     }
 
-    public void addPlant(Plant plant) {
+    public void addPlant(Product plant) {
         plants.add(plant);
     }
 
