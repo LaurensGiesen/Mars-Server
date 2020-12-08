@@ -60,7 +60,11 @@ public class MarsController {
         return repo.getSeedByName(crop1);
     }
 
-    public void createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address, Favorite favorite) {
-        repo.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), address, favorite);
+    public int createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
+        return repo.createUser(firstname, lastname, email, newDate, subscription, address);
+    }
+
+    public void addFavoriteToUser(int id, List<Product> products) {
+        repo.addFavoriteToUser(id,products);
     }
 }

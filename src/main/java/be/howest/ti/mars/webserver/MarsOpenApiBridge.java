@@ -7,7 +7,6 @@ import io.vertx.ext.web.RoutingContext;
 import java.time.LocalDate;
 
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -112,7 +111,9 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         Product crop3 = controller.getSeedByName(ctx.getBodyAsJson().getString("crop3"));
         List<Product> products = controller.createFavorites(crop1,crop2,crop3);
         LocalDate newDate = controller.createDate(date);
-        controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
+        int id = controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number,dome));
+        controller.addFavoriteToUser(id, products);
+        LOGGER.log(Level.WARNING, String.valueOf(id));
         return true;
     }
 

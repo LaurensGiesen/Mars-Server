@@ -76,7 +76,11 @@ public class MarsRepository {
         databaseProduct.add(name,price,owner,date1,amount,image,type);
     }
 
-    public void createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address, Favorite favorite) {
-        databaseUser.add(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), address, favorite);
+    public int createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
+        return databaseUser.add(firstname, lastname, email, newDate, subscription, address);
+    }
+
+    public void addFavoriteToUser(int id, List<Product> products) {
+        databaseUser.addFavorite(id, products);
     }
 }
