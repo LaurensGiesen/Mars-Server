@@ -112,9 +112,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         Product crop3 = controller.getSeedByName(ctx.getBodyAsJson().getString("crop3"));
         List<Product> products = controller.createFavorites(crop1,crop2,crop3);
         LocalDate newDate = controller.createDate(date);
-        User user = new User(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
-        LOGGER.log(Level.WARNING, "User: {0} " , user);
-        controller.createUser(user);
+        controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number,dome), new Favorite(products));
         return true;
     }
 

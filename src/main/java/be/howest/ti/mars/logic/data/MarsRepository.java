@@ -56,21 +56,16 @@ public class MarsRepository {
         return DriverManager.getConnection(getInstance().url, getInstance().username, getInstance().password);
     }
 
-    public void createUser(User user){
-        databaseUser.add(user);
-    }
-
-
-
     public User getUserById(int ownerId) {
         return databaseUser.getById(ownerId);
     }
 
     public Product getSeedByName(String crop1) {
-        if (databaseProduct.find(crop1, ProductType.SEED) == null){
+        List<Product> seeds = databaseProduct.find(crop1, ProductType.SEED);
+        if (seeds == null || seeds.isEmpty()){
             return null;
         }
-        return databaseProduct.find(crop1,ProductType.PLANT).get(0);
+        return databaseProduct.find(crop1,ProductType.SEED).get(0);
     }
 
     public List<Product> getProduct(ProductType type) {
@@ -79,5 +74,9 @@ public class MarsRepository {
 
     public void createProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
         databaseProduct.add(name,price,owner,date1,amount,image,type);
+    }
+
+    public void createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address, Favorite favorite) {
+        databaseUser.add(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), address, favorite);
     }
 }

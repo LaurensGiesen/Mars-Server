@@ -12,25 +12,19 @@ import java.util.logging.Logger;
 
 public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
-    private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscriptionID, favorite_id, basket_id, address_id) VALUES(?,?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscriptionID, address_id) VALUES(?,?,?,?,?,?)";
 
 
-    public void add(Object user) {
+    public void add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address, Favorite favorite) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER);
-
         ) {
-
-            User user1 = (User) user;
-            //stmt.setInt(1, 1);
-            stmt.setString(1, user1.getFirstName());
-            stmt.setString(2, user1.getLastName());
-            stmt.setString(3, user1.getEmail());
-            stmt.setDate(4, java.sql.Date.valueOf(user1.getDateOfBirth()));
-            stmt.setInt(5, user1.getSubscription().getType().getValue());
-            stmt.setInt(6, user1.getFavorites().getId());
-            stmt.setInt(7, user1.getBasket().getId());
-            stmt.setInt(8, user1.getAddress().getId());
+            stmt.setString(1, firstname);
+            stmt.setString(2, lastname);
+            stmt.setString(3, email);
+            stmt.setDate(4, java.sql.Date.valueOf(newDate));
+            stmt.setInt(5, subscription.getType().getValue());
+            stmt.setInt(6, address.getId());
             stmt.executeUpdate();
 
         } catch (SQLException ex) {

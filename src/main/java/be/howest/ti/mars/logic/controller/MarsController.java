@@ -38,10 +38,6 @@ public class MarsController {
         return LocalDate.of(Integer.parseInt(split[2]), Integer.parseInt(split[1]), Integer.parseInt(split[0]));
     }
 
-    public void createUser(User user) {
-        repo.createUser(user);
-    }
-
     public List<Product> getProduct(ProductType type) {
         return repo.getProduct(type);
     }
@@ -64,4 +60,7 @@ public class MarsController {
         return repo.getSeedByName(crop1);
     }
 
+    public void createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address, Favorite favorite) {
+        repo.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), address, favorite);
+    }
 }
