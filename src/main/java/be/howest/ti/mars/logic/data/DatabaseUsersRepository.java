@@ -7,13 +7,14 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
-    private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscriptionID, address_id) VALUES(?,?,?,?,?,?)";
-    private static final String SQL_INSERT_FAVORITE = "insert into favorites(firstname, lastname, email, date_of_birth, subscriptionID, address_id) VALUES(?,?,?,?,?,?)";
+    private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_id, address_id) VALUES(?,?,?,?,?,?)";
+    private static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type) VALUES(?,?,?)";
 
 
     public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
@@ -59,6 +60,21 @@ public class DatabaseUsersRepository {
     }
 
     public void addFavorite(int id, Product product) {
-        LOGGER.log(Level.WARNING,"NYI");
+        addToUsersFavorites(id, product);
+
+    }
+
+    private void addToUsersFavorites(int userId , Product product) {
+        try(Connection con = MarsRepository.getConnection();
+            PreparedStatement stmt = con.prepareStatement(SQL_INSERT_FAVORITE) ){
+            stmt.setInt(1, userId);
+            stmt.setInt(2, product.getProductId());
+            stmt.setString(3, product.getType().name().toLowerCase());
+            stmt.executeUpdate();
+            System.out.println("done");
+        } catch (SQLException ex) {
+            LOGGER.log(Level.WARNING,"Failed To Add Favorite");
+            throw new ProductException("Failed To Add Favorite", ex);
+        }
     }
 }
