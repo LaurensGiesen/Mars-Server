@@ -128,4 +128,17 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         String type = ctx.getBodyAsJson().getString("type");
         return controller.createProduct(name, price, ownerId, date,amount,image,type);
     }
+
+    public boolean addProductToFavorite(RoutingContext ctx){
+        try{
+            int userId = ctx.getBodyAsJson().getInteger("ownerId");
+            int productId = ctx.getBodyAsJson().getInteger("productId");
+            String productType = ctx.getBodyAsJson().getString("productType");
+            return controller.addProductToFavorite(userId, productId, productType);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
 }

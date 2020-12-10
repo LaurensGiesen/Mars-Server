@@ -26,6 +26,8 @@ public class DatabaseProductRepository{
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE = "select * from seeds where type='vegetable'";
     private static final String SQL_FIND_SEED = "select * from seeds where name like (?)";
 
+    private static final String SQL_FIND_SEED_BY_ID = "select * from seeds where id = ?";
+    private static final String SQL_FIND_PLANTS_BY_ID = "select * from plants where id = ?";
 
     public void add(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
         if (type == ProductType.PLANT){
@@ -49,9 +51,9 @@ public class DatabaseProductRepository{
 
     public List<Product> getAll(ProductType type) {
         if (type == ProductType.PLANT){
-            return getByQuery(SQL_SELECT_ALL_PLANT,type);
+            return getAllByQuery(SQL_SELECT_ALL_PLANT,type);
         } else if (type == ProductType.SEED) {
-            return getByQuery(SQL_SELECT_ALL_SEEDS,type);
+            return getAllByQuery(SQL_SELECT_ALL_SEEDS,type);
         }else{
             throw new ProductException();
         }
@@ -59,13 +61,13 @@ public class DatabaseProductRepository{
 
     public List<Product> getAllSeedsWhereTypeIsFruit() {
         List<Product> products = new LinkedList<>();
-        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT, ProductType.SEED);
+        getAllByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT, ProductType.SEED);
         return products;
     }
 
     public List<Product> getAllSeedsWhereTypeIsVegetable() {
         List<Product> products = new LinkedList<>();
-        getByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE, ProductType.SEED);
+        getAllByQuery(SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE, ProductType.SEED);
         return products;
 
     }
@@ -90,7 +92,8 @@ public class DatabaseProductRepository{
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)
 
-        ) { stmt.setString(1, search);
+        ) {
+            stmt.setString(1, search);
             try (ResultSet rs = stmt.executeQuery()) {
                 List<Product> productsByName = new ArrayList<>();
                 while (rs.next()) {
@@ -104,7 +107,7 @@ public class DatabaseProductRepository{
         }
     }
 
-    public List<Product> getByQuery(String query, ProductType type){
+    public List<Product> getAllByQuery(String query, ProductType type){
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
@@ -129,5 +132,15 @@ public class DatabaseProductRepository{
         int ownerId = rs.getInt("owner_id");
         User owner = databaseUser.getById(ownerId);
         return new Product(id, name, price, owner, date, amount, image, type);
+    }
+
+    public Product getById(int productId, String productType) {
+        if (productType.equalsIgnoreCase(ProductType.PLANT.name())){
+            return findProduct(String.valueOf(productId), SQL_FIND_PLANTS_BY_ID,ProductType.PLANT).get(0);
+        } else if (productType.equalsIgnoreCase(ProductType.SEED.name())) {
+            return findProduct(String.valueOf(productId), SQL_FIND_SEED_BY_ID,ProductType.SEED).get(0);
+        }else{
+            throw new ProductException();
+        }
     }
 }

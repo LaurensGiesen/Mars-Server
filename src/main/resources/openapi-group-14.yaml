@@ -11,6 +11,21 @@ servers:
 
 components:
   schemas:
+    ProductType:
+      type: object
+      properties:
+        productId:
+          type: number
+          example: 1
+        ownerId:
+          type: number
+          example: 1
+        productType:
+          type: "string"
+          enum: ["seed", "plant"]
+          default: "plant"
+          example: "plant"
+
     User:
       type: object
       properties:
@@ -184,16 +199,19 @@ paths:
           description: Internal Server Error
 
 
-  /addProductToFavorite/{productId}:
-    get:
+  /addProductToFavorite:
+    post:
       summary: Add a product to you favorits
       operationId: addProductToFavorite
-      parameters:
-        - name: "productId"
-          in: "path"
-          required: true
-          schema:
-            type: integer
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              items:
+                $ref: "#/components/schemas/ProductType"
+
+
       responses:
         '200':
           description: OK

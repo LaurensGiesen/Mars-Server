@@ -59,22 +59,17 @@ public class DatabaseUsersRepository {
         products.forEach(product -> addFavorite(id, product));
     }
 
-    public void addFavorite(int id, Product product) {
-        addToUsersFavorites(id, product);
-
-    }
-
-    private void addToUsersFavorites(int userId , Product product) {
+    public Boolean addFavorite(int userId , Product product) {
         try(Connection con = MarsRepository.getConnection();
             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_FAVORITE) ){
             stmt.setInt(1, userId);
             stmt.setInt(2, product.getProductId());
             stmt.setString(3, product.getType().name().toLowerCase());
             stmt.executeUpdate();
-            System.out.println("done");
         } catch (SQLException ex) {
             LOGGER.log(Level.WARNING,"Failed To Add Favorite");
             throw new ProductException("Failed To Add Favorite", ex);
         }
+        return true;
     }
 }
