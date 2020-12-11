@@ -5,6 +5,7 @@ import be.howest.ti.mars.logic.exceptions.*;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;

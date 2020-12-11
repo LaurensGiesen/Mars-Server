@@ -71,4 +71,8 @@ public class MarsController {
     public boolean addProductToFavorite(int userId, int productId, String productType) {
         return repo.addProductToFavorite(userId, productId,productType);
     }
+
+    public List<Product> getFavorites(int userId) {
+        return repo.getFavorites(userId);
+    }
 }
