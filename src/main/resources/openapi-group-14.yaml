@@ -237,3 +237,28 @@ paths:
           description: Invalid Authentication
         '500':
           description: Internal Server Error
+
+  /getFavorites/{userId}:
+    get:
+      summary: Get The favorites Of A User
+      operationId: getFavorites
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Product"
+        '401':
+          description: Invalid Authentication
+        '500':
+          description: Internal Server Error
+      
+      
