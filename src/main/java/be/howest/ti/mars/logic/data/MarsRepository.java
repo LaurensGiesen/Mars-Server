@@ -83,4 +83,9 @@ public class MarsRepository {
     public void addFavoriteToUser(int id, List<Product> products) {
         databaseUser.addFavorite(id, products);
     }
+
+    public boolean addProductToFavorite(int userId ,int productId,String productType) {
+        Product product = databaseProduct.getById(productId, productType);
+        return databaseUser.addFavorite(userId, product);
+    }
 }
