@@ -132,7 +132,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
 
     public boolean addProductToFavorite(RoutingContext ctx){
         try{
-            int userId = ctx.getBodyAsJson().getInteger("ownerId");
+            int userId = ctx.getBodyAsJson().getInteger("userId"); // <----
             int productId = ctx.getBodyAsJson().getInteger("productId");
             String productType = ctx.getBodyAsJson().getString("productType");
             return controller.addProductToFavorite(userId, productId, productType);
