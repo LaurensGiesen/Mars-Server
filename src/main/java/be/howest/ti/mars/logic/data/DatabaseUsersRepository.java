@@ -16,7 +16,8 @@ public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
     private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_id, address_id) VALUES(?,?,?,?,?,?)";
     private static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type) VALUES(?,?,?)";
-
+    private static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
+    DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
     public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
         try (Connection con = MarsRepository.getConnection();
@@ -72,5 +73,29 @@ public class DatabaseUsersRepository {
             throw new ProductException("Failed To Add Favorite", ex);
         }
         return true;
+    }
+
+    public List<Product> getFavorites(int userId) {
+        try (Connection con = MarsRepository.getConnection();
+             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_FAVORITE)
+        ) {
+            stmt.setInt(1, userId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                List<Product> productsByName = new ArrayList<>();
+                while (rs.next()) {
+                    productsByName.add(resultSetToFavorites(rs));
+                }
+                return productsByName;
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new ProductException("Unable to find products");
+        }
+    }
+
+    private Product resultSetToFavorites(ResultSet rs) throws SQLException {
+        int productId = rs.getInt("product_id");
+        String productType = rs.getString("product_type");
+        return usersRepository.getById(productId, productType);
     }
 }

@@ -91,7 +91,6 @@ public class DatabaseProductRepository{
     public List<Product> findProduct(String search, String query, ProductType type) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)
-
         ) {
             stmt.setString(1, search);
             try (ResultSet rs = stmt.executeQuery()) {

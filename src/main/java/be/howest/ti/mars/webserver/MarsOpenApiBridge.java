@@ -75,7 +75,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
     @Override
     public List<Product> getFavorites(RoutingContext ctx) {
         LOGGER.info("getFavorites");
-        int userId = ctx.getBodyAsJson().getInteger("userId");
+        int userId = Integer.parseInt(ctx.request().getParam("userId"));
         return controller.getFavorites(userId);
     }
 

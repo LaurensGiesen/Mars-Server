@@ -20,7 +20,6 @@ import io.vertx.ext.web.handler.LoggerHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.SQLException;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;

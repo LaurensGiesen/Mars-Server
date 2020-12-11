@@ -93,13 +93,6 @@ public class MarsRepository {
     }
 
     public List<Product> getFavorites(int userId) {
-        List<Product> userPlants = getProduct(ProductType.PLANT).stream().
-                filter(product -> product.getOwner().getId() == userId).collect(Collectors.toList());
-        List<Product> userSeeds = getProduct(ProductType.SEED).stream().
-                filter(product -> product.getOwner().getId() == userId).collect(Collectors.toList());
-        List<Product> userProducts = new LinkedList<>(userPlants);
-        userProducts.addAll(userSeeds);
-
-        return userProducts;
+        return databaseUser.getFavorites(userId);
     }
 }
