@@ -8,7 +8,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*
 MBL: this is only a starter class to use a H2 database.
@@ -87,5 +90,9 @@ public class MarsRepository {
     public boolean addProductToFavorite(int userId ,int productId,String productType) {
         Product product = databaseProduct.getById(productId, productType);
         return databaseUser.addFavorite(userId, product);
+    }
+
+    public List<Product> getFavorites(int userId) {
+        return databaseUser.getFavorites(userId);
     }
 }

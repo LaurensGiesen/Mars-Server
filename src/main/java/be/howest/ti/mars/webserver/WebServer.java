@@ -20,7 +20,6 @@ import io.vertx.ext.web.handler.LoggerHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.SQLException;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -136,6 +135,7 @@ public class WebServer extends AbstractVerticle {
         addRouteWithCtxFunction(factory, "getSeeds", bridge::getSeeds);
         addRouteWithCtxFunction(factory, "getPlants", bridge::getPlants);
         addRouteWithCtxFunction(factory, "addProductToFavorite", bridge::addProductToFavorite);
+        addRouteWithCtxFunction(factory, "getFavorites", bridge::getFavorites);
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,

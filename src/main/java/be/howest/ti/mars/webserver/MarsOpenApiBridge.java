@@ -75,7 +75,8 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
     @Override
     public List<Product> getFavorites(RoutingContext ctx) {
         LOGGER.info("getFavorites");
-        return Collections.emptyList();
+        int userId = Integer.parseInt(ctx.request().getParam("userId"));
+        return controller.getFavorites(userId);
     }
 
     @Override
@@ -131,7 +132,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
 
     public boolean addProductToFavorite(RoutingContext ctx){
         try{
-            int userId = ctx.getBodyAsJson().getInteger("ownerId");
+            int userId = ctx.getBodyAsJson().getInteger("userId"); // <----
             int productId = ctx.getBodyAsJson().getInteger("productId");
             String productType = ctx.getBodyAsJson().getString("productType");
             return controller.addProductToFavorite(userId, productId, productType);
