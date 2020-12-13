@@ -137,13 +137,13 @@ public class DatabaseProductRepository{
         double price = rs.getDouble("price");
         LocalDate date = rs.getDate("date").toLocalDate();
         int amount = rs.getInt("amount");
-        String image = getImage(id);
+        String image = getImage();
         int ownerId = rs.getInt("owner_id");
         User owner = databaseUser.getById(ownerId);
         return new Product(id, name, price, owner, date, amount, image, type);
     }
 
-    private static String getImage(int id) {
+    private static String getImage() {
         try{
             byte[] fileContent = FileUtils.readFileToByteArray(new File("images/41.png"));
             return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
