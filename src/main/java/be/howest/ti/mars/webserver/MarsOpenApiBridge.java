@@ -4,6 +4,10 @@ import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.domain.*;
 import io.vertx.ext.web.RoutingContext;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 
 import java.util.Collections;
@@ -118,7 +122,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         return true;
     }
 
-    public boolean addProduct(RoutingContext ctx){
+    public boolean addProduct(RoutingContext ctx)  {
         LOGGER.info("addProduct");
         String name = ctx.getBodyAsJson().getString("name");
         Double price = ctx.getBodyAsJson().getDouble("price");
