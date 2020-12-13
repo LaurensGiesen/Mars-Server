@@ -2,10 +2,16 @@ package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -29,11 +35,11 @@ public class DatabaseProductRepository{
     private static final String SQL_FIND_SEED_BY_ID = "select * from seeds where id = ?";
     private static final String SQL_FIND_PLANTS_BY_ID = "select * from plants where id = ?";
 
-    public void add(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
+    public int add(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
         if (type == ProductType.PLANT){
-            addProduct(name,price,owner,date1,amount,image, SQL_ADD_PLANT);
+            return addProduct(name,price,owner,date1,amount,image, SQL_ADD_PLANT);
         } else if(type == ProductType.SEED){
-            addProduct(name,price,owner,date1,amount,image, SQL_ADD_SEED);
+            return addProduct(name,price,owner,date1,amount,image, SQL_ADD_SEED);
         }else{
             throw new ProductException();
         }
@@ -72,7 +78,7 @@ public class DatabaseProductRepository{
 
     }
 
-    private void addProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, String query) {
+    private int addProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, String query) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, name);
@@ -80,8 +86,12 @@ public class DatabaseProductRepository{
             stmt.setInt(3, owner.getId());
             stmt.setDate(4, Date.valueOf(date1));
             stmt.setInt(5, amount);
-            stmt.setString(6, image);
+            stmt.setString(6, "image");
             stmt.executeUpdate();
+            try (ResultSet autoId = stmt.getGeneratedKeys()) {
+                autoId.next();
+                return autoId.getInt(1);
+            }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new ProductException("Unable to add plants");
@@ -127,10 +137,21 @@ public class DatabaseProductRepository{
         double price = rs.getDouble("price");
         LocalDate date = rs.getDate("date").toLocalDate();
         int amount = rs.getInt("amount");
-        String image = rs.getString("image");
+        String image = getImage(id);
         int ownerId = rs.getInt("owner_id");
         User owner = databaseUser.getById(ownerId);
         return new Product(id, name, price, owner, date, amount, image, type);
+    }
+
+    private static String getImage(int id) {
+        try{
+            byte[] fileContent = FileUtils.readFileToByteArray(new File("images/41.png"));
+            return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
+        }catch (IOException ex){
+            ex.printStackTrace();
+            LOGGER.log(Level.WARNING, "Failed To Get Image");
+            throw new ProductException("Failed to get image",ex);
+        }
     }
 
     public Product getById(int productId, String productType) {
