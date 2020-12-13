@@ -3,6 +3,10 @@ package be.howest.ti.mars.logic.controller;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,13 +25,13 @@ public class MarsController {
 
     public List<Product> createFavorites(Product crop1, Product crop2, Product crop3) {
         List<Product> products = new LinkedList<>();
-        if (crop1 != null){
+        if (crop1 != null) {
             products.add(crop1);
         }
-        if (crop2 != null){
+        if (crop2 != null) {
             products.add(crop2);
         }
-        if (crop3 != null){
+        if (crop3 != null) {
             products.add(crop3);
         }
         return products;
@@ -47,9 +51,9 @@ public class MarsController {
         User owner = repo.getUserById(ownerId);
         if (type.equals("seed")) {
             repo.createProduct(name, price, owner, date1, amount, image, ProductType.SEED);
-        } else if (type.equals("plant")){
+        } else if (type.equals("plant")) {
             repo.createProduct(name, price, owner, date1, amount, image, ProductType.PLANT);
-        }else {
+        } else {
             LOGGER.log(Level.SEVERE, "Invalid Product Type");
             throw new ProductException();
         }
@@ -65,14 +69,15 @@ public class MarsController {
     }
 
     public void addFavoriteToUser(int id, List<Product> products) {
-        repo.addFavoriteToUser(id,products);
+        repo.addFavoriteToUser(id, products);
     }
 
     public boolean addProductToFavorite(int userId, int productId, String productType) {
-        return repo.addProductToFavorite(userId, productId,productType);
+        return repo.addProductToFavorite(userId, productId, productType);
     }
 
     public List<Product> getFavorites(int userId) {
         return repo.getFavorites(userId);
     }
+
 }

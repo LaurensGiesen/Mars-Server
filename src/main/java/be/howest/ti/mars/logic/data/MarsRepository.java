@@ -4,6 +4,9 @@ import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
 import org.h2.tools.Server;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -76,7 +79,19 @@ public class MarsRepository {
     }
 
     public void createProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
-        databaseProduct.add(name,price,owner,date1,amount,image,type);
+        int id = databaseProduct.add(name,price,owner,date1,amount,image,type);
+        createImage(image, id);
+    }
+
+    private void createImage(String image, int id) {
+        String base64Image = image.split(",")[1];
+        String extension = image.split("/")[1].split(";")[0];
+        byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
+        try (OutputStream stream = new FileOutputStream("images/" + id + "." + extension)) {
+            stream.write(imageBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public int createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
