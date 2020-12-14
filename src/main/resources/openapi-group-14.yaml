@@ -288,4 +288,24 @@ paths:
         '500':
           description: Internal Server Error
 
+  /removeProductFromFavorite:
+    delete:
+      summary: Remove a product from your favorits
+      operationId: removeProductFromFavorite
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              items:
+                $ref: "#/components/schemas/ProductType"
+
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Invalid Authentication
+        '500':
+          description: Internal Server Error
+
 

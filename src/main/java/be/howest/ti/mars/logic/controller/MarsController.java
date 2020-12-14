@@ -87,4 +87,8 @@ public class MarsController {
     public List<Product> getBasket(int id) {
         return repo.getBasket(id);
     }
+
+    public Boolean removeProductFromFavorite(int userId, int productId, String productType) {
+        return repo.removeProductFromFavorite(userId, productId, productType);
+    }
 }
