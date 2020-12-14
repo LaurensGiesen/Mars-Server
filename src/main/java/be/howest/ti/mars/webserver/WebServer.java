@@ -19,6 +19,11 @@ import io.vertx.ext.web.handler.LoggerFormat;
 import io.vertx.ext.web.handler.LoggerHandler;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -71,6 +76,33 @@ public class WebServer extends AbstractVerticle {
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE,"DB web console is unavailable", ex);
         }
+        try {
+            createDatabase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    private void createDatabase() throws IOException, SQLException {
+        executeScript("src/main/resources/databaseStructure.sql");
+        executeScript("src/main/resources/populateDatabase.sql");
+    }
+
+    private void executeScript(String fileName) throws IOException, SQLException {
+        String createDbSql = readFile(fileName);
+        try (
+                Connection con = MarsRepository.getInstance().getConnection();
+                PreparedStatement stmt = con.prepareStatement(createDbSql)
+                ) {
+            stmt.executeUpdate();
+        }
+    }
+
+    private String readFile(String fileName) throws IOException{
+        Path file = Path.of(fileName);
+        return Files.readString(file);
     }
 
     private void configureOpenApiServer(Promise<Void> promise, String apiSpecification, int port) {
