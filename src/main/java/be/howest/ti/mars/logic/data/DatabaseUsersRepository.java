@@ -6,7 +6,6 @@ import be.howest.ti.mars.logic.exceptions.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,12 +18,13 @@ public class DatabaseUsersRepository {
     private static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
     private static final String SQL_SELECT_BASKET = "select * from baskets where user_id=?";
     private static final String SQL_REMOVE_FAVORITE = "delete from favorites where user_id=? and product_id=? and product_type=?";
+    private static final String SQL_REMOVE_BASKET = "delete from baskets where user_id=? and product_id=? and product_type=?";
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
     public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER,
-                     Statement.RETURN_GENERATED_KEYS);
+                     Statement.RETURN_GENERATED_KEYS)
         ) {
             stmt.setString(1, firstname);
             stmt.setString(2, lastname);
@@ -45,14 +45,6 @@ public class DatabaseUsersRepository {
         }
     }
 
-    public List<Object> getAll() {
-        return Collections.emptyList();
-    }
-
-    public List<Object> find(String user) {
-        return Collections.emptyList();
-    }
-
     public User getById(int ownerId) {
         LOGGER.log(Level.WARNING, "NYI");
         LocalDate date = LocalDate.now();
@@ -66,13 +58,12 @@ public class DatabaseUsersRepository {
     public Boolean updateProductOfUser(int userId , Product product, String query) {
         try(Connection con = MarsRepository.getConnection();
             PreparedStatement stmt = con.prepareStatement(query) ){
-            System.out.println(product.getProductId());
             stmt.setInt(1, userId);
             stmt.setInt(2, product.getProductId());
             stmt.setString(3, product.getType().name().toLowerCase());
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            LOGGER.log(Level.WARNING,"Failed To Add Product", ex);
+            LOGGER.log(Level.WARNING,"Failed To Add Product");
             throw new ProductException("Failed To Add Product", ex);
         }
         return true;
@@ -117,5 +108,9 @@ public class DatabaseUsersRepository {
     public Boolean removeProductFromFavorite(int userId, Product product) {
         return updateProductOfUser(userId, product, SQL_REMOVE_FAVORITE);
 
+    }
+
+    public Boolean removeProductFromBasket(int userId, Product product) {
+        return updateProductOfUser(userId, product, SQL_REMOVE_BASKET);
     }
 }

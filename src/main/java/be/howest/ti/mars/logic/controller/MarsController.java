@@ -3,10 +3,6 @@ package be.howest.ti.mars.logic.controller;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,11 +12,11 @@ import java.util.logging.Logger;
 public class MarsController {
 
     private static final Logger LOGGER = Logger.getLogger(MarsController.class.getName());
-
+    private static final String MSG = "Hello, Mars!";
     MarsRepository repo = MarsRepository.getInstance();
 
     public String getMessage() {
-        return "Hello, Mars!";
+        return MSG;
     }
 
     public List<Product> createFavorites(Product crop1, Product crop2, Product crop3) {
@@ -90,5 +86,9 @@ public class MarsController {
 
     public Boolean removeProductFromFavorite(int userId, int productId, String productType) {
         return repo.removeProductFromFavorite(userId, productId, productType);
+    }
+
+    public Boolean removeProductFromBasket(int userId, int productId, String productType) {
+        return repo.removeProductFromBasket(userId, productId, productType);
     }
 }
