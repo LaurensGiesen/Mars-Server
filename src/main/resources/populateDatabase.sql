@@ -6,7 +6,7 @@ insert into users(firstname, lastname,email,date_of_birth, subscription_id,addre
 
 insert into plants(name, price,owner_id, date, amount) values('Apple',5,1,DATE '2052-08-20',5);
 insert into plants(name, price,owner_id, date, amount) values('Carrot',3,1,DATE '2052-05-11',15);
-insert into plants(name, price,owner_id, date, amount) values('Cucumber',4,1,DATE '2052-07-09', 5);
+insert into plants(name, price,owner_id, date, amount) values('Banana',5,1,DATE '2052-07-09', 8);
 insert into plants(name, price,owner_id, date, amount) values('Tomato', 6,1, DATE '2052-06-05', 12);
 insert into plants(name, price,owner_id, date, amount) values('Pear', 3,1, DATE '2052-03-03', 15);
 insert into plants(name, price,owner_id, date, amount) values('Kiwi', 6,1, DATE '2052-02-06', 12);
