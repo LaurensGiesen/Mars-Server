@@ -300,7 +300,6 @@ paths:
               items:
                 $ref: "#/components/schemas/ProductType"
 
-
       responses:
         '200':
           description: OK
