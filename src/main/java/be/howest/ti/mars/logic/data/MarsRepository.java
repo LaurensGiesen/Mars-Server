@@ -100,7 +100,7 @@ public class MarsRepository {
 
     public boolean addProductToFavorite(int userId ,int productId,String productType) {
         Product product = databaseProduct.getById(productId, productType);
-        return databaseUser.addProductTo(userId, product, DatabaseUsersRepository.SQL_SELECT_FAVORITE);
+        return databaseUser.addProductTo(userId, product, DatabaseUsersRepository.SQL_INSERT_FAVORITE);
     }
 
     public List<Product> getFavorites(int userId) {
@@ -110,5 +110,9 @@ public class MarsRepository {
     public Boolean addProductToBasket(int userId, int productId, String productType) {
         Product product = databaseProduct.getById(productId, productType);
         return databaseUser.addToBasket(userId, product);
+    }
+
+    public List<Product> getBasket(int id) {
+        return databaseUser.getBasket(id);
     }
 }

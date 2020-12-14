@@ -137,6 +137,7 @@ public class WebServer extends AbstractVerticle {
         addRouteWithCtxFunction(factory, "addProductToFavorite", bridge::addProductToFavorite);
         addRouteWithCtxFunction(factory, "getFavorites", bridge::getFavorites);
         addRouteWithCtxFunction(factory, "addProductToBasket", bridge::addProductToBasket);
+        addRouteWithCtxFunction(factory, "getBasket", bridge::getBasket);
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,

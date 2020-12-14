@@ -14,9 +14,10 @@ import java.util.logging.Logger;
 public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
     private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_id, address_id) VALUES(?,?,?,?,?,?)";
-    private static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type) VALUES(?,?,?)";
+    public static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type) VALUES(?,?,?)";
     private static final String SQL_INSERT_BASKET = "insert into BASKETS(user_id, product_id, product_type) VALUES(?,?,?)";
-    public static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
+    private static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
+    private static final String SQL_SELECT_BASKET = "select * from baskets where user_id=?";
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
     public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
@@ -64,20 +65,39 @@ public class DatabaseUsersRepository {
     public Boolean addProductTo(int userId , Product product, String query) {
         try(Connection con = MarsRepository.getConnection();
             PreparedStatement stmt = con.prepareStatement(query) ){
+            System.out.println(product.getProductId());
             stmt.setInt(1, userId);
             stmt.setInt(2, product.getProductId());
             stmt.setString(3, product.getType().name().toLowerCase());
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            LOGGER.log(Level.WARNING,"Failed To Add Product");
+            LOGGER.log(Level.WARNING,"Failed To Add Product", ex);
             throw new ProductException("Failed To Add Product", ex);
         }
         return true;
     }
 
     public List<Product> getFavorites(int userId) {
+        return getProductsByUserId(userId ,SQL_SELECT_FAVORITE);
+    }
+
+    private Product resultSetToFavorites(ResultSet rs) throws SQLException {
+        int productId = rs.getInt("product_id");
+        String productType = rs.getString("product_type");
+        return usersRepository.getById(productId, productType);
+    }
+
+    public Boolean addToBasket(int userId, Product product) {
+        return addProductTo(userId, product, SQL_INSERT_BASKET);
+    }
+
+    public List<Product> getBasket(int id) {
+        return getProductsByUserId(id, SQL_SELECT_BASKET);
+    }
+
+    private List<Product> getProductsByUserId(int userId, String query) {
         try (Connection con = MarsRepository.getConnection();
-             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_FAVORITE)
+             PreparedStatement stmt = con.prepareStatement(query)
         ) {
             stmt.setInt(1, userId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -91,15 +111,5 @@ public class DatabaseUsersRepository {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new ProductException("Unable to find products");
         }
-    }
-
-    private Product resultSetToFavorites(ResultSet rs) throws SQLException {
-        int productId = rs.getInt("product_id");
-        String productType = rs.getString("product_type");
-        return usersRepository.getById(productId, productType);
-    }
-
-    public Boolean addToBasket(int userId, Product product) {
-        return addProductTo(userId, product, SQL_INSERT_BASKET);
     }
 }

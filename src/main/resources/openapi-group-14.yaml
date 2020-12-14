@@ -265,3 +265,27 @@ paths:
           description: Internal Server Error
       
       
+  /getBasket/{userId}:
+    get:
+      summary: Get The B Of A User
+      operationId: getBasket
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Product"
+        '401':
+          description: Invalid Authentication
+        '500':
+          description: Internal Server Error
+
+

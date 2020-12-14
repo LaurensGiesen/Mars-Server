@@ -59,8 +59,9 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
 
     @Override
     public List<Product> getBasket(RoutingContext ctx) {
-        LOGGER.info("getBasket");
-        return Collections.emptyList();
+        int userId = Integer.parseInt(ctx.request().getParam("userId"));
+        return controller.getBasket(userId);
+
     }
 
     @Override
