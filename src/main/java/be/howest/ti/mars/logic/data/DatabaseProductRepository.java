@@ -5,8 +5,6 @@ import be.howest.ti.mars.logic.exceptions.ProductException;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -137,20 +135,19 @@ public class DatabaseProductRepository{
         double price = rs.getDouble("price");
         LocalDate date = rs.getDate("date").toLocalDate();
         int amount = rs.getInt("amount");
-        String image = getImage();
+        String image = getImage(id);
         int ownerId = rs.getInt("owner_id");
         User owner = databaseUser.getById(ownerId);
         return new Product(id, name, price, owner, date, amount, image, type);
     }
 
-    private static String getImage() {
+    private static String getImage(int id) {
         try{
-            byte[] fileContent = FileUtils.readFileToByteArray(new File("images/41.png"));
+            byte[] fileContent = FileUtils.readFileToByteArray(new File("images/" + id + ".png"));
             return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
         }catch (IOException ex){
-            ex.printStackTrace();
             LOGGER.log(Level.WARNING, "Failed To Get Image");
-            throw new ProductException("Failed to get image",ex);
+            return null;
         }
     }
 

@@ -201,7 +201,7 @@ paths:
 
   /addProductToFavorite:
     post:
-      summary: Add a product to you favorits
+      summary: Add a product to your favorits
       operationId: addProductToFavorite
       requestBody:
         required: true
@@ -220,16 +220,19 @@ paths:
         '500':
           description: Internal Server Error
 
-  /addProcuctToBasket/{productId}:
-    get:
+  /addProductToBasket:
+    post:
       summary: Add a product to your basket
-      operationId: AddProductToBasket
-      parameters:
-        - name: "productId"
-          in: "path"
-          required: true
-          schema:
-            type: integer
+      operationId: addProductToBasket
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              items:
+                $ref: "#/components/schemas/ProductType"
+
+
       responses:
         '200':
           description: OK

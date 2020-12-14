@@ -3,20 +3,13 @@ package be.howest.ti.mars.webserver;
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.domain.*;
 import io.vertx.ext.web.RoutingContext;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.time.LocalDate;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
+class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     private final MarsController controller;
     private static final Logger LOGGER = Logger.getLogger(MarsOpenApiBridge.class.getName());
 
@@ -114,15 +107,14 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         Product crop1 = controller.getSeedByName(ctx.getBodyAsJson().getString("crop1"));
         Product crop2 = controller.getSeedByName(ctx.getBodyAsJson().getString("crop2"));
         Product crop3 = controller.getSeedByName(ctx.getBodyAsJson().getString("crop3"));
-        List<Product> products = controller.createFavorites(crop1,crop2,crop3);
+        List<Product> products = controller.createFavorites(crop1, crop2, crop3);
         LocalDate newDate = controller.createDate(date);
-        int id = controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number,dome));
+        int id = controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number, dome));
         controller.addFavoriteToUser(id, products);
-        LOGGER.log(Level.WARNING, String.valueOf(id));
         return true;
     }
 
-    public boolean addProduct(RoutingContext ctx)  {
+    public boolean addProduct(RoutingContext ctx) {
         LOGGER.info("addProduct");
         String name = ctx.getBodyAsJson().getString("name");
         Double price = ctx.getBodyAsJson().getDouble("price");
@@ -131,19 +123,20 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface{
         int amount = ctx.getBodyAsJson().getInteger("amount");
         String image = ctx.getBodyAsJson().getString("image");
         String type = ctx.getBodyAsJson().getString("type");
-        return controller.createProduct(name, price, ownerId, date,amount,image,type);
+        return controller.createProduct(name, price, ownerId, date, amount, image, type);
     }
 
-    public boolean addProductToFavorite(RoutingContext ctx){
-        try{
-            int userId = ctx.getBodyAsJson().getInteger("userId"); // <----
-            int productId = ctx.getBodyAsJson().getInteger("productId");
-            String productType = ctx.getBodyAsJson().getString("productType");
-            return controller.addProductToFavorite(userId, productId, productType);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-        return false;
+    public boolean addProductToFavorite(RoutingContext ctx) {
+        int userId = ctx.getBodyAsJson().getInteger("userId"); // <----
+        int productId = ctx.getBodyAsJson().getInteger("productId");
+        String productType = ctx.getBodyAsJson().getString("productType");
+        return controller.addProductToFavorite(userId, productId, productType);
     }
 
+    public Boolean addProductToBasket(RoutingContext ctx) {
+        int userId = ctx.getBodyAsJson().getInteger("userId");
+        int productId = ctx.getBodyAsJson().getInteger("productId");
+        String productType = ctx.getBodyAsJson().getString("productType");
+        return controller.addProductToBasket(userId, productId, productType);
+    }
 }

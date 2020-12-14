@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +15,8 @@ public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
     private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_id, address_id) VALUES(?,?,?,?,?,?)";
     private static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type) VALUES(?,?,?)";
-    private static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
+    private static final String SQL_INSERT_BASKET = "insert into BASKETS(user_id, product_id, product_type) VALUES(?,?,?)";
+    public static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
     public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
@@ -57,20 +57,20 @@ public class DatabaseUsersRepository {
         return new User(ownerId, "NYI","NYI","NYI@gmail.com",date ,new Subscription(SubscriptionType.BASIC),new Address("NYI",1337,"NYI"), new Favorite());
     }
 
-    public void addFavorite(int id, List<Product> products) {
-        products.forEach(product -> addFavorite(id, product));
+    public void addToFavorite(int id, List<Product> products) {
+        products.forEach(product -> addProductTo(id, product, SQL_INSERT_FAVORITE));
     }
 
-    public Boolean addFavorite(int userId , Product product) {
+    public Boolean addProductTo(int userId , Product product, String query) {
         try(Connection con = MarsRepository.getConnection();
-            PreparedStatement stmt = con.prepareStatement(SQL_INSERT_FAVORITE) ){
+            PreparedStatement stmt = con.prepareStatement(query) ){
             stmt.setInt(1, userId);
             stmt.setInt(2, product.getProductId());
             stmt.setString(3, product.getType().name().toLowerCase());
             stmt.executeUpdate();
         } catch (SQLException ex) {
-            LOGGER.log(Level.WARNING,"Failed To Add Favorite");
-            throw new ProductException("Failed To Add Favorite", ex);
+            LOGGER.log(Level.WARNING,"Failed To Add Product");
+            throw new ProductException("Failed To Add Product", ex);
         }
         return true;
     }
@@ -97,5 +97,9 @@ public class DatabaseUsersRepository {
         int productId = rs.getInt("product_id");
         String productType = rs.getString("product_type");
         return usersRepository.getById(productId, productType);
+    }
+
+    public Boolean addToBasket(int userId, Product product) {
+        return addProductTo(userId, product, SQL_INSERT_BASKET);
     }
 }

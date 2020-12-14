@@ -80,4 +80,7 @@ public class MarsController {
         return repo.getFavorites(userId);
     }
 
+    public Boolean addProductToBasket(int userId, int productId, String productType) {
+        return repo.addProductToBasket(userId, productId, productType);
+    }
 }

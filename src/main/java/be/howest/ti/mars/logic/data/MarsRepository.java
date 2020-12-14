@@ -1,7 +1,6 @@
 package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.*;
-import be.howest.ti.mars.logic.exceptions.ProductException;
 import org.h2.tools.Server;
 
 import java.io.FileOutputStream;
@@ -11,10 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /*
 MBL: this is only a starter class to use a H2 database.
@@ -99,15 +95,20 @@ public class MarsRepository {
     }
 
     public void addFavoriteToUser(int id, List<Product> products) {
-        databaseUser.addFavorite(id, products);
+        databaseUser.addToFavorite(id, products);
     }
 
     public boolean addProductToFavorite(int userId ,int productId,String productType) {
         Product product = databaseProduct.getById(productId, productType);
-        return databaseUser.addFavorite(userId, product);
+        return databaseUser.addProductTo(userId, product, DatabaseUsersRepository.SQL_SELECT_FAVORITE);
     }
 
     public List<Product> getFavorites(int userId) {
         return databaseUser.getFavorites(userId);
+    }
+
+    public Boolean addProductToBasket(int userId, int productId, String productType) {
+        Product product = databaseProduct.getById(productId, productType);
+        return databaseUser.addToBasket(userId, product);
     }
 }
