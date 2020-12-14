@@ -18,6 +18,7 @@ public class DatabaseUsersRepository {
     private static final String SQL_INSERT_BASKET = "insert into BASKETS(user_id, product_id, product_type) VALUES(?,?,?)";
     private static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
     private static final String SQL_SELECT_BASKET = "select * from baskets where user_id=?";
+    private static final String SQL_REMOVE_FAVORITE = "delete from favorites where user_id=? and product_id=? and product_type=?";
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
     public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
@@ -59,10 +60,10 @@ public class DatabaseUsersRepository {
     }
 
     public void addToFavorite(int id, List<Product> products) {
-        products.forEach(product -> addProductTo(id, product, SQL_INSERT_FAVORITE));
+        products.forEach(product -> updateProductOfUser(id, product, SQL_INSERT_FAVORITE));
     }
 
-    public Boolean addProductTo(int userId , Product product, String query) {
+    public Boolean updateProductOfUser(int userId , Product product, String query) {
         try(Connection con = MarsRepository.getConnection();
             PreparedStatement stmt = con.prepareStatement(query) ){
             System.out.println(product.getProductId());
@@ -88,7 +89,7 @@ public class DatabaseUsersRepository {
     }
 
     public Boolean addToBasket(int userId, Product product) {
-        return addProductTo(userId, product, SQL_INSERT_BASKET);
+        return updateProductOfUser(userId, product, SQL_INSERT_BASKET);
     }
 
     public List<Product> getBasket(int id) {
@@ -111,5 +112,10 @@ public class DatabaseUsersRepository {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new ProductException("Unable to find products");
         }
+    }
+
+    public Boolean removeProductFromFavorite(int userId, Product product) {
+        return updateProductOfUser(userId, product, SQL_REMOVE_FAVORITE);
+
     }
 }
