@@ -15,7 +15,7 @@ public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
     private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_id, address_id) VALUES(?,?,?,?,?,?)";
     private static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type) VALUES(?,?,?)";
-    private static final String SQL_INSERT_BASKET = "insert into BASKET(user_id, product_id, product_type) VALUES(?,?,?)";
+    private static final String SQL_INSERT_BASKET = "insert into BASKETS(user_id, product_id, product_type) VALUES(?,?,?)";
     public static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 

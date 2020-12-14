@@ -220,7 +220,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /addProcuctToBasket:
+  /addProductToBasket:
     post:
       summary: Add a product to your basket
       operationId: addProductToBasket

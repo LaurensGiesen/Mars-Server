@@ -3,17 +3,10 @@ package be.howest.ti.mars.webserver;
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.domain.*;
 import io.vertx.ext.web.RoutingContext;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.time.LocalDate;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
@@ -118,7 +111,6 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         LocalDate newDate = controller.createDate(date);
         int id = controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number, dome));
         controller.addFavoriteToUser(id, products);
-        LOGGER.log(Level.WARNING, String.valueOf(id));
         return true;
     }
 
@@ -135,7 +127,6 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     }
 
     public boolean addProductToFavorite(RoutingContext ctx) {
-
         int userId = ctx.getBodyAsJson().getInteger("userId"); // <----
         int productId = ctx.getBodyAsJson().getInteger("productId");
         String productType = ctx.getBodyAsJson().getString("productType");
@@ -143,14 +134,9 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     }
 
     public Boolean addProductToBasket(RoutingContext ctx) {
-        try {
-            int userId = ctx.getBodyAsJson().getInteger("userId"); // <----
-            int productId = ctx.getBodyAsJson().getInteger("productId");
-            String productType = ctx.getBodyAsJson().getString("productType");
-            return controller.addProductToBasket(userId, productId, productType);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return false;
+        int userId = ctx.getBodyAsJson().getInteger("userId");
+        int productId = ctx.getBodyAsJson().getInteger("productId");
+        String productType = ctx.getBodyAsJson().getString("productType");
+        return controller.addProductToBasket(userId, productId, productType);
     }
 }
