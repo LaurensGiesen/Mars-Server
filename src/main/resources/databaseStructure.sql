@@ -88,9 +88,7 @@ id int auto_increment not null,
 user_id int not null,
 product_id int not null,
 product_type enum('seed', 'plant') not null,
-foreign key (user_id) references users(userid),
-foreign key (product_id) references seeds(id),
-foreign key (product_id) references plants(id)
+foreign key (user_id) references users(userid)
 );
 
 create table favorites(
