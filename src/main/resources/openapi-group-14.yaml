@@ -104,7 +104,7 @@ paths:
             application/json:
               schema:
                 type: string
-  /register:
+  /api/register:
     post:
       summary: create new user
       operationId: createUser
@@ -124,7 +124,7 @@ paths:
           description: Internal Server Error
 
 
-  /getPlants:
+  /api/getPlants:
     get:
       summary: Get all plants
       operationId: getPlants
@@ -142,7 +142,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /getSeeds:
+  /api/getSeeds:
     get:
       summary: Get all Seeds
       operationId: getSeeds
@@ -160,7 +160,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /addProduct:
+  /api/addProduct:
     post:
       summary: Add new product
       operationId: addProduct
@@ -180,7 +180,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /removeProduct:
+  /api/removeProduct:
     delete:
       summary: Remove a product from your basket
       operationId: removeProduct
@@ -201,7 +201,7 @@ paths:
           description: Internal Server Error
 
 
-  /addProductToFavorite:
+  /api/addProductToFavorite:
     post:
       summary: Add a product to your favorits
       operationId: addProductToFavorite
@@ -222,7 +222,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /addProductToBasket:
+  /api/addProductToBasket:
     post:
       summary: Add a product to your basket
       operationId: addProductToBasket
@@ -243,7 +243,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /getFavorites/{userId}:
+  /api/getFavorites/{userId}:
     get:
       summary: Get The favorites Of A User
       operationId: getFavorites
@@ -267,7 +267,7 @@ paths:
           description: Internal Server Error
       
       
-  /getBasket/{userId}:
+  /api/getBasket/{userId}:
     get:
       summary: Get The B Of A User
       operationId: getBasket
@@ -290,7 +290,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /removeProductFromFavorite:
+  /api/removeProductFromFavorite:
     delete:
       summary: Remove a product from your favorits
       operationId: removeProductFromFavorite
@@ -310,7 +310,7 @@ paths:
         '500':
           description: Internal Server Error
 
-  /removeProductFromBasket:
+  /api/removeProductFromBasket:
     delete:
       summary: Remove a product from your basket
       operationId: removeProductFromBasket
