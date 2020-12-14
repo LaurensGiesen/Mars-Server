@@ -159,4 +159,11 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
         return controller.removeProductFromBasket(userId, productId,productType);
     }
+
+    public Boolean removeProduct(RoutingContext ctx) {
+        int userId = ctx.getBodyAsJson().getInteger(USER_ID);
+        int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
+        String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
+        return controller.removeProduct(userId, productId, productType);
+    }
 }

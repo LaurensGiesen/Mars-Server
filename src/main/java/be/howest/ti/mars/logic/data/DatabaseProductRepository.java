@@ -33,6 +33,9 @@ public class DatabaseProductRepository{
     private static final String SQL_FIND_SEED_BY_ID = "select * from seeds where id = ?";
     private static final String SQL_FIND_PLANTS_BY_ID = "select * from plants where id = ?";
 
+    private static final String SQL_REMOVE_SEED = "delete from seeds where id=?";
+    private static final String SQL_REMOVE_PLANT = "delete from plants where id=?";
+
     public int add(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
         if (type == ProductType.PLANT){
             return addProduct(name,price,owner,date1,amount,image, SQL_ADD_PLANT);
@@ -158,6 +161,28 @@ public class DatabaseProductRepository{
             return findProduct(String.valueOf(productId), SQL_FIND_SEED_BY_ID,ProductType.SEED).get(0);
         }else{
             throw new ProductException();
+        }
+    }
+
+    public Boolean removeProduct(Product product) {
+        if (product.getType() == ProductType.PLANT) {
+            return remove(product.getProductId(), SQL_REMOVE_PLANT);
+        }else if(product.getType() == ProductType.SEED) {
+            return remove(product.getProductId(), SQL_REMOVE_SEED);
+        }
+        throw new ProductException("Invalid Product type");
+    }
+
+    public Boolean remove(int userId, String query){
+        try (Connection con = MarsRepository.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)
+        ) {
+            stmt.setInt(1, userId);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new ProductException("Unable to find products");
         }
     }
 }
