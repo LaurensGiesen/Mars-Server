@@ -5,8 +5,6 @@ import be.howest.ti.mars.logic.exceptions.ProductException;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
