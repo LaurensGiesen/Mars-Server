@@ -83,4 +83,8 @@ public class MarsController {
     public Boolean addProductToBasket(int userId, int productId, String productType) {
         return repo.addProductToBasket(userId, productId, productType);
     }
+
+    public List<Product> getBasket(int id) {
+        return repo.getBasket(id);
+    }
 }
