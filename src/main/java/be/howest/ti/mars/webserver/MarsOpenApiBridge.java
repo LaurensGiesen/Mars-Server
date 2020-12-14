@@ -13,6 +13,10 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     private final MarsController controller;
     private static final Logger LOGGER = Logger.getLogger(MarsOpenApiBridge.class.getName());
 
+    private static final String USER_ID = "userId";
+    private static final String PRODUCT_ID = "productId";
+    private static final String PRODUCT_TYPE = "productType";
+
     MarsOpenApiBridge() {
         this.controller = new MarsController();
     }
@@ -59,7 +63,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
 
     @Override
     public List<Product> getBasket(RoutingContext ctx) {
-        int userId = Integer.parseInt(ctx.request().getParam("userId"));
+        int userId = Integer.parseInt(ctx.request().getParam(USER_ID));
         return controller.getBasket(userId);
 
     }
@@ -73,7 +77,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     @Override
     public List<Product> getFavorites(RoutingContext ctx) {
         LOGGER.info("getFavorites");
-        int userId = Integer.parseInt(ctx.request().getParam("userId"));
+        int userId = Integer.parseInt(ctx.request().getParam(USER_ID));
         return controller.getFavorites(userId);
     }
 
@@ -128,24 +132,31 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     }
 
     public boolean addProductToFavorite(RoutingContext ctx) {
-        int userId = ctx.getBodyAsJson().getInteger("userId"); // <----
-        int productId = ctx.getBodyAsJson().getInteger("productId");
-        String productType = ctx.getBodyAsJson().getString("productType");
+        int userId = ctx.getBodyAsJson().getInteger(USER_ID); // <----
+        int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
+        String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
         return controller.addProductToFavorite(userId, productId, productType);
     }
 
     public Boolean addProductToBasket(RoutingContext ctx) {
-        int userId = ctx.getBodyAsJson().getInteger("userId");
-        int productId = ctx.getBodyAsJson().getInteger("productId");
-        String productType = ctx.getBodyAsJson().getString("productType");
+        int userId = ctx.getBodyAsJson().getInteger(USER_ID);
+        int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
+        String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
         return controller.addProductToBasket(userId, productId, productType);
     }
 
 
     public Boolean removeProductFromFavorite(RoutingContext ctx) {
-        int userId = ctx.getBodyAsJson().getInteger("userId");
-        int productId = ctx.getBodyAsJson().getInteger("productId");
-        String productType = ctx.getBodyAsJson().getString("productType");
+        int userId = ctx.getBodyAsJson().getInteger(USER_ID);
+        int productId = ctx.getBodyAsJson().getInteger(PRODUCT_TYPE);
+        String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
         return controller.removeProductFromFavorite(userId, productId, productType);
+    }
+
+    public Boolean removeProductFromBasket(RoutingContext ctx) {
+        int userId = ctx.getBodyAsJson().getInteger(USER_ID);
+        int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
+        String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
+        return controller.removeProductFromBasket(userId, productId,productType);
     }
 }

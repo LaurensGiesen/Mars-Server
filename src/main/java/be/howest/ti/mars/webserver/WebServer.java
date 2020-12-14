@@ -1,6 +1,7 @@
 package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
+import be.howest.ti.mars.logic.exceptions.DatabaseException;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -78,10 +79,9 @@ public class WebServer extends AbstractVerticle {
         }
         try {
             createDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (IOException | SQLException ex) {
+            LOGGER.log(Level.SEVERE, "Failed To Load Database");
+            throw new DatabaseException(ex.getMessage());
         }
     }
 
@@ -93,7 +93,7 @@ public class WebServer extends AbstractVerticle {
     private void executeScript(String fileName) throws IOException, SQLException {
         String createDbSql = readFile(fileName);
         try (
-                Connection con = MarsRepository.getInstance().getConnection();
+                Connection con = MarsRepository.getConnection();
                 PreparedStatement stmt = con.prepareStatement(createDbSql)
                 ) {
             stmt.executeUpdate();
@@ -171,6 +171,7 @@ public class WebServer extends AbstractVerticle {
         addRouteWithCtxFunction(factory, "addProductToBasket", bridge::addProductToBasket);
         addRouteWithCtxFunction(factory, "getBasket", bridge::getBasket);
         addRouteWithCtxFunction(factory, "removeProductFromFavorite", bridge::removeProductFromFavorite);
+        addRouteWithCtxFunction(factory, "removeProductFromBasket", bridge::removeProductFromBasket);
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,

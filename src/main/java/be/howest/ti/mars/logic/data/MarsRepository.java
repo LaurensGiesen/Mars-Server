@@ -120,4 +120,9 @@ public class MarsRepository {
         Product product = databaseProduct.getById(productId, productType);
         return databaseUser.removeProductFromFavorite(userId, product);
     }
+
+    public Boolean removeProductFromBasket(int userId, int productId, String productType) {
+        Product product = databaseProduct.getById(productId, productType);
+        return databaseUser.removeProductFromBasket(userId, product);
+    }
 }
