@@ -180,16 +180,18 @@ paths:
         '500':
           description: Internal Server Error
 
-  /product/{productId}:
+  /removeProduct:
     delete:
-      summary: remove a product
+      summary: Remove a product from your basket
       operationId: removeProduct
-      parameters:
-        - name: "productId"
-          in: "path"
-          required: true
-          schema:
-            type: integer
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              items:
+                $ref: "#/components/schemas/ProductType"
+
       responses:
         '200':
           description: OK
