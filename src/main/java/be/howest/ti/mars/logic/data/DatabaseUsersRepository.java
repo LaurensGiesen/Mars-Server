@@ -16,7 +16,7 @@ public class DatabaseUsersRepository {
     private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_id, address_id) VALUES(?,?,?,?,?,?)";
     private static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type) VALUES(?,?,?)";
     private static final String SQL_INSERT_BASKET = "insert into BASKET(user_id, product_id, product_type) VALUES(?,?,?)";
-    private static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
+    public static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
     public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
