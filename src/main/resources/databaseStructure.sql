@@ -1,4 +1,4 @@
-drop table if exists addresses, baskets, favorites, harvests, histories, plants, seeds, subscriptions, users, users_harvests, users_histories;
+drop table if exists addresses, baskets, favorites, harvests, histories, locations, plants, seeds, subscriptions, users, users_harvests, users_histories;
 
 create table subscriptions
 (
@@ -34,15 +34,11 @@ create table users
 
 create table seeds
 (
-    id       int auto_increment not null,
-    name     varchar(255)       not null,
-    price    double             not null,
-    owner_id int                not null,
-    date     nvarchar(255)      not null,
-    amount   int                not null,
-    image    nvarchar(1024),
-    primary key (id),
-    foreign key (owner_id) references users (userid)
+    id    int auto_increment          not null,
+    name  varchar(255)                not null,
+    price double                      not null,
+    type  ENUM ('fruit', 'vegetable') not null,
+    primary key (id)
 );
 
 create table plants

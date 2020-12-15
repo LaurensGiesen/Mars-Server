@@ -1,7 +1,7 @@
 package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.CropTypes;
-import be.howest.ti.mars.logic.exceptions.ProductException;
+import be.howest.ti.mars.logic.exceptions.CropTypeException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,8 +37,7 @@ public class DatabaseMapRepository {
             return cropTypes;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new ProductException("Unable to get crop types");
-            //TODO new exception
+            throw new CropTypeException("Unable to get crop types");
         }
     }
 }
