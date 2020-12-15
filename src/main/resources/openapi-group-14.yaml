@@ -219,7 +219,7 @@ paths:
           description: Internal Server Error
 
   /api/removeProduct:
-    delete:
+    post:
       summary: Remove a product from your basket
       operationId: removeProduct
       requestBody:
@@ -329,7 +329,7 @@ paths:
           description: Internal Server Error
 
   /api/removeProductFromFavorite:
-    delete:
+    post:
       summary: Remove a product from your favorits
       operationId: removeProductFromFavorite
       requestBody:
@@ -349,7 +349,7 @@ paths:
           description: Internal Server Error
 
   /api/removeProductFromBasket:
-    delete:
+    post:
       summary: Remove a product from your basket
       operationId: removeProductFromBasket
       requestBody:
