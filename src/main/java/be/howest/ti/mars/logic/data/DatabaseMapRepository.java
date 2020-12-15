@@ -22,10 +22,10 @@ public class DatabaseMapRepository {
     public static CropTypes resultSetToCropType(ResultSet rs) throws SQLException {
         int lng = rs.getInt("longitude");
         int lat = rs.getInt("latitude");
-        int cropID = rs.getInt("crop_id");
+        String cropName = rs.getString("name");
         String cropType = rs.getString("type");
 
-        return new CropTypes(lng, lat, cropID, cropType);
+        return new CropTypes(lng, lat, cropName, cropType);
     }
 
     public static List<CropTypes> getCropsWhereNameIsLike(String partOfName) {
