@@ -157,7 +157,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         int userId = ctx.getBodyAsJson().getInteger(USER_ID);
         int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
-        return controller.removeProductFromBasket(userId, productId,productType);
+        return controller.removeProductFromBasket(userId, productId, productType);
     }
 
     public Boolean removeProduct(RoutingContext ctx) {
@@ -165,5 +165,11 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
         return controller.removeProduct(userId, productId, productType);
+    }
+
+    @Override
+    public Object getCropTypes(RoutingContext ctx) {
+        LOGGER.info("getCropTypes");
+        return controller.getAllCrops();
     }
 }

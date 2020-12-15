@@ -29,6 +29,7 @@ public interface MarsOpenApiBridgeInterface {
 
     Boolean createUser(RoutingContext ctx);
 
+    Object getCropTypes(RoutingContext ctx);
 
 
 }
