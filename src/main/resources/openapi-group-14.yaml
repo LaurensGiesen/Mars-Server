@@ -174,24 +174,6 @@ paths:
         '500':
           description: Internal Server Error
 
-  /api/getSeeds/{name}:
-    get:
-      summary: Get all Seeds by part of name
-      operationId: getSeedsLikeName
-      responses:
-        '200':
-          description: OK
-          content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
-        '401':
-          description: Absent or mallformed authentication
-        '500':
-          description: Internal Server Error
-
   /api/addProduct:
     post:
       summary: Add new product
@@ -365,62 +347,16 @@ paths:
   /api/getLocations:
     get:
       summary: Get all locations
-      operationId: getLocation
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              items:
-                $ref: "#/components/schemas/location"
-
+      operationId: getLocations
       responses:
         '200':
           description: OK
+          content:
+            text/plain:
+              schema:
+                items:
+                  $ref: "#/components/schemas/location"
         '401':
           description: Invalid Authentication
         '500':
           description: Internal Server Error
-
-  /api/getLocations/{prodcut_id}:
-    get:
-      summary: Get all locations for specific crop id
-      operationId: getLocationByCropId
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              items:
-                $ref: "#/components/schemas/location"
-
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Invalid Authentication
-        '500':
-          description: Internal Server Error
-
-  /api/getLocations/{longitude}/{latitude}:
-    get:
-      summary: Get all crop for specific location
-      operationId: getLocationByCropId
-      requestBody:
-        required: true
-        content:
-          text/plain:
-            schema:
-              items:
-                $ref: "#/components/schemas/location"
-
-      responses:
-        '200':
-          description: OK
-        '401':
-          description: Invalid Authentication
-        '500':
-          description: Internal Server Error
-  
-
-

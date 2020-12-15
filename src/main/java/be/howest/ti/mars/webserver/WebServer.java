@@ -173,7 +173,7 @@ public class WebServer extends AbstractVerticle {
         addRouteWithCtxFunction(factory, "removeProductFromFavorite", bridge::removeProductFromFavorite);
         addRouteWithCtxFunction(factory, "removeProductFromBasket", bridge::removeProductFromBasket);
         addRouteWithCtxFunction(factory, "removeProduct", bridge::removeProduct);
-        addRouteWithCtxFunction(factory, "getCropTypes", bridge::getCropTypes);
+        addRouteWithCtxFunction(factory, "getLocations", bridge::getCropTypes);
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,
