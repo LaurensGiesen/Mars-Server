@@ -18,4 +18,7 @@ class MarsControllerTest {
         //Assert
         assertTrue(StringUtils.isNoneBlank(message));
     }
+
+
+
 }

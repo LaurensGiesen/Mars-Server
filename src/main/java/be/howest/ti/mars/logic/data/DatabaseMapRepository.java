@@ -34,12 +34,13 @@ public class DatabaseMapRepository {
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_CROPS_WHERE_NAME_IS_LIKE)
              ) {
             stmt.setString(1, "%" + partOfName + "%");
-            ResultSet rs = stmt.executeQuery();
-            List<CropTypes> cropTypes = new ArrayList<>();
-            while (rs.next()) {
-                cropTypes.add(resultSetToCropType(rs));
+            try(ResultSet rs = stmt.executeQuery()){
+                List<CropTypes> cropTypes = new ArrayList<>();
+                while (rs.next()) {
+                    cropTypes.add(resultSetToCropType(rs));
+                }
+                return cropTypes;
             }
-            return cropTypes;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new CropTypeException("Unable to get crop types");

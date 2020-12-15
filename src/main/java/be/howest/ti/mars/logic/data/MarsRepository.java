@@ -1,6 +1,7 @@
 package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.*;
+import be.howest.ti.mars.logic.exceptions.ProductException;
 import be.howest.ti.mars.logic.exceptions.UsersException;
 import org.h2.tools.Server;
 
@@ -12,6 +13,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
 MBL: this is only a starter class to use a H2 database.
@@ -28,6 +31,9 @@ public class MarsRepository {
     private final DatabaseUsersRepository databaseUser = new DatabaseUsersRepository();
     private final DatabaseProductRepository databaseProduct = new DatabaseProductRepository();
     private final DatabaseMapRepository databaseMap = new DatabaseMapRepository();
+
+    private static final Logger LOGGER = Logger.getLogger(DatabaseMapRepository.class.getName());
+
 
     private static final MarsRepository INSTANCE = new MarsRepository();
     private Server dbWebConsole;
@@ -88,7 +94,8 @@ public class MarsRepository {
         try (OutputStream stream = new FileOutputStream("images/" + id + "." + extension)) {
             stream.write(imageBytes);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed To Create Image");
+            throw new ProductException("Failed To Create Image");
         }
     }
 
