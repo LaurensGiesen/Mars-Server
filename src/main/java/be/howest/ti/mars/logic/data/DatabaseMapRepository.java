@@ -16,14 +16,15 @@ public class DatabaseMapRepository {
 
     private static final Logger LOGGER = Logger.getLogger(DatabaseMapRepository.class.getName());
 
-    private static final String SQL_SELECT_ALL_CROP_TYPES = "select l.*, s.name from locations l join seeds s on l.crop_id = s.id";
+    private static final String SQL_SELECT_ALL_CROP_TYPES = "select l.*, s.name, s.type from locations l join seeds s on l.crop_id = s.id";
 
     public static CropTypes resultSetToCropType(ResultSet rs) throws SQLException {
         int lng = rs.getInt("longitude");
         int lat = rs.getInt("latitude");
         int cropID = rs.getInt("crop_id");
+        String cropType = rs.getString("type");
 
-        return new CropTypes(lng, lat, cropID);
+        return new CropTypes(lng, lat, cropID, cropType);
     }
 
     public List<CropTypes> getAllCropTypes() {
