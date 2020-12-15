@@ -35,7 +35,7 @@ public class WebServer extends AbstractVerticle {
     private static final Logger LOGGER = Logger.getLogger(WebServer.class.getName());
     private static final Integer DB_WEB_CONSOLE_FALLBACK = 9000;
     private static final String OPEN_API_SPEC = "openapi-group-14.yaml";
-    private MarsOpenApiBridge bridge;
+    private final MarsOpenApiBridge bridge;
 
     public WebServer(MarsOpenApiBridge bridge) {
         this.bridge = bridge;
@@ -173,6 +173,7 @@ public class WebServer extends AbstractVerticle {
         addRouteWithCtxFunction(factory, "removeProductFromFavorite", bridge::removeProductFromFavorite);
         addRouteWithCtxFunction(factory, "removeProductFromBasket", bridge::removeProductFromBasket);
         addRouteWithCtxFunction(factory, "removeProduct", bridge::removeProduct);
+        addRouteWithCtxFunction(factory, "getLocations", bridge::getCropTypes);
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,
