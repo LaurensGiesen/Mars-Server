@@ -168,7 +168,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     }
 
     @Override
-    public Object getCropTypes(RoutingContext ctx) {
+    public List<CropTypes> getCropTypes(RoutingContext ctx) {
         LOGGER.info("getCropTypes");
         return controller.getAllCrops();
     }
