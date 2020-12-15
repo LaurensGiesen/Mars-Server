@@ -27,6 +27,7 @@ public class MarsRepository {
 
     private final DatabaseUsersRepository databaseUser = new DatabaseUsersRepository();
     private final DatabaseProductRepository databaseProduct = new DatabaseProductRepository();
+    private final DatabaseMapRepository databaseMap = new DatabaseMapRepository();
 
     private static final MarsRepository INSTANCE = new MarsRepository();
     private Server dbWebConsole;
@@ -129,9 +130,14 @@ public class MarsRepository {
 
     public Boolean removeProduct(int userId, int productId, String productType) {
         Product product = databaseProduct.getById(productId, productType);
-        if (product.getOwner().getId() != userId){
+        if (product.getOwner().getId() != userId) {
             throw new UsersException("You Can Not Remove A Product That Is Not Yours");
         }
         return databaseProduct.removeProduct(product);
     }
+
+    public List<CropTypes> getCropTypes() {
+        return databaseMap.getAllCropTypes();
+    }
+
 }
