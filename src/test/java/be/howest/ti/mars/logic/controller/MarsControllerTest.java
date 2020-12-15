@@ -2,7 +2,6 @@ package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.domain.CropTypes;
-import be.howest.ti.mars.logic.domain.Product;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,12 +68,14 @@ class MarsControllerTest {
     void getCropByLocationTest() {
         MarsController marsController = new MarsController();
         List<CropTypes> cropTypes = marsController.getCropByLocation(-2, 3);
-        CropTypes cropTypes1 = new CropTypes(-2, 3, "Apple", "fruit");
-        CropTypes cropTypes2 = new CropTypes(-3, 2, "Apple", "fruit");
-        CropTypes cropTypes3 = new CropTypes(-2, 4, "Asparagus", "vegetable");
+        CropTypes cropTypes1 = new CropTypes(-2, 3, "Apple", "fruit", 6);
+        CropTypes cropTypes2 = new CropTypes(-3, 2, "Apple", "fruit", 5);
+        CropTypes cropTypes3 = new CropTypes(-2, 4, "Asparagus", "vegetable", 9);
+        CropTypes cropTypes4 = new CropTypes(-3, 4, "Apricot", "fruit", 1);
         assertTrue(cropTypes.contains(cropTypes1));
         assertTrue(cropTypes.contains(cropTypes2));
         assertTrue(cropTypes.contains(cropTypes3));
+        assertTrue(cropTypes.contains(cropTypes4));
     }
 
 }

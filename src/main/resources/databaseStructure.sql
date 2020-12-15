@@ -110,10 +110,10 @@ create table favorites
 
 create table locations
 (
-    id        int auto_increment not null,
     longitude int                not null,
     latitude  int                not null,
     crop_id   int                not null,
-    primary key (id),
+    ratio     int                not null,
+    primary key (longitude, latitude),
     foreign key (crop_id) references seeds (id)
 );

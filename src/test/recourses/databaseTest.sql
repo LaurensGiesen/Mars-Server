@@ -110,11 +110,11 @@ create table favorites
 
 create table locations
 (
-    id        int auto_increment not null,
     longitude int                not null,
     latitude  int                not null,
     crop_id   int                not null,
-    primary key (id),
+    ratio     int                not null,
+    primary key (longitude, latitude),
     foreign key (crop_id) references seeds (id)
 );
 
@@ -144,23 +144,23 @@ values ('Broccoli', 4.5, 1);
 insert into seeds(name, price, type)
 values ('Tomato', 3, 1);
 
-insert into locations(longitude, latitude, crop_id)
-values (-1.8567844, 3.213108, 1);
-insert into locations(longitude, latitude, crop_id)
-values (-2.8472767, 2.218816, 1);
-insert into locations(longitude, latitude, crop_id)
-values (-3.8209738, 4.256325, 2);
-insert into locations(longitude, latitude, crop_id)
-values (-5.8690081, 4.256325, 2);
-insert into locations(longitude, latitude, crop_id)
-values (-3.8209738, 4.256325, 2);
-insert into locations(longitude, latitude, crop_id)
-values (-6.9846515, 8.641328, 3);
-insert into locations(longitude, latitude, crop_id)
-values (-1.8522288, 4.203834, 4);
-insert into locations(longitude, latitude, crop_id)
-values (-6.9841382, 4.203834, 4);
-insert into locations(longitude, latitude, crop_id)
-values (-5.0165485, 3.213108, 5);
-insert into locations(longitude, latitude, crop_id)
-values (-9.6548321, 5.659879, 6);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-1.8567844, 3.213108, 1, 6);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-2.8472767, 2.218816, 1, 5);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-3.8209738, 4.256325, 2, 3);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-5.8690081, 4.256325, 2 ,7);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-2.8209758, 4.256925, 2, 1);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-6.9846515, 8.641328, 3, 3);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-1.8522288, 4.203834, 4, 9);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-6.9841382, 4.203834, 4, 2);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-5.0165485, 3.213108, 5, 2);
+insert into locations(longitude, latitude, crop_id, ratio)
+values (-9.6548321, 5.659879, 6, 8);

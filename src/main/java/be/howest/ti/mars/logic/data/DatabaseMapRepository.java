@@ -21,12 +21,12 @@ public class DatabaseMapRepository {
 
 
     public CropTypes resultSetToCropType(ResultSet rs) throws SQLException {
-        int lng = rs.getInt("longitude");
-        int lat = rs.getInt("latitude");
+        double lng = rs.getDouble("longitude");
+        double lat = rs.getDouble("latitude");
         String cropName = rs.getString("name");
         String cropType = rs.getString("type");
-
-        return new CropTypes(lng, lat, cropName, cropType);
+        int ratio = rs.getInt("ratio");
+        return new CropTypes(lng, lat, cropName, cropType, ratio);
     }
 
     public List<CropTypes> getCropsWhereNameIsLike(String partOfName) {

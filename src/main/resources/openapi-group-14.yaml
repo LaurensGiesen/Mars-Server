@@ -20,9 +20,17 @@ components:
         latitude :
           type: number
           example: 1.987654321
-        product_id:
+        cropName:
+          type: string
+          example: Apple
+        cropType;:
+          type: string
+          example: fruit
+        ratio:
           type: number
-          example: 1
+          example: 9
+          minimum: 0
+          maximum: 10
 
 
     ProductType:
