@@ -151,7 +151,7 @@ public class MarsRepository {
         return databaseMap.getCropsWhereNameIsLike(partOfName);
     }
 
-    public CropTypes getCropByLocation(double longitude, double latitude) {
+    public List<CropTypes> getCropByLocation(double longitude, double latitude) {
         return databaseMap.getBestCropOfLocation(longitude, latitude);
     }
 }

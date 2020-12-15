@@ -62,8 +62,8 @@ public class DatabaseMapRepository {
         }
     }
 
-    public CropTypes getBestCropOfLocation(double longitude, double latitude) {
-        return getCropsByLocation(longitude, latitude, 1).get(0);
+    public List<CropTypes> getBestCropOfLocation(double longitude, double latitude) {
+        return getCropsByLocation(longitude, latitude, 1);
     }
 
     public List<CropTypes> getCropsByLocation(double longitude, double latitude, int radius){

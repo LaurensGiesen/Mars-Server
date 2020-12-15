@@ -71,7 +71,7 @@ class MarsControllerTest {
         List<CropTypes> cropTypes = marsController.getCropByLocation(-2, 3);
         CropTypes cropTypes1 = new CropTypes(-2, 3, "Apple", "fruit");
         CropTypes cropTypes2 = new CropTypes(-3, 2, "Apple", "fruit");
-        CropTypes cropTypes3 = new CropTypes(-2, 4, "Apple", "fruit");
+        CropTypes cropTypes3 = new CropTypes(-2, 4, "Asparagus", "vegetable");
         assertTrue(cropTypes.contains(cropTypes1));
         assertTrue(cropTypes.contains(cropTypes2));
         assertTrue(cropTypes.contains(cropTypes3));
