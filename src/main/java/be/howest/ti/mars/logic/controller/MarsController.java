@@ -103,4 +103,8 @@ public class MarsController {
     public List<CropTypes> getCropsWhereNameIsLike(String partOfName) {
         return repo.getCropsWhereNameIsLike(partOfName);
     }
+
+    public CropTypes getCropByLocation(double longitude, double latitude) {
+        return repo.getCropByLocation(longitude, latitude);
+    }
 }

@@ -178,4 +178,10 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         String partOfName = ctx.request().getParam("name");
         return controller.getCropsWhereNameIsLike(partOfName);
     }
+
+    public CropTypes getCropByLocation(RoutingContext ctx) {
+        double longitude = Double.parseDouble(ctx.request().getParam("longitude"));
+        double latitude = Double.parseDouble(ctx.request().getParam("latitude"));
+        return controller.getCropByLocation(longitude,latitude);
+    }
 }
