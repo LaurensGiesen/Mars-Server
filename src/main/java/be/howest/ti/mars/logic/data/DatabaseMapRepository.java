@@ -16,7 +16,7 @@ public class DatabaseMapRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseMapRepository.class.getName());
 
     private static final String SQL_SELECT_ALL_CROP_TYPES = "select l.*, s.name, s.type from locations l join seeds s on l.crop_id = s.id";
-    private static final String SQL_SELECT_CROPS_WHERE_NAME_IS_LIKE = "select l.*, s.name, s.type from locations l join seeds s on l.crop_id = s.id where s.name like ?";
+    private static final String SQL_SELECT_CROPS_WHERE_NAME_IS_LIKE = "select l.*, s.name, s.type from locations l join seeds s on l.crop_id = s.id where lower(s.name) like ?";
     private static final String SQL_SELECT_CROPS_BY_LONG_AND_LAT = "select l.*, s.name, s.type from locations l join seeds s on l.crop_id = s.id where l.longitude >= ? and l.longitude <= ? and l.latitude >= ? and l.latitude <= ?";
 
 
@@ -33,7 +33,7 @@ public class DatabaseMapRepository {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_CROPS_WHERE_NAME_IS_LIKE)
              ) {
-            stmt.setString(1, "%" + partOfName + "%");
+            stmt.setString(1, "%" + partOfName.toLowerCase() + "%");
             try(ResultSet rs = stmt.executeQuery()){
                 List<CropTypes> cropTypes = new ArrayList<>();
                 while (rs.next()) {

@@ -1,5 +1,7 @@
 package be.howest.ti.mars.logic.domain;
 
+import java.util.Objects;
+
 public class CropTypes {
     private final int longitude;
     private final int latitude;
@@ -22,6 +24,19 @@ public class CropTypes {
         this.cropName = cropName;
         this.cropType = cropType;
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CropTypes cropTypes = (CropTypes) o;
+        return longitude == cropTypes.longitude && latitude == cropTypes.latitude && Objects.equals(cropName, cropTypes.cropName) && Objects.equals(cropType, cropTypes.cropType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(longitude, latitude, cropName, cropType);
     }
 
     public int getLongitude() {
