@@ -140,4 +140,7 @@ public class MarsRepository {
         return databaseMap.getAllCropTypes();
     }
 
+    public List<CropTypes> getCropsWhereNameIsLike(String partOfName) {
+        return DatabaseMapRepository.getCropsWhereNameIsLike(partOfName);
+    }
 }

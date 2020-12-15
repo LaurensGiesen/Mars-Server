@@ -99,4 +99,8 @@ public class MarsController {
     public List<CropTypes> getAllCrops() {
         return repo.getCropTypes();
     }
+
+    public List<CropTypes> getCropsWhereNameIsLike(String partOfName) {
+        return repo.getCropsWhereNameIsLike(partOfName);
+    }
 }

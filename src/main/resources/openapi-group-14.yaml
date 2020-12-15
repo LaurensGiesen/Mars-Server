@@ -177,7 +177,7 @@ paths:
   /api/getSeeds/{name}:
     get:
       summary: Get all Seeds by part of name
-      operationId: getSeedsLikeName
+      operationId: getCropsWhereNameIsLike
       parameters:
         - name: "name"
           in: "path"
