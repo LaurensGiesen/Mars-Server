@@ -95,4 +95,8 @@ public class MarsController {
     public Boolean removeProduct(int userId, int productId, String productType) {
         return repo.removeProduct(userId, productId, productType);
     }
+
+    public List<CropTypes> getAllCrops() {
+        return repo.getCropTypes();
+    }
 }
