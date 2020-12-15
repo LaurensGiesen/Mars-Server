@@ -38,6 +38,7 @@ public class DatabaseMapRepository {
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new ProductException("Unable to get crop types");
+            //TODO new exception
         }
     }
 }
