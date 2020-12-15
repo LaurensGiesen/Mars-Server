@@ -8,7 +8,6 @@ insert into plants(name, price,owner_id, date, amount) values('Apple',2,1,DATE '
 insert into plants(name, price,owner_id, date, amount) values('Carrot',3,1,DATE '2052-05-11',15);
 insert into plants(name, price,owner_id, date, amount) values('Banana',1,1,DATE '2052-07-09', 8);
 insert into plants(name, price,owner_id, date, amount) values('Grapes', 3,1, DATE '2052-06-05', 12);
-insert into plants(name, price,owner_id, date, amount) values('Tomato', 4,1, DATE '2052-03-03', 15);
 insert into plants(name, price,owner_id, date, amount) values('Strawberry', 3,1, DATE '2052-02-06', 12);
 
 insert into seeds(name, price, type)
