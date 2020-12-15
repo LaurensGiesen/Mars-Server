@@ -1,4 +1,4 @@
-drop table if exists addresses, baskets, favorites, harvests, histories, plants, seeds, subscriptions, users, users_harvests, users_histories;
+drop table if exists addresses, baskets, favorites, harvests, histories, plants, seeds, subscriptions, users, users_harvests, users_histories, locations;
 
 create table subscriptions(
 id int auto_increment not null,
