@@ -1,6 +1,7 @@
 package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.*;
+import be.howest.ti.mars.logic.exceptions.UsersException;
 import org.h2.tools.Server;
 
 import java.io.FileOutputStream;
@@ -124,5 +125,13 @@ public class MarsRepository {
     public Boolean removeProductFromBasket(int userId, int productId, String productType) {
         Product product = databaseProduct.getById(productId, productType);
         return databaseUser.removeProductFromBasket(userId, product);
+    }
+
+    public Boolean removeProduct(int userId, int productId, String productType) {
+        Product product = databaseProduct.getById(productId, productType);
+        if (product.getOwner().getId() != userId){
+            throw new UsersException("You Can Not Remove A Product That Is Not Yours");
+        }
+        return databaseProduct.removeProduct(product);
     }
 }

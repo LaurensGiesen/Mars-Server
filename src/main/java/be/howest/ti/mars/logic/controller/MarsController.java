@@ -91,4 +91,8 @@ public class MarsController {
     public Boolean removeProductFromBasket(int userId, int productId, String productType) {
         return repo.removeProductFromBasket(userId, productId, productType);
     }
+
+    public Boolean removeProduct(int userId, int productId, String productType) {
+        return repo.removeProduct(userId, productId, productType);
+    }
 }

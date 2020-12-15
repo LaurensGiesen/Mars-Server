@@ -19,6 +19,7 @@ public class DatabaseUsersRepository {
     private static final String SQL_SELECT_BASKET = "select * from baskets where user_id=?";
     private static final String SQL_REMOVE_FAVORITE = "delete from favorites where user_id=? and product_id=? and product_type=?";
     private static final String SQL_REMOVE_BASKET = "delete from baskets where user_id=? and product_id=? and product_type=?";
+
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
     public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
@@ -113,4 +114,5 @@ public class DatabaseUsersRepository {
     public Boolean removeProductFromBasket(int userId, Product product) {
         return updateProductOfUser(userId, product, SQL_REMOVE_BASKET);
     }
+
 }
