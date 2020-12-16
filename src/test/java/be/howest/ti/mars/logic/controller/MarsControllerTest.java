@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -72,6 +74,14 @@ class MarsControllerTest {
         CropTypes cropTypes2 = new CropTypes(-1.8567844, 3.213108, "Apple", "fruit", 6);
         assertTrue(cropTypes.contains(cropTypes1));
         assertTrue(cropTypes.contains(cropTypes2));
+    }
+
+    @Test
+    void updateUserInfoTest(){
+        MarsController marsController = new MarsController();
+        Boolean check = marsController.updateUser("Alice", "Bob", "Alice@Bob.com", LocalDate.of(2000, 1,1), 1);
+        marsController.updateAddress("Foo", 403, "12345", 1);
+        assertTrue(check);
     }
 
 }
