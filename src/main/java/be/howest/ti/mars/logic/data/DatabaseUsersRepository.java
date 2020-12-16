@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
+    private static final String SQL_INSERT_ADDRESS = "insert into addresses(street, number, dome) VALUES(?,?,?)";
     private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_id, address_id) VALUES(?,?,?,?,?,?)";
     public static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type) VALUES(?,?,?)";
     private static final String SQL_INSERT_BASKET = "insert into BASKETS(user_id, product_id, product_type) VALUES(?,?,?)";
@@ -20,9 +21,12 @@ public class DatabaseUsersRepository {
     private static final String SQL_REMOVE_FAVORITE = "delete from favorites where user_id=? and product_id=? and product_type=?";
     private static final String SQL_REMOVE_BASKET = "delete from baskets where user_id=? and product_id=? and product_type=?";
 
+    private static final String SQL_UPDATE_USER = "update users set firstname = ?, lastname = ?, email = ?, date_of_birth = ? where userid = ?";
+    private static final String SQL_UPDATE_ADDRESS = "update addresses set street = ?, number = ?, dome = ? where id = ?";
+
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
-    public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
+    public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, int addressId) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER,
                      Statement.RETURN_GENERATED_KEYS)
@@ -32,7 +36,7 @@ public class DatabaseUsersRepository {
             stmt.setString(3, email);
             stmt.setDate(4, java.sql.Date.valueOf(newDate));
             stmt.setInt(5, subscription.getType().getValue());
-            stmt.setInt(6, address.getId());
+            stmt.setInt(6, addressId);
             stmt.executeUpdate();
 
             try (ResultSet autoId = stmt.getGeneratedKeys()) {
@@ -42,7 +46,7 @@ public class DatabaseUsersRepository {
 
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new UsersException("Unable to add a user");
+            throw new UsersException("Failed to add a user");
         }
     }
 
@@ -115,4 +119,54 @@ public class DatabaseUsersRepository {
         return updateProductOfUser(userId, product, SQL_REMOVE_BASKET);
     }
 
+    public int addAddress(String street, int number, String dome) {
+        try (Connection con = MarsRepository.getConnection();
+             PreparedStatement stmt = con.prepareStatement(SQL_INSERT_ADDRESS,
+                     Statement.RETURN_GENERATED_KEYS)
+        ) {
+            stmt.setString(1, street);
+            stmt.setInt(2, number);
+            stmt.setString(3, dome);
+            stmt.executeUpdate();
+            try (ResultSet autoId = stmt.getGeneratedKeys()) {
+                autoId.next();
+                return autoId.getInt(1);
+            }
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new UsersException("Failed to add a address");
+        }
+    }
+
+    public Boolean updateUser(String firstname, String lastname, String email, LocalDate newDate, int id) {
+        try (Connection con = MarsRepository.getConnection();
+             PreparedStatement stmt = con.prepareStatement(SQL_UPDATE_USER)
+        ) {
+            stmt.setString(1, firstname);
+            stmt.setString(2, lastname);
+            stmt.setString(3, email);
+            stmt.setDate(4, java.sql.Date.valueOf(newDate));
+            stmt.setInt(5, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new UsersException("Failed to update user info");
+        }
+    }
+
+    public void updateAddress(String street, int number, String dome, int id) {
+        try (Connection con = MarsRepository.getConnection();
+             PreparedStatement stmt = con.prepareStatement(SQL_UPDATE_ADDRESS)
+        ) {
+            stmt.setString(1, street);
+            stmt.setInt(2, number);
+            stmt.setString(3, dome);
+            stmt.setInt(4, id);
+            stmt.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new UsersException("Failed to update address info");
+        }
+    }
 }
