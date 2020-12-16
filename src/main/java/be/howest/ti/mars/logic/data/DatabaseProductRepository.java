@@ -107,7 +107,7 @@ public class DatabaseProductRepository{
             try (ResultSet rs = stmt.executeQuery()) {
                 List<Product> productsByName = new ArrayList<>();
                 while (rs.next()) {
-                    productsByName.add(DatabaseProductRepository.resultSetToProduct(rs,type));
+                    productsByName.add(resultSetToProduct(rs,type));
                 }
                 return productsByName;
             }
@@ -123,7 +123,7 @@ public class DatabaseProductRepository{
              ResultSet rs = stmt.executeQuery()) {
             List<Product> products = new ArrayList<>();
             while (rs.next()) {
-                products.add(DatabaseProductRepository.resultSetToProduct(rs,type));
+                products.add(resultSetToProduct(rs,type));
             }
             return products;
         } catch (SQLException ex) {
@@ -132,7 +132,7 @@ public class DatabaseProductRepository{
         }
     }
 
-    public static Product resultSetToProduct(ResultSet rs, ProductType type) throws SQLException {
+    public Product resultSetToProduct(ResultSet rs, ProductType type) throws SQLException {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         double price = rs.getDouble("price");
@@ -144,7 +144,7 @@ public class DatabaseProductRepository{
         return new Product(id, name, price, owner, date, amount, image, type);
     }
 
-    private static String getImage(int id) {
+    private String getImage(int id) {
         try{
             byte[] fileContent = FileUtils.readFileToByteArray(new File("images/" + id + ".png"));
             return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);

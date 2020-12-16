@@ -20,9 +20,17 @@ components:
         latitude :
           type: number
           example: 1.987654321
-        product_id:
+        cropName:
+          type: string
+          example: Apple
+        cropType;:
+          type: string
+          example: fruit
+        ratio:
           type: number
-          example: 1
+          example: 9
+          minimum: 0
+          maximum: 10
 
 
     ProductType:
@@ -174,16 +182,16 @@ paths:
         '500':
           description: Internal Server Error
 
-  /api/getSeeds/{name}:
+  /api/getCrop/{name}:
     get:
       summary: Get all Seeds by part of name
-      operationId: getSeedsLikeName
+      operationId: getCropsWhereNameIsLike
       parameters:
         - name: "name"
           in: "path"
           required: true
           schema:
-            type: name
+            type: string
       responses:
         '200':
           description: OK
@@ -408,10 +416,10 @@ paths:
         '500':
           description: Internal Server Error
 
-  /api/getLocations/{longitude}/{latitude}:
+  /api/getCrop/{longitude}/{latitude}:
     get:
       summary: Get all crop for specific location
-      operationId: getLocationByLocation
+      operationId: getCropByLocation
       parameters:
         - name: "longitude"
           in: "path"

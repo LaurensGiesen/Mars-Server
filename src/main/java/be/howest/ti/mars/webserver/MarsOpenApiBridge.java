@@ -3,6 +3,7 @@ package be.howest.ti.mars.webserver;
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.domain.*;
 import io.vertx.ext.web.RoutingContext;
+
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -171,5 +172,16 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     public List<CropTypes> getCropTypes(RoutingContext ctx) {
         LOGGER.info("getCropTypes");
         return controller.getAllCrops();
+    }
+
+    public List<CropTypes> getCropsWhereNameIsLike(RoutingContext ctx) {
+        String partOfName = ctx.request().getParam("name");
+        return controller.getCropsWhereNameIsLike(partOfName);
+    }
+
+    public List<CropTypes> getCropByLocation(RoutingContext ctx) {
+        double longitude = Double.parseDouble(ctx.request().getParam("longitude"));
+        double latitude = Double.parseDouble(ctx.request().getParam("latitude"));
+        return controller.getCropByLocation(longitude,latitude);
     }
 }

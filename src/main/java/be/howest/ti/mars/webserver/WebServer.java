@@ -80,6 +80,7 @@ public class WebServer extends AbstractVerticle {
         try {
             createDatabase();
         } catch (IOException | SQLException ex) {
+            ex.printStackTrace();
             LOGGER.log(Level.SEVERE, "Failed To Load Database");
             throw new DatabaseException(ex.getMessage());
         }
@@ -174,6 +175,8 @@ public class WebServer extends AbstractVerticle {
         addRouteWithCtxFunction(factory, "removeProductFromBasket", bridge::removeProductFromBasket);
         addRouteWithCtxFunction(factory, "removeProduct", bridge::removeProduct);
         addRouteWithCtxFunction(factory, "getLocations", bridge::getCropTypes);
+        addRouteWithCtxFunction(factory, "getCropsWhereNameIsLike", bridge::getCropsWhereNameIsLike);
+        addRouteWithCtxFunction(factory, "getCropByLocation", bridge::getCropByLocation);
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,
