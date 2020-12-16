@@ -204,4 +204,9 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         return controller.getUserById(id);
     }
 
+    public Boolean updateSubscription(RoutingContext ctx) {
+        int userId = Integer.parseInt(ctx.request().getParam(USER_ID));
+        int subscriptionId = Integer.parseInt(ctx.request().getParam("subscriptionId"));
+        return controller.updateSubscription(userId, subscriptionId);
+    }
 }

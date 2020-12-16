@@ -123,4 +123,8 @@ public class MarsController {
     public User getUserById(int id) {
         return repo.getUserById(id);
     }
+
+    public Boolean updateSubscription(int userId, int subscriptionId) {
+        return repo.updateSubscription(userId, subscriptionId);
+    }
 }

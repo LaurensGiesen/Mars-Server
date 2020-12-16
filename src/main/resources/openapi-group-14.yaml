@@ -491,17 +491,17 @@ paths:
         '500':
           description: Internal Server Error
 
-  /api/updateSubscription/{user_id}/{subscription_id}:
-    post:
+  /api/updateSubscription/{userId}/{subscriptionId}:
+    get:
       summary: Update subscription
       operationId: updateSubscription
       parameters:
-        - name: "user_id"
+        - name: "userId"
           in: "path"
           required: true
           schema:
             type: number
-        - name: "subscription_id"
+        - name: "subscriptionId"
           in: "path"
           required: true
           schema:

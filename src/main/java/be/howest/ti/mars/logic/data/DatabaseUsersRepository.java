@@ -23,6 +23,7 @@ public class DatabaseUsersRepository {
 
     private static final String SQL_UPDATE_USER = "update users set firstname = ?, lastname = ?, email = ?, date_of_birth = ? where userid = ?";
     private static final String SQL_UPDATE_ADDRESS = "update addresses set street = ?, number = ?, dome = ? where id = ?";
+    private static final String SQL_UPDATE_SUBSCRIPTION = "update users set subscription_id = ? where userid = ?";
 
     private static final String SQL_SELECT_USER_BY_ID = "select * from users u join subscriptions s on s.id = u.subscription_id join addresses a on a.id = u.address_id where userId = ?";
 
@@ -203,6 +204,20 @@ public class DatabaseUsersRepository {
             stmt.setString(3, dome);
             stmt.setInt(4, id);
             stmt.executeUpdate();
+        } catch (SQLException ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new UsersException("Failed to update address info");
+        }
+    }
+
+    public Boolean updateSubscription(int userId, int subscriptionId) {
+        try (Connection con = MarsRepository.getConnection();
+             PreparedStatement stmt = con.prepareStatement(SQL_UPDATE_SUBSCRIPTION)
+        ) {
+            stmt.setInt(1, userId);
+            stmt.setInt(2, subscriptionId);
+            stmt.executeUpdate();
+            return true;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new UsersException("Failed to update address info");
