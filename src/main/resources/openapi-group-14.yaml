@@ -145,7 +145,6 @@ paths:
         '500':
           description: Internal Server Error
 
-
   /api/getPlants:
     get:
       summary: Get all plants
@@ -441,5 +440,30 @@ paths:
                   $ref: "#/components/schemas/location"
         '401':
           description: Invalid Authentication
+        '500':
+          description: Internal Server Error
+
+  /api/updateUser/{user_id}:
+    post:
+      summary: Update user info
+      operationId: updateUser
+      parameters:
+        - name: "user_id"
+          in: "path"
+          required: true
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              items:
+                $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: Ok
+        '401':
+          description: Absent or mallformed authentication
         '500':
           description: Internal Server Error

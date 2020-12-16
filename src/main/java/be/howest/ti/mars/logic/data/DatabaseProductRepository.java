@@ -22,13 +22,13 @@ public class DatabaseProductRepository{
 
     private static final String SQL_SELECT_ALL_PLANT = "select * from plants";
     private static final String SQL_ADD_PLANT = "insert into plants(name, price, owner_id, date, amount, image) values(?,?,?,?,?,?)";
-    private static final String SQL_FIND_PLANT = "select * from plants where name like (?)";
+    private static final String SQL_FIND_PLANT = "select * from plants where lower(name) like lower(?)";
 
     private static final String SQL_ADD_SEED = "insert into seeds(name, price, owner_id, date, amount, image) values(?,?,?,?,?,?)";
     private static final String SQL_SELECT_ALL_SEEDS = "select * from seeds";
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT = "select * from seeds where type='fruit'";
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE = "select * from seeds where type='vegetable'";
-    private static final String SQL_FIND_SEED = "select * from seeds where name like (?)";
+    private static final String SQL_FIND_SEED = "select * from seeds where lower(name) like lower(?)";
 
     private static final String SQL_FIND_SEED_BY_ID = "select * from seeds where id = ?";
     private static final String SQL_FIND_PLANTS_BY_ID = "select * from plants where id = ?";

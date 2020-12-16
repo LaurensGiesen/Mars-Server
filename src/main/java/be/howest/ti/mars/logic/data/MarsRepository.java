@@ -99,8 +99,8 @@ public class MarsRepository {
         }
     }
 
-    public int createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
-        return databaseUser.add(firstname, lastname, email, newDate, subscription, address);
+    public int createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, int addressId) {
+        return databaseUser.add(firstname, lastname, email, newDate, subscription, addressId);
     }
 
     public void addFavoriteToUser(int id, List<Product> products) {
@@ -153,5 +153,17 @@ public class MarsRepository {
 
     public List<CropTypes> getCropByLocation(double longitude, double latitude) {
         return databaseMap.getBestCropOfLocation(longitude, latitude);
+    }
+
+    public int addAddress(String street, int number, String dome) {
+        return databaseUser.addAddress(street,number, dome);
+    }
+
+    public Boolean updateUser(String firstname, String lastname, String email, LocalDate newDate, int id) {
+        return databaseUser.updateUser(firstname, lastname, email, newDate, id);
+    }
+
+    public void updateAddress(String street, int number, String dome, int id) {
+        databaseUser.updateAddress(street, number, dome, id);
     }
 }

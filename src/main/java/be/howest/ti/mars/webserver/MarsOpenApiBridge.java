@@ -102,6 +102,9 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
 
     @Override
     public Boolean createUser(RoutingContext ctx) {
+        try {
+
+
         LOGGER.info("createUser");
         String firstname = ctx.getBodyAsJson().getString("firstname");
         String lastname = ctx.getBodyAsJson().getString("lastname");
@@ -115,9 +118,14 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         Product crop3 = controller.getSeedByName(ctx.getBodyAsJson().getString("crop3"));
         List<Product> products = controller.createFavorites(crop1, crop2, crop3);
         LocalDate newDate = controller.createDate(date);
-        int id = controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.BASIC), new Address(street, number, dome));
+        int addressId = controller.addAddress(street, number, dome);
+        int id = controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.PREMIUM), addressId);
         controller.addFavoriteToUser(id, products);
         return true;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     public boolean addProduct(RoutingContext ctx) {
@@ -184,4 +192,28 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         double latitude = Double.parseDouble(ctx.request().getParam("latitude"));
         return controller.getCropByLocation(longitude,latitude);
     }
+
+    public Boolean updateUser(RoutingContext ctx) {
+        try {
+            String firstname = ctx.getBodyAsJson().getString("firstname");
+            String lastname = ctx.getBodyAsJson().getString("lastname");
+            String email = ctx.getBodyAsJson().getString("email");
+            String date = ctx.getBodyAsJson().getString("birthDay");
+            String street = ctx.getBodyAsJson().getString("address");
+            int number = ctx.getBodyAsJson().getInteger("number");
+            String dome = ctx.getBodyAsJson().getString("dome");
+            int id = Integer.parseInt(ctx.request().getParam("user_id"));
+            LocalDate newDate = controller.createDate(date);
+            controller.updateAddress(street, number, dome, getUserById(id).getAddress().getId());
+            return controller.updateUser(firstname, lastname, email, newDate, id);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return false;
+    }
+
+    public User getUserById(int id){
+        return controller.getUserById(id);
+    }
+
 }

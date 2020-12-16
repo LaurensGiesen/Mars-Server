@@ -60,8 +60,8 @@ public class MarsController {
         return repo.getSeedByName(crop1);
     }
 
-    public int createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, Address address) {
-        return repo.createUser(firstname, lastname, email, newDate, subscription, address);
+    public int createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, int addressId) {
+        return repo.createUser(firstname, lastname, email, newDate, subscription, addressId);
     }
 
     public void addFavoriteToUser(int id, List<Product> products) {
@@ -106,5 +106,21 @@ public class MarsController {
 
     public List<CropTypes> getCropByLocation(double longitude, double latitude) {
         return repo.getCropByLocation(longitude, latitude);
+    }
+
+    public int addAddress(String street, int number, String dome) {
+        return repo.addAddress(street, number,dome);
+    }
+
+    public Boolean updateUser(String firstname, String lastname, String email, LocalDate newDate, int id) {
+        return repo.updateUser(firstname, lastname, email, newDate, id);
+    }
+
+    public void updateAddress(String street, int number, String dome, int id) {
+        repo.updateAddress(street, number, dome, id);
+    }
+
+    public User getUserById(int id) {
+        return repo.getUserById(id);
     }
 }
