@@ -68,14 +68,10 @@ class MarsControllerTest {
     void getCropByLocationTest() {
         MarsController marsController = new MarsController();
         List<CropTypes> cropTypes = marsController.getCropByLocation(-2, 3);
-        CropTypes cropTypes1 = new CropTypes(-2, 3, "Apple", "fruit", 6);
-        CropTypes cropTypes2 = new CropTypes(-3, 2, "Apple", "fruit", 5);
-        CropTypes cropTypes3 = new CropTypes(-2, 4, "Asparagus", "vegetable", 9);
-        CropTypes cropTypes4 = new CropTypes(-3, 4, "Apricot", "fruit", 1);
+        CropTypes cropTypes1 = new CropTypes(-2.8472767, 2.218816, "Apple", "fruit", 5);
+        CropTypes cropTypes2 = new CropTypes(-1.8567844, 3.213108, "Apple", "fruit", 6);
         assertTrue(cropTypes.contains(cropTypes1));
         assertTrue(cropTypes.contains(cropTypes2));
-        assertTrue(cropTypes.contains(cropTypes3));
-        assertTrue(cropTypes.contains(cropTypes4));
     }
 
 }

@@ -110,8 +110,8 @@ create table favorites
 
 create table locations
 (
-    longitude int                not null,
-    latitude  int                not null,
+    longitude double                not null,
+    latitude  double                not null,
     crop_id   int                not null,
     ratio     int                not null,
     primary key (longitude, latitude),
