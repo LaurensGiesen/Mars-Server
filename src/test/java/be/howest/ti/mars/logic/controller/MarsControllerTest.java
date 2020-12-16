@@ -89,7 +89,6 @@ class MarsControllerTest {
         User sys = new User(1,"Kurt", "Sys", "Kurt.Sys@hotmail.com", LocalDate.of(2030, 5, 20), new Subscription(SubscriptionType.PREMIUM),new Address(1, "The Moon", 404, "1337"));
         User sys2 = marsController.getUserById(1);
         assertEquals(sys, sys2);
-
     }
 
 
