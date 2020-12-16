@@ -24,7 +24,7 @@ create table users
     firstname       nvarchar(255)      not null,
     lastname        nvarchar(255)      not null,
     email           nvarchar(255)      not null,
-    date_of_birth   nvarchar(255)      not null,
+    date_of_birth   date               not null,
     subscription_id int                not null,
     address_id      int                not null,
     primary key (userid),

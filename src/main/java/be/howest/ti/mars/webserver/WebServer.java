@@ -177,6 +177,7 @@ public class WebServer extends AbstractVerticle {
         addRouteWithCtxFunction(factory, "getCropsWhereNameIsLike", bridge::getCropsWhereNameIsLike);
         addRouteWithCtxFunction(factory, "getCropByLocation", bridge::getCropByLocation);
         addRouteWithCtxFunction(factory, "updateUser", bridge::updateUser);
+        addRouteWithCtxFunction(factory, "getUser", bridge::getUser);
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,

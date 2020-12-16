@@ -6,8 +6,6 @@ import io.vertx.ext.web.RoutingContext;
 import java.util.List;
 
 public interface MarsOpenApiBridgeInterface {
-    Object getUsers(RoutingContext ctx);
-
     Object getSeeds(RoutingContext ctx);
 
     Object getPlants(RoutingContext ctx);

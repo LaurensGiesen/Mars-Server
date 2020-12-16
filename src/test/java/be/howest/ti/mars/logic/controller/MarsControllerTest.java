@@ -1,7 +1,7 @@
 package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
-import be.howest.ti.mars.logic.domain.CropTypes;
+import be.howest.ti.mars.logic.domain.*;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class MarsControllerTest {
 
 
+    MarsController marsController;
     @BeforeAll
     void setup() throws SQLException {
         MarsRepository.configure("jdbc:h2:~/mars-db", "group-14", "t3sfe1k3nUe", 9000);
@@ -33,6 +34,7 @@ class MarsControllerTest {
     @BeforeEach
     void init() throws IOException, SQLException {
         createDatabase();
+        marsController = new MarsController();
     }
 
     private void createDatabase() throws IOException, SQLException {
@@ -68,7 +70,6 @@ class MarsControllerTest {
 
     @Test
     void getCropByLocationTest() {
-        MarsController marsController = new MarsController();
         List<CropTypes> cropTypes = marsController.getCropByLocation(-2, 3);
         CropTypes cropTypes1 = new CropTypes(-2.8472767, 2.218816, "Apple", "fruit", 5);
         CropTypes cropTypes2 = new CropTypes(-1.8567844, 3.213108, "Apple", "fruit", 6);
@@ -78,10 +79,17 @@ class MarsControllerTest {
 
     @Test
     void updateUserInfoTest(){
-        MarsController marsController = new MarsController();
         Boolean check = marsController.updateUser("Alice", "Bob", "Alice@Bob.com", LocalDate.of(2000, 1,1), 1);
         marsController.updateAddress("Foo", 403, "12345", 1);
         assertTrue(check);
     }
+
+    @Test
+    void getUserTest(){
+        User sys = new User(1,"Kurt", "Sys", "Kurt.Sys@hotmail.com", LocalDate.of(2030, 5, 20), new Subscription(SubscriptionType.PREMIUM),new Address(1, "The Moon", 404, "1337"));
+        User sys2 = marsController.getUserById(1);
+        assertEquals(sys, sys2);
+    }
+
 
 }

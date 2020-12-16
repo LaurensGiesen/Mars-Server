@@ -26,10 +26,10 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         return controller.getMessage();
     }
 
-    @Override
-    public List<User> getUsers(RoutingContext ctx) {
+    public User getUser(RoutingContext ctx) {
         LOGGER.info("getUsers");
-        return Collections.emptyList();
+        int id = Integer.parseInt(ctx.request().getParam(USER_ID));
+        return controller.getUserById(id);
     }
 
     @Override
@@ -194,7 +194,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         String street = ctx.getBodyAsJson().getString("address");
         int number = ctx.getBodyAsJson().getInteger("number");
         String dome = ctx.getBodyAsJson().getString("dome");
-        int id = Integer.parseInt(ctx.request().getParam("user_id"));
+        int id = Integer.parseInt(ctx.request().getParam(USER_ID));
         LocalDate newDate = controller.createDate(date);
         controller.updateAddress(street, number, dome, getUserById(id).getAddress().getId());
         return controller.updateUser(firstname, lastname, email, newDate, id);

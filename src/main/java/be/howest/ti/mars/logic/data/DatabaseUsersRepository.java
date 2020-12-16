@@ -24,6 +24,8 @@ public class DatabaseUsersRepository {
     private static final String SQL_UPDATE_USER = "update users set firstname = ?, lastname = ?, email = ?, date_of_birth = ? where userid = ?";
     private static final String SQL_UPDATE_ADDRESS = "update addresses set street = ?, number = ?, dome = ? where id = ?";
 
+    private static final String SQL_SELECT_USER_BY_ID = "select * from users u join subscriptions s on s.id = u.subscription_id join addresses a on a.id = u.address_id where userId = ?";
+
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
     public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, int addressId) {
@@ -50,32 +52,69 @@ public class DatabaseUsersRepository {
         }
     }
 
-    public User getById(int ownerId) {
-        LOGGER.log(Level.WARNING, "NYI");
-        LocalDate date = LocalDate.now();
-        return new User(ownerId, "NYI","NYI","NYI@gmail.com",date ,new Subscription(SubscriptionType.BASIC),new Address("NYI",1337,"NYI"), new Favorite());
+    public User getById(int userId) {
+        try (Connection con = MarsRepository.getConnection();
+             PreparedStatement stmt = con.prepareStatement(SQL_SELECT_USER_BY_ID)) {
+            stmt.setInt(1, userId);
+            User user;
+            try (ResultSet rs = stmt.executeQuery()) {
+                rs.next();
+                user = resultSetToUser(rs);
+            }
+            return user;
+        } catch (SQLException ex) {
+            LOGGER.log(Level.WARNING, "Failed To Get User");
+            throw new ProductException("Failed To Get User", ex);
+        }
+    }
+
+    private User resultSetToUser(ResultSet rs) throws SQLException {
+        int id = rs.getInt("userId");
+        String firstname = rs.getString("firstName");
+        String lastName = rs.getString("lastName");
+        String email = rs.getString("email");
+        LocalDate date = rs.getDate("date_of_birth").toLocalDate();
+        String name = rs.getString("name");
+        String street = rs.getString("street");
+        int number = rs.getInt("number");
+        String dome = rs.getString("dome");
+        Address address = new Address(street, number, dome);
+        SubscriptionType type = getSubscriptionType(name);
+        Subscription subscription = new Subscription(type);
+        return new User(id, firstname, lastName, email, date, subscription, address);
+    }
+
+    private SubscriptionType getSubscriptionType(String name) {
+        if (SubscriptionType.FREE.name().equalsIgnoreCase(name)) {
+            return SubscriptionType.FREE;
+        } else if (SubscriptionType.BASIC.name().equalsIgnoreCase(name)) {
+            return SubscriptionType.BASIC;
+        } else if (SubscriptionType.PREMIUM.name().equalsIgnoreCase(name)) {
+            return SubscriptionType.PREMIUM;
+        }
+        return null;
     }
 
     public void addToFavorite(int id, List<Product> products) {
         products.forEach(product -> updateProductOfUser(id, product, SQL_INSERT_FAVORITE));
     }
 
-    public Boolean updateProductOfUser(int userId , Product product, String query) {
-        try(Connection con = MarsRepository.getConnection();
-            PreparedStatement stmt = con.prepareStatement(query) ){
+    public Boolean updateProductOfUser(int userId, Product product, String query) {
+        try (Connection con = MarsRepository.getConnection();
+             PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, userId);
             stmt.setInt(2, product.getProductId());
             stmt.setString(3, product.getType().name().toLowerCase());
             stmt.executeUpdate();
+            return true;
         } catch (SQLException ex) {
-            LOGGER.log(Level.WARNING,"Failed To Add Product");
+            LOGGER.log(Level.WARNING, "Failed To Add Product");
             throw new ProductException("Failed To Add Product", ex);
         }
-        return true;
     }
 
     public List<Product> getFavorites(int userId) {
-        return getProductsByUserId(userId ,SQL_SELECT_FAVORITE);
+        return getProductsByUserId(userId, SQL_SELECT_FAVORITE);
     }
 
     private Product resultSetToFavorites(ResultSet rs) throws SQLException {

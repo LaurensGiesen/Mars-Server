@@ -443,12 +443,12 @@ paths:
         '500':
           description: Internal Server Error
 
-  /api/updateUser/{user_id}:
+  /api/updateUser/{userId}:
     post:
       summary: Update user info
       operationId: updateUser
       parameters:
-        - name: "user_id"
+        - name: "userId"
           in: "path"
           required: true
           schema:
@@ -463,6 +463,29 @@ paths:
       responses:
         '200':
           description: Ok
+        '401':
+          description: Absent or mallformed authentication
+        '500':
+          description: Internal Server Error
+
+  /api/getUser/{userId}:
+    get:
+      summary: get info of user
+      operationId: getUser
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                items:
+                  $ref: "#/components/schemas/User"
         '401':
           description: Absent or mallformed authentication
         '500':
