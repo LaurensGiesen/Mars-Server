@@ -80,7 +80,6 @@ public class WebServer extends AbstractVerticle {
         try {
             createDatabase();
         } catch (IOException | SQLException ex) {
-            ex.printStackTrace();
             LOGGER.log(Level.SEVERE, "Failed To Load Database");
             throw new DatabaseException(ex.getMessage());
         }

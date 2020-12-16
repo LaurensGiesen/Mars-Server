@@ -133,6 +133,16 @@ public class DatabaseProductRepository{
     }
 
     public Product resultSetToProduct(ResultSet rs, ProductType type) throws SQLException {
+        if(type == ProductType.PLANT){
+            return resultSetToPlant(rs);
+        }else if (type == ProductType.SEED){
+            return resultSetToSeed(rs);
+        }else{
+            throw new ProductException("Invalid ProductType");
+        }
+    }
+
+    private Product resultSetToPlant(ResultSet rs) throws SQLException {
         int id = rs.getInt("id");
         String name = rs.getString("name");
         double price = rs.getDouble("price");
@@ -141,7 +151,14 @@ public class DatabaseProductRepository{
         String image = getImage(id);
         int ownerId = rs.getInt("owner_id");
         User owner = databaseUser.getById(ownerId);
-        return new Product(id, name, price, owner, date, amount, image, type);
+        return new Product(id, name, price, owner, date, amount, image, ProductType.PLANT);
+    }
+
+    private Product resultSetToSeed(ResultSet rs) throws SQLException {
+        int id = rs.getInt("id");
+        String name = rs.getString("name");
+        double price = rs.getDouble("price");
+        return new Product(id, name, price, ProductType.SEED);
     }
 
     private String getImage(int id) {
