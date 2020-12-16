@@ -7,10 +7,12 @@ import java.io.Serializable;
 public class Subscription implements Serializable {
     private SubscriptionType type;
     private double price;
+    private String description;
 
     public Subscription(SubscriptionType type) {
         this.type = type;
         this.price = takePriceFromType(type);
+        this.description = takeDescriptionFromType(type);
     }
 
     private double takePriceFromType(SubscriptionType type) {
@@ -43,5 +45,8 @@ public class Subscription implements Serializable {
         return price;
     }
 
+    public String getDescription() {
+        return description;
+    }
 
 }

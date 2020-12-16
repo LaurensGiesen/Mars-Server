@@ -63,8 +63,9 @@ public class DatabaseUsersRepository {
             }
             return user;
         } catch (SQLException ex) {
-            LOGGER.log(Level.WARNING, "Failed To Add Product");
-            throw new ProductException("Failed To Add Product", ex);
+            ex.printStackTrace();
+            LOGGER.log(Level.WARNING, "Failed To Get User");
+            throw new ProductException("Failed To Get User", ex);
         }
     }
 
