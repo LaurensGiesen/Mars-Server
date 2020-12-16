@@ -467,3 +467,26 @@ paths:
           description: Absent or mallformed authentication
         '500':
           description: Internal Server Error
+
+  /api/updateSubscription/{user_id}/{subscription_id}:
+    post:
+      summary: Update subscription
+      operationId: updateSubscription
+      parameters:
+        - name: "user_id"
+          in: "path"
+          required: true
+          schema:
+            type: number
+        - name: "subscription_id"
+          in: "path"
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: Ok
+        '401':
+          description: Absent or mallformed authentication
+        '500':
+          description: Internal Server Error
