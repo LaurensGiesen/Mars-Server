@@ -95,6 +95,7 @@ create table baskets
     user_id      int                    not null,
     product_id   int                    not null,
     product_type enum ('seed', 'plant') not null,
+    amount       int                    not null,
     foreign key (user_id) references users (userid)
 );
 
