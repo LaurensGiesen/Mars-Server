@@ -166,4 +166,8 @@ public class MarsRepository {
     public void updateAddress(String street, int number, String dome, int id) {
         databaseUser.updateAddress(street, number, dome, id);
     }
+
+    public Boolean updateSubscription(int userId, int subscriptionId) {
+        return databaseUser.updateSubscription(userId, subscriptionId);
+    }
 }
