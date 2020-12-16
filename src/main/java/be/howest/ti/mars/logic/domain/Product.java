@@ -1,6 +1,7 @@
 package be.howest.ti.mars.logic.domain;
 
 
+import javax.validation.constraints.Null;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -23,6 +24,17 @@ public class Product {
         this.amount = amount;
         this.image = image;
         this.type = type;
+    }
+
+    public Product(int productId, String name, double price, ProductType type) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.type = type;
+        this.owner = null;
+        this.amount = -1;
+        this.image = null;
+        this.date = null;
     }
 
     public int getProductId() {
