@@ -2,6 +2,7 @@ package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.CropTypes;
 import be.howest.ti.mars.logic.exceptions.CropTypeException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,9 +33,9 @@ public class DatabaseMapRepository {
     public List<CropTypes> getCropsWhereNameIsLike(String partOfName) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_CROPS_WHERE_NAME_IS_LIKE)
-             ) {
+        ) {
             stmt.setString(1, "%" + partOfName.toLowerCase() + "%");
-            try(ResultSet rs = stmt.executeQuery()){
+            try (ResultSet rs = stmt.executeQuery()) {
                 List<CropTypes> cropTypes = new ArrayList<>();
                 while (rs.next()) {
                     cropTypes.add(resultSetToCropType(rs));
@@ -66,18 +67,19 @@ public class DatabaseMapRepository {
         return getCropsByLocation(longitude, latitude, 1);
     }
 
-    public List<CropTypes> getCropsByLocation(double longitude, double latitude, int radius){
+    public List<CropTypes> getCropsByLocation(double longitude, double latitude, int radius) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_CROPS_BY_LONG_AND_LAT)
         ) {
-            stmt.setDouble(1,  longitude-radius);
-            stmt.setDouble(2,  longitude+radius);
-            stmt.setDouble(3,  latitude-radius);
-            stmt.setDouble(4,  latitude+radius);
-            ResultSet rs = stmt.executeQuery();
+            stmt.setDouble(1, longitude - radius);
+            stmt.setDouble(2, longitude + radius);
+            stmt.setDouble(3, latitude - radius);
+            stmt.setDouble(4, latitude + radius);
             List<CropTypes> cropTypes = new ArrayList<>();
-            while (rs.next()) {
-                cropTypes.add(resultSetToCropType(rs));
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    cropTypes.add(resultSetToCropType(rs));
+                }
             }
             return cropTypes;
         } catch (SQLException ex) {
