@@ -3,7 +3,7 @@ insert  into subscriptions(id, name, price) values(2,'BASIC',10);
 insert  into subscriptions(id, name, price) values(3,'PREMIUM',100);
 
 insert into addresses(id, street, number, dome) values(1, 'The Moon', 404, 1337);
-insert into users(firstname, lastname,email,date_of_birth, subscription_id,address_id) values('Kurt','Sys', 'Kurt.Sys@hotmail.com','20-05-2030',3,1);
+insert into users(firstname, lastname,email,date_of_birth, subscription_id,address_id) values('Kurt','Sys', 'Kurt.Sys@hotmail.com',DATE '2030-05-20',3,1);
 
 insert into plants(name, price,owner_id, date, amount) values('Apple',2,1,DATE '2052-08-20',5);
 insert into plants(name, price,owner_id, date, amount) values('Carrot',3,1,DATE '2052-05-11',15);

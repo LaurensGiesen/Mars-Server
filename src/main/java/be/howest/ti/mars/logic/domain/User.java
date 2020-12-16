@@ -12,26 +12,24 @@ public class User {
     private final ProductCollection harvest;
     private final ProductCollection history;
     private final Basket basket;
-    private final Favorite favorites;
     private final Address address;
 
 
-    public User(int id, String firstName, String lastName, String email, LocalDate dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
+    public User(int id, String firstName, String lastName, String email, LocalDate dateOfBirth, Subscription subscription, Address address) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.subscription = subscription;
-        this.favorites = favorites;
         this.address = address;
         this.harvest = new Harvest();
         this.history = new History();
         this.basket = new Basket();
     }
 
-    public User(String firstName, String lastName, String email, LocalDate dateOfBirth, Subscription subscription, Address address, Favorite favorites) {
-        this(-1, firstName, lastName, email, dateOfBirth, subscription, address, favorites);
+    public User(String firstName, String lastName, String email, LocalDate dateOfBirth, Subscription subscription, Address address) {
+        this(-1, firstName, lastName, email, dateOfBirth, subscription, address);
     }
     
     public int getId() {
@@ -72,10 +70,6 @@ public class User {
 
     public void changeSubscription(Subscription subscription) {
         this.subscription = subscription;
-    }
-
-    public Favorite getFavorites() {
-        return favorites;
     }
 
     public ProductCollection getHarvest() {
