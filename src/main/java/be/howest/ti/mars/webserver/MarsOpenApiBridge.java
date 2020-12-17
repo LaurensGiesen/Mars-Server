@@ -46,24 +46,6 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     }
 
     @Override
-    public List<Product> getHistory(RoutingContext ctx) {
-        LOGGER.info("getHistory");
-        return Collections.emptyList();
-    }
-
-    @Override
-    public List<Subscription> getSubscriptions(RoutingContext ctx) {
-        LOGGER.info("getSubscriptions");
-        return Collections.emptyList();
-    }
-
-    @Override
-    public Map<Tool, Integer> getTools(RoutingContext ctx) {
-        LOGGER.info("getTools");
-        return Collections.emptyMap();
-    }
-
-    @Override
     public List<Product> getBasket(RoutingContext ctx) {
         int userId = Integer.parseInt(ctx.request().getParam(USER_ID));
         return controller.getBasket(userId);
@@ -71,34 +53,10 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     }
 
     @Override
-    public Location getLocation(RoutingContext ctx) {
-        LOGGER.info("getLocation");
-        return null;
-    }
-
-    @Override
     public List<Product> getFavorites(RoutingContext ctx) {
         LOGGER.info("getFavorites");
         int userId = Integer.parseInt(ctx.request().getParam(USER_ID));
         return controller.getFavorites(userId);
-    }
-
-    @Override
-    public Boolean buyProduct(RoutingContext ctx) {
-        LOGGER.info("buyProduct");
-        return true;
-    }
-
-    @Override
-    public Boolean setSubscription(RoutingContext ctx) {
-        LOGGER.info("setSubscription");
-        return true;
-    }
-
-    @Override
-    public Boolean editUser(RoutingContext ctx) {
-        LOGGER.info("editUser");
-        return true;
     }
 
     @Override
@@ -177,32 +135,39 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     @Override
     public List<CropTypes> getCropTypes(RoutingContext ctx) {
         LOGGER.info("getCropTypes");
-        return controller.getAllCrops();
+        int id = Integer.parseInt(ctx.request().getParam(USER_ID));
+        return controller.getAllCrops(id);
     }
 
     public List<CropTypes> getCropsWhereNameIsLike(RoutingContext ctx) {
         String partOfName = ctx.request().getParam("name");
-        return controller.getCropsWhereNameIsLike(partOfName);
+        int id = Integer.parseInt(ctx.request().getParam(USER_ID));
+        return controller.getCropsWhereNameIsLike(partOfName, id);
     }
 
     public List<CropTypes> getCropByLocation(RoutingContext ctx) {
         double longitude = Double.parseDouble(ctx.request().getParam("longitude"));
         double latitude = Double.parseDouble(ctx.request().getParam("latitude"));
-        return controller.getCropByLocation(longitude, latitude);
+        int id = Integer.parseInt(ctx.request().getParam(USER_ID));
+        return controller.getCropByLocation(longitude, latitude, id);
     }
 
     public Boolean updateUser(RoutingContext ctx) {
-        String firstname = ctx.getBodyAsJson().getString("firstname");
-        String lastname = ctx.getBodyAsJson().getString("lastname");
-        String email = ctx.getBodyAsJson().getString("email");
-        String date = ctx.getBodyAsJson().getString("birthDay");
-        String street = ctx.getBodyAsJson().getString("address");
-        int number = ctx.getBodyAsJson().getInteger("number");
-        String dome = ctx.getBodyAsJson().getString("dome");
-        int id = Integer.parseInt(ctx.request().getParam(USER_ID));
-        LocalDate newDate = controller.createDate(date);
-        controller.updateAddress(street, number, dome, getUserById(id).getAddress().getId());
-        return controller.updateUser(firstname, lastname, email, newDate, id);
+        try {
+            String firstname = ctx.getBodyAsJson().getString("firstname");
+            String lastname = ctx.getBodyAsJson().getString("lastname");
+            String email = ctx.getBodyAsJson().getString("email");
+            String date = ctx.getBodyAsJson().getString("birthDay");
+            String street = ctx.getBodyAsJson().getString("address");
+            int number = ctx.getBodyAsJson().getInteger("number");
+            String dome = ctx.getBodyAsJson().getString("dome");
+            int id = Integer.parseInt(ctx.request().getParam(USER_ID));
+            LocalDate newDate = controller.createDate(date);
+            controller.updateAddress(street, number, dome, getUserById(id).getAddress().getId());
+            return controller.updateUser(firstname, lastname, email, newDate, id);
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     public User getUserById(int id) {

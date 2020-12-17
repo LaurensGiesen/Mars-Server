@@ -193,12 +193,17 @@ paths:
         '500':
           description: Internal Server Error
 
-  /api/getCrop/{name}:
+  /api/getCrop/{userId}/{name}:
     get:
       summary: Get all Seeds by part of name
       operationId: getCropsWhereNameIsLike
       parameters:
         - name: "name"
+          in: "path"
+          required: true
+          schema:
+            type: string
+        - name: "userId"
           in: "path"
           required: true
           schema:
@@ -387,33 +392,17 @@ paths:
         '500':
           description: Internal Server Error
 
-  /api/getLocations:
+  /api/getLocations/{userId}:
     get:
       summary: Get all locations
       operationId: getLocations
-      responses:
-        '200':
-          description: OK
-          content:
-            text/plain:
-              schema:
-                items:
-                  $ref: "#/components/schemas/location"
-        '401':
-          description: Invalid Authentication
-        '500':
-          description: Internal Server Error
-
-  /api/getLocations/{product_id}:
-    get:
-      summary: Get all locations for specific crop id
-      operationId: getLocationByCropId
       parameters:
-        - name: "product_id"
+        - name: "userId"
           in: "path"
           required: true
           schema:
             type: integer
+
       responses:
         '200':
           description: OK
@@ -427,11 +416,44 @@ paths:
         '500':
           description: Internal Server Error
 
-  /api/getCrop/{longitude}/{latitude}:
+  /api/getLocations/{userId}/{productId}:
+    get:
+      summary: Get all locations for specific crop id
+      operationId: getLocationByCropId
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: number
+        - name: "productId"
+          in: "path"
+          required: true
+          schema:
+            type: number
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                items:
+                  $ref: "#/components/schemas/location"
+        '401':
+          description: Invalid Authentication
+        '500':
+          description: Internal Server Error
+
+  /api/getCrop/{userId}/{longitude}/{latitude}:
     get:
       summary: Get all crop for specific location
       operationId: getCropByLocation
       parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: number
         - name: "longitude"
           in: "path"
           required: true
