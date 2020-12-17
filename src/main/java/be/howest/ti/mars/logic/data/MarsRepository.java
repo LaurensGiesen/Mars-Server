@@ -147,16 +147,16 @@ public class MarsRepository {
         return databaseProduct.removeProduct(product);
     }
 
-    public List<CropTypes> getCropTypes() {
-        return databaseMap.getAllCropTypes();
+    public List<CropTypes> getCropTypes(SubscriptionType type) {
+        return databaseMap.getAllCropTypes(type);
     }
 
-    public List<CropTypes> getCropsWhereNameIsLike(String partOfName) {
-        return databaseMap.getCropsWhereNameIsLike(partOfName);
+    public List<CropTypes> getCropsWhereNameIsLike(String partOfName, SubscriptionType type) {
+        return databaseMap.getCropsWhereNameIsLike(partOfName, type);
     }
 
-    public List<CropTypes> getCropByLocation(double longitude, double latitude) {
-        return databaseMap.getBestCropOfLocation(longitude, latitude);
+    public List<CropTypes> getCropByLocation(double longitude, double latitude, SubscriptionType type) {
+        return databaseMap.getBestCropOfLocation(longitude, latitude ,type);
     }
 
     public int addAddress(String street, int number, String dome) {
@@ -177,7 +177,7 @@ public class MarsRepository {
 
     public List<Crop> getCropNames() {
         List<Crop> crops = new LinkedList<>();
-        getCropTypes().forEach(cropType -> {
+        getCropTypes(SubscriptionType.PREMIUM).forEach(cropType -> {
             if (!cropsAlreadyInList(crops, cropType)) {
                 crops.add(new Crop(cropType.getCropName(), cropType.getCropType()));
             }

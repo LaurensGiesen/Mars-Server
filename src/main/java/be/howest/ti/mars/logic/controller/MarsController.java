@@ -96,16 +96,16 @@ public class MarsController {
         return repo.removeProduct(userId, productId, productType);
     }
 
-    public List<CropTypes> getAllCrops() {
-        return repo.getCropTypes();
+    public List<CropTypes> getAllCrops(int id) {
+        return repo.getCropTypes(getUserById(id).getSubscription().getType());
     }
 
-    public List<CropTypes> getCropsWhereNameIsLike(String partOfName) {
-        return repo.getCropsWhereNameIsLike(partOfName);
+    public List<CropTypes> getCropsWhereNameIsLike(String partOfName, int id) {
+        return repo.getCropsWhereNameIsLike(partOfName, getUserById(id).getSubscription().getType());
     }
 
-    public List<CropTypes> getCropByLocation(double longitude, double latitude) {
-        return repo.getCropByLocation(longitude, latitude);
+    public List<CropTypes> getCropByLocation(double longitude, double latitude, int id) {
+        return repo.getCropByLocation(longitude, latitude, getUserById(id).getSubscription().getType());
     }
 
     public int addAddress(String street, int number, String dome) {

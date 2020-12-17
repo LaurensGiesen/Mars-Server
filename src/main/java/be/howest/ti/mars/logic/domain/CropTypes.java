@@ -37,12 +37,12 @@ public class CropTypes {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CropTypes cropTypes = (CropTypes) o;
-        return longitude == cropTypes.longitude && latitude == cropTypes.latitude && Objects.equals(cropName, cropTypes.cropName) && Objects.equals(cropType, cropTypes.cropType) && Objects.equals(ratio, cropTypes.ratio);
+        return Double.compare(cropTypes.longitude, longitude) == 0 && Double.compare(cropTypes.latitude, latitude) == 0 && ratio == cropTypes.ratio && Objects.equals(cropName, cropTypes.cropName) && Objects.equals(cropType, cropTypes.cropType);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(longitude, latitude, cropName, cropType,ratio);
+        return Objects.hash(longitude, latitude, cropName, cropType, ratio);
     }
 
     public double getLongitude() {

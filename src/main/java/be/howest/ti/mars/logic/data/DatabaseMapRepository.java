@@ -34,7 +34,7 @@ public class DatabaseMapRepository {
         return new CropTypes(lng, lat, cropName, cropType, ratio);
     }
 
-    public List<CropTypes> getCropsWhereNameIsLike(String partOfName) {
+    public List<CropTypes> getCropsWhereNameIsLike(String partOfName, SubscriptionType type) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_CROPS_WHERE_NAME_IS_LIKE)
         ) {
@@ -44,7 +44,7 @@ public class DatabaseMapRepository {
                 while (rs.next()) {
                     cropTypes.add(resultSetToCropType(rs));
                 }
-                return getCropTypesForUsersSubscription(cropTypes);
+                return getCropTypesForUsersSubscription(cropTypes, type);
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
@@ -52,12 +52,12 @@ public class DatabaseMapRepository {
         }
     }
 
-    private List<CropTypes> getCropTypesForUsersSubscription(List<CropTypes> cropTypes) {
-        if(usersRepository.getById(1).getSubscription().getType() == SubscriptionType.FREE){
+    private List<CropTypes> getCropTypesForUsersSubscription(List<CropTypes> cropTypes, SubscriptionType type) {
+        if(type == SubscriptionType.FREE){
             return filterCropTypes(cropTypes, 0,3);
-        }else if(usersRepository.getById(1).getSubscription().getType() == SubscriptionType.BASIC){
+        }else if(type == SubscriptionType.BASIC){
             return filterCropTypes(cropTypes, 3,7);
-        }else if(usersRepository.getById(1).getSubscription().getType() == SubscriptionType.PREMIUM){
+        }else if(type == SubscriptionType.PREMIUM){
             return cropTypes;
         }
         throw new SubscriptionException("Invalid Subscription");
@@ -73,7 +73,7 @@ public class DatabaseMapRepository {
         return newCropTypes;
     }
 
-    public List<CropTypes> getAllCropTypes() {
+    public List<CropTypes> getAllCropTypes(SubscriptionType type) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_ALL_CROP_TYPES);
              ResultSet rs = stmt.executeQuery()) {
@@ -81,18 +81,18 @@ public class DatabaseMapRepository {
             while (rs.next()) {
                 cropTypes.add(resultSetToCropType(rs));
             }
-            return getCropTypesForUsersSubscription(cropTypes);
+            return getCropTypesForUsersSubscription(cropTypes, type);
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new CropTypeException("Unable to get crop types");
         }
     }
 
-    public List<CropTypes> getBestCropOfLocation(double longitude, double latitude) {
-        return getCropsByLocation(longitude, latitude, 1);
+    public List<CropTypes> getBestCropOfLocation(double longitude, double latitude, SubscriptionType type) {
+        return getCropsByLocation(longitude, latitude, 1, type);
     }
 
-    public List<CropTypes> getCropsByLocation(double longitude, double latitude, int radius) {
+    public List<CropTypes> getCropsByLocation(double longitude, double latitude, int radius, SubscriptionType type) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_SELECT_CROPS_BY_LONG_AND_LAT)
         ) {
@@ -106,7 +106,7 @@ public class DatabaseMapRepository {
                     cropTypes.add(resultSetToCropType(rs));
                 }
             }
-            return getCropTypesForUsersSubscription(cropTypes);
+            return getCropTypesForUsersSubscription(cropTypes, type);
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             throw new CropTypeException("Unable to get crop types");
