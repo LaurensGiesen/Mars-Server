@@ -90,6 +90,8 @@ public class MarsRepository {
     }
 
     private void createImage(String image, int id) {
+        System.out.println("kfjdslmk");
+        System.out.println(image);
         String base64Image = image.split(",")[1];
         String extension = image.split("/")[1].split(";")[0];
         byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);

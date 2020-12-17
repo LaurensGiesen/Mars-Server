@@ -15,7 +15,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -83,6 +82,8 @@ class MarsControllerTest {
         Boolean check = marsController.updateUser("Alice", "Bob", "Alice@Bob.com", LocalDate.of(2000, 1,1), 1);
         marsController.updateAddress("Foo", 403, "12345", 1);
         assertTrue(check);
+        assertEquals(marsController.getUserById(1).getFirstName(), "Alice");
+        assertEquals(marsController.getUserById(1).getAddress().getStreet(), "Foo");
     }
 
     @Test
@@ -109,6 +110,27 @@ class MarsControllerTest {
         crops.add(new Crop("Tomato", "vegetable"));
         List<Crop> crops1 = marsController.getCropNames();
         assertEquals(crops, crops1);
+    }
+
+    @Test
+    void addPlants(){
+        Product product = new Product(1, "Foo", 5.0, marsController.getUserById(1), LocalDate.of(2050, 1,1), 4, "data:image/png;base64,image", ProductType.PLANT);
+        boolean check = marsController.createProduct("Foo", 5.0, 1, "01-01-2020", 4,"data:image/png;base64,imag", "plant");
+        assertTrue(check);
+        assertTrue(marsController.getProduct(ProductType.PLANT).contains(product) );
+    }
+
+    @Test
+    void getPlants(){
+        List<Product> products = new LinkedList<>();
+        Product product = new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT);
+        products.add(product);
+        products.add(new Product(1,"Carrot",2,marsController.getUserById(1),LocalDate.of(2052, 5, 11),15, "",ProductType.PLANT));
+        products.add(new Product(1,"Banana",2,marsController.getUserById(1),LocalDate.of(2052, 7, 9),8, "",ProductType.PLANT));
+        products.add(new Product(1,"Grapes",2,marsController.getUserById(1),LocalDate.of(2052, 7, 6),12, "",ProductType.PLANT));
+        products.add(new Product(1,"Strawberry",2,marsController.getUserById(1),LocalDate.of(2052, 2, 6),12, "",ProductType.PLANT));
+        List<Product> products1 = marsController.getProduct(ProductType.PLANT);
+        assertEquals(products, products1);
     }
 
 }
