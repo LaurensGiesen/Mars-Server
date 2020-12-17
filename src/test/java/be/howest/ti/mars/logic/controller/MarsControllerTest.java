@@ -20,6 +20,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MarsControllerTest {
 
@@ -69,8 +70,8 @@ class MarsControllerTest {
 
     @Test
     void registerTest(){
-        User user = new User(2,"Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM), new Address("Foo", 1,"Test"));
-        marsController.createUser("Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM), 1 );
+        User user = new User(2,"Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM, 100), new Address("Foo", 1,"Test"));
+        marsController.createUser("Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),SubscriptionType.PREMIUM,  1 );
         assertEquals(user, marsController.getUserById(2));
     }
 
@@ -203,7 +204,7 @@ class MarsControllerTest {
 
     @Test
     void getUserTest(){
-        User sys = new User(1,"Kurt", "Sys", "Kurt.Sys@hotmail.com", LocalDate.of(2030, 5, 20), new Subscription(SubscriptionType.PREMIUM),new Address(1, "The Moon", 404, "1337"));
+        User sys = new User(1,"Kurt", "Sys", "Kurt.Sys@hotmail.com", LocalDate.of(2030, 5, 20), new Subscription(SubscriptionType.PREMIUM, 100),new Address(1, "The Moon", 404, "1337"));
         User sys2 = marsController.getUserById(1);
         assertEquals(sys, sys2);
     }

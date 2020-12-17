@@ -86,8 +86,8 @@ public class WebServer extends AbstractVerticle {
     }
 
     private void createDatabase() throws IOException, SQLException {
-        executeScript("src/main/resources/databaseStructure.sql");
-        executeScript("src/main/resources/populateDatabase.sql");
+        executeScript("databaseStructure.sql"); // src/main/resources/
+        executeScript("populateDatabase.sql"); // src/main/resources/
     }
 
     private void executeScript(String fileName) throws IOException, SQLException {

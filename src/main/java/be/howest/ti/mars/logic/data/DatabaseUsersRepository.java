@@ -29,7 +29,7 @@ public class DatabaseUsersRepository {
 
     DatabaseProductRepository usersRepository = new DatabaseProductRepository();
 
-    public int add(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, int addressId) {
+    public int add(String firstname, String lastname, String email, LocalDate newDate, SubscriptionType subscriptionType, int addressId) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_INSERT_USER,
                      Statement.RETURN_GENERATED_KEYS)
@@ -38,7 +38,7 @@ public class DatabaseUsersRepository {
             stmt.setString(2, lastname);
             stmt.setString(3, email);
             stmt.setDate(4, java.sql.Date.valueOf(newDate));
-            stmt.setInt(5, subscription.getType().getValue());
+            stmt.setInt(5, subscriptionType.getValue());
             stmt.setInt(6, addressId);
             stmt.executeUpdate();
 
@@ -49,7 +49,7 @@ public class DatabaseUsersRepository {
 
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new UsersException("Failed to add a user");
+            throw new UserException("Failed to add a user");
         }
     }
 
@@ -65,7 +65,7 @@ public class DatabaseUsersRepository {
             return user;
         } catch (SQLException ex) {
             LOGGER.log(Level.WARNING, "Failed To Get User");
-            throw new ProductException("Failed To Get User", ex);
+            throw new UserException("Failed To Get User", ex);
         }
     }
 
@@ -79,9 +79,10 @@ public class DatabaseUsersRepository {
         String street = rs.getString("street");
         int number = rs.getInt("number");
         String dome = rs.getString("dome");
+        int price = rs.getInt("price");
         Address address = new Address(street, number, dome);
         SubscriptionType type = getSubscriptionType(name);
-        Subscription subscription = new Subscription(type);
+        Subscription subscription = new Subscription(type, price);
         return new User(id, firstname, lastName, email, date, subscription, address);
     }
 
@@ -177,7 +178,7 @@ public class DatabaseUsersRepository {
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new UsersException("Failed to add a address");
+            throw new UserException("Failed to add a address");
         }
     }
 
@@ -194,7 +195,7 @@ public class DatabaseUsersRepository {
             return true;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new UsersException("Failed to update user info");
+            throw new UserException("Failed to update user info");
         }
     }
 
@@ -209,7 +210,7 @@ public class DatabaseUsersRepository {
             stmt.executeUpdate();
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new UsersException("Failed to update address info");
+            throw new UserException("Failed to update address info");
         }
     }
 
@@ -223,7 +224,7 @@ public class DatabaseUsersRepository {
             return true;
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new UsersException("Failed to update address info");
+            throw new UserException("Failed to update address info");
         }
     }
 }
