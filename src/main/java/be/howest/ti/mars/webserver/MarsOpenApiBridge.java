@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
+    private static final String AMOUNT = "amount";
     private final MarsController controller;
     private static final Logger LOGGER = Logger.getLogger(MarsOpenApiBridge.class.getName());
 
@@ -117,7 +118,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         LocalDate newDate = controller.createDate(date);
         int addressId = controller.addAddress(street, number, dome);
         int id = controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.PREMIUM), addressId);
-        controller.addFavoriteToUser(id, products);
+        controller.addFavoriteToUser(id, products, 1);
         return true;
     }
 
@@ -127,7 +128,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         Double price = ctx.getBodyAsJson().getDouble("price");
         int ownerId = ctx.getBodyAsJson().getInteger("ownerId");
         String date = ctx.getBodyAsJson().getString("date");
-        int amount = ctx.getBodyAsJson().getInteger("amount");
+        int amount = ctx.getBodyAsJson().getInteger(AMOUNT);
         String image = ctx.getBodyAsJson().getString("image");
         String type = ctx.getBodyAsJson().getString("type");
         return controller.createProduct(name, price, ownerId, date, amount, image, type);
@@ -137,14 +138,16 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         int userId = ctx.getBodyAsJson().getInteger(USER_ID); // <----
         int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
-        return controller.addProductToFavorite(userId, productId, productType);
+        int amount = ctx.getBodyAsJson().getInteger(AMOUNT);
+        return controller.addProductToFavorite(userId, productId, productType, amount);
     }
 
     public Boolean addProductToBasket(RoutingContext ctx) {
         int userId = ctx.getBodyAsJson().getInteger(USER_ID);
         int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
-        return controller.addProductToBasket(userId, productId, productType);
+        int amount = ctx.getBodyAsJson().getInteger(AMOUNT);
+        return controller.addProductToBasket(userId, productId, productType, amount);
     }
 
 
@@ -152,14 +155,16 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         int userId = ctx.getBodyAsJson().getInteger(USER_ID);
         int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
-        return controller.removeProductFromFavorite(userId, productId, productType);
+        int amount = ctx.getBodyAsJson().getInteger(AMOUNT);
+        return controller.removeProductFromFavorite(userId, productId, productType, amount);
     }
 
     public Boolean removeProductFromBasket(RoutingContext ctx) {
         int userId = ctx.getBodyAsJson().getInteger(USER_ID);
         int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
-        return controller.removeProductFromBasket(userId, productId, productType);
+        int amount = ctx.getBodyAsJson().getInteger(AMOUNT);
+        return controller.removeProductFromBasket(userId, productId, productType, amount);
     }
 
     public Boolean removeProduct(RoutingContext ctx) {

@@ -107,36 +107,36 @@ public class MarsRepository {
         return databaseUser.add(firstname, lastname, email, newDate, subscription, addressId);
     }
 
-    public void addFavoriteToUser(int id, List<Product> products) {
-        databaseUser.addToFavorite(id, products);
+    public void addFavoriteToUser(int id, List<Product> products, int amount) {
+        databaseUser.addToFavorite(id, products, amount);
     }
 
-    public boolean addProductToFavorite(int userId, int productId, String productType) {
+    public boolean addProductToFavorite(int userId, int productId, String productType, int amount) {
         Product product = databaseProduct.getById(productId, productType);
-        return databaseUser.updateProductOfUser(userId, product, DatabaseUsersRepository.SQL_INSERT_FAVORITE);
+        return databaseUser.updateProductOfUser(userId, product, amount, DatabaseUsersRepository.SQL_INSERT_FAVORITE);
     }
 
     public List<Product> getFavorites(int userId) {
         return databaseUser.getFavorites(userId);
     }
 
-    public Boolean addProductToBasket(int userId, int productId, String productType) {
+    public Boolean addProductToBasket(int userId, int productId, String productType, int amount) {
         Product product = databaseProduct.getById(productId, productType);
-        return databaseUser.addToBasket(userId, product);
+        return databaseUser.addToBasket(userId, product, amount);
     }
 
     public List<Product> getBasket(int id) {
         return databaseUser.getBasket(id);
     }
 
-    public Boolean removeProductFromFavorite(int userId, int productId, String productType) {
+    public Boolean removeProductFromFavorite(int userId, int productId, String productType, int amount) {
         Product product = databaseProduct.getById(productId, productType);
-        return databaseUser.removeProductFromFavorite(userId, product);
+        return databaseUser.removeProductFromFavorite(userId, product, amount);
     }
 
-    public Boolean removeProductFromBasket(int userId, int productId, String productType) {
+    public Boolean removeProductFromBasket(int userId, int productId, String productType, int amount) {
         Product product = databaseProduct.getById(productId, productType);
-        return databaseUser.removeProductFromBasket(userId, product);
+        return databaseUser.removeProductFromBasket(userId, product, amount);
     }
 
     public Boolean removeProduct(int userId, int productId, String productType) {

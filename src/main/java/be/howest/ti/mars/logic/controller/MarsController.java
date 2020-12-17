@@ -64,32 +64,32 @@ public class MarsController {
         return repo.createUser(firstname, lastname, email, newDate, subscription, addressId);
     }
 
-    public void addFavoriteToUser(int id, List<Product> products) {
-        repo.addFavoriteToUser(id, products);
+    public void addFavoriteToUser(int id, List<Product> products, int amount) {
+        repo.addFavoriteToUser(id, products, amount);
     }
 
-    public boolean addProductToFavorite(int userId, int productId, String productType) {
-        return repo.addProductToFavorite(userId, productId, productType);
+    public boolean addProductToFavorite(int userId, int productId, String productType, int amount) {
+        return repo.addProductToFavorite(userId, productId, productType, amount);
     }
 
     public List<Product> getFavorites(int userId) {
         return repo.getFavorites(userId);
     }
 
-    public Boolean addProductToBasket(int userId, int productId, String productType) {
-        return repo.addProductToBasket(userId, productId, productType);
+    public Boolean addProductToBasket(int userId, int productId, String productType, int amount) {
+        return repo.addProductToBasket(userId, productId, productType, amount);
     }
 
     public List<Product> getBasket(int id) {
         return repo.getBasket(id);
     }
 
-    public Boolean removeProductFromFavorite(int userId, int productId, String productType) {
-        return repo.removeProductFromFavorite(userId, productId, productType);
+    public Boolean removeProductFromFavorite(int userId, int productId, String productType, int amount) {
+        return repo.removeProductFromFavorite(userId, productId, productType, amount);
     }
 
-    public Boolean removeProductFromBasket(int userId, int productId, String productType) {
-        return repo.removeProductFromBasket(userId, productId, productType);
+    public Boolean removeProductFromBasket(int userId, int productId, String productType, int amount) {
+        return repo.removeProductFromBasket(userId, productId, productType, amount);
     }
 
     public Boolean removeProduct(int userId, int productId, String productType) {

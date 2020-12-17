@@ -95,8 +95,8 @@ class MarsControllerTest {
 
     @Test
     void changeSubscriptionTest(){
-        marsController.updateSubscription(1, 1);
-        assertEquals(SubscriptionType.FREE, marsController.getUserById(1).getSubscription().getType());
+        marsController.updateSubscription(1, 2);
+        assertEquals(SubscriptionType.BASIC, marsController.getUserById(1).getSubscription().getType());
     }
 
     @Test
