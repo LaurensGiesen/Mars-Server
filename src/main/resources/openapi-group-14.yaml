@@ -56,6 +56,9 @@ components:
           enum: ["seed", "plant"]
           default: "plant"
           example: "plant"
+        amount:
+          type: integer
+          example: 5
 
     User:
       type: object

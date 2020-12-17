@@ -117,7 +117,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         LocalDate newDate = controller.createDate(date);
         int addressId = controller.addAddress(street, number, dome);
         int id = controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.PREMIUM), addressId);
-        controller.addFavoriteToUser(id, products);
+        controller.addFavoriteToUser(id, products, 1);
         return true;
     }
 
@@ -134,17 +134,24 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     }
 
     public boolean addProductToFavorite(RoutingContext ctx) {
-        int userId = ctx.getBodyAsJson().getInteger(USER_ID); // <----
-        int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
-        String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
-        return controller.addProductToFavorite(userId, productId, productType);
+        try {
+            int userId = ctx.getBodyAsJson().getInteger(USER_ID); // <----
+            int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
+            String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
+            int amount = ctx.getBodyAsJson().getInteger("amount");
+            return controller.addProductToFavorite(userId, productId, productType, amount);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     public Boolean addProductToBasket(RoutingContext ctx) {
         int userId = ctx.getBodyAsJson().getInteger(USER_ID);
         int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
-        return controller.addProductToBasket(userId, productId, productType);
+        int amount = ctx.getBodyAsJson().getInteger("amount");
+        return controller.addProductToBasket(userId, productId, productType, amount);
     }
 
 
@@ -152,14 +159,16 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         int userId = ctx.getBodyAsJson().getInteger(USER_ID);
         int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
-        return controller.removeProductFromFavorite(userId, productId, productType);
+        int amount = ctx.getBodyAsJson().getInteger("amount");
+        return controller.removeProductFromFavorite(userId, productId, productType, amount);
     }
 
     public Boolean removeProductFromBasket(RoutingContext ctx) {
         int userId = ctx.getBodyAsJson().getInteger(USER_ID);
         int productId = ctx.getBodyAsJson().getInteger(PRODUCT_ID);
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
-        return controller.removeProductFromBasket(userId, productId, productType);
+        int amount = ctx.getBodyAsJson().getInteger("amount");
+        return controller.removeProductFromBasket(userId, productId, productType, amount);
     }
 
     public Boolean removeProduct(RoutingContext ctx) {

@@ -14,12 +14,12 @@ public class DatabaseUsersRepository {
     private static final Logger LOGGER = Logger.getLogger(DatabaseUsersRepository.class.getName());
     private static final String SQL_INSERT_ADDRESS = "insert into addresses(street, number, dome) VALUES(?,?,?)";
     private static final String SQL_INSERT_USER = "insert into users(firstname, lastname, email, date_of_birth, subscription_id, address_id) VALUES(?,?,?,?,?,?)";
-    public static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type) VALUES(?,?,?)";
-    private static final String SQL_INSERT_BASKET = "insert into BASKETS(user_id, product_id, product_type) VALUES(?,?,?)";
+    public static final String SQL_INSERT_FAVORITE = "insert into FAVORITES(user_id, product_id, product_type, amount) VALUES(?,?,?,?)";
+    private static final String SQL_INSERT_BASKET = "insert into BASKETS(user_id, product_id, product_type,amount) VALUES(?,?,?,?)";
     private static final String SQL_SELECT_FAVORITE = "select * from favorites where user_id=?";
     private static final String SQL_SELECT_BASKET = "select * from baskets where user_id=?";
-    private static final String SQL_REMOVE_FAVORITE = "delete from favorites where user_id=? and product_id=? and product_type=?";
-    private static final String SQL_REMOVE_BASKET = "delete from baskets where user_id=? and product_id=? and product_type=?";
+    private static final String SQL_REMOVE_FAVORITE = "delete from favorites where user_id=? and product_id=? and product_type=? and amount=?";
+    private static final String SQL_REMOVE_BASKET = "delete from baskets where user_id=? and product_id=? and product_type=? and amount=?";
 
     private static final String SQL_UPDATE_USER = "update users set firstname = ?, lastname = ?, email = ?, date_of_birth = ? where userid = ?";
     private static final String SQL_UPDATE_ADDRESS = "update addresses set street = ?, number = ?, dome = ? where id = ?";
@@ -96,16 +96,17 @@ public class DatabaseUsersRepository {
         return null;
     }
 
-    public void addToFavorite(int id, List<Product> products) {
-        products.forEach(product -> updateProductOfUser(id, product, SQL_INSERT_FAVORITE));
+    public void addToFavorite(int id, List<Product> products, int amount) {
+        products.forEach(product -> updateProductOfUser(id, product,amount, SQL_INSERT_FAVORITE));
     }
 
-    public Boolean updateProductOfUser(int userId, Product product, String query) {
+    public Boolean updateProductOfUser(int userId, Product product, int amount, String query) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, userId);
             stmt.setInt(2, product.getProductId());
             stmt.setString(3, product.getType().name().toLowerCase());
+            stmt.setInt(4, amount);
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -124,8 +125,8 @@ public class DatabaseUsersRepository {
         return usersRepository.getById(productId, productType);
     }
 
-    public Boolean addToBasket(int userId, Product product) {
-        return updateProductOfUser(userId, product, SQL_INSERT_BASKET);
+    public Boolean addToBasket(int userId, Product product, int amount) {
+        return updateProductOfUser(userId, product,amount , SQL_INSERT_BASKET);
     }
 
     public List<Product> getBasket(int id) {
@@ -150,13 +151,13 @@ public class DatabaseUsersRepository {
         }
     }
 
-    public Boolean removeProductFromFavorite(int userId, Product product) {
-        return updateProductOfUser(userId, product, SQL_REMOVE_FAVORITE);
+    public Boolean removeProductFromFavorite(int userId, Product product, int amount) {
+        return updateProductOfUser(userId, product, amount ,SQL_REMOVE_FAVORITE);
 
     }
 
-    public Boolean removeProductFromBasket(int userId, Product product) {
-        return updateProductOfUser(userId, product, SQL_REMOVE_BASKET);
+    public Boolean removeProductFromBasket(int userId, Product product, int amount ) {
+        return updateProductOfUser(userId, product,amount, SQL_REMOVE_BASKET);
     }
 
     public int addAddress(String street, int number, String dome) {
@@ -214,8 +215,8 @@ public class DatabaseUsersRepository {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(SQL_UPDATE_SUBSCRIPTION)
         ) {
-            stmt.setInt(1, userId);
-            stmt.setInt(2, subscriptionId);
+            stmt.setInt(1, subscriptionId);
+            stmt.setInt(2, userId);
             stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {
