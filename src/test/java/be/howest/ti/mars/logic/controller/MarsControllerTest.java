@@ -16,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -96,4 +97,18 @@ class MarsControllerTest {
         marsController.updateSubscription(1, 1);
         assertEquals(SubscriptionType.FREE, marsController.getUserById(1).getSubscription().getType());
     }
+
+    @Test
+    void getCropTest(){
+        List<Crop> crops = new LinkedList<>();
+        crops.add(new Crop("Apple", "fruit"));
+        crops.add(new Crop("Apricot", "fruit"));
+        crops.add(new Crop("Banana", "fruit"));
+        crops.add(new Crop("Asparagus", "vegetable"));
+        crops.add(new Crop("Broccoli", "vegetable"));
+        crops.add(new Crop("Tomato", "vegetable"));
+        List<Crop> crops1 = marsController.getCropNames();
+        assertEquals(crops, crops1);
+    }
+
 }

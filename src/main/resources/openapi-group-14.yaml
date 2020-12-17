@@ -11,7 +11,7 @@ servers:
 
 components:
   schemas:
-    crop:
+    Crop:
       type: object
       properties:
         cropName:

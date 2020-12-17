@@ -127,4 +127,8 @@ public class MarsController {
     public Boolean updateSubscription(int userId, int subscriptionId) {
         return repo.updateSubscription(userId, subscriptionId);
     }
+
+    public List<Crop> getCropNames() {
+        return  repo.getCropNames();
+    }
 }
