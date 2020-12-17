@@ -24,7 +24,7 @@ create table users
     firstname       nvarchar(255)      not null,
     lastname        nvarchar(255)      not null,
     email           nvarchar(255)      not null,
-    date_of_birth   nvarchar(255)      not null,
+    date_of_birth   date               not null,
     subscription_id int                not null,
     address_id      int                not null,
     primary key (userid),
@@ -95,6 +95,7 @@ create table baskets
     user_id      int                    not null,
     product_id   int                    not null,
     product_type enum ('seed', 'plant') not null,
+    amount       int                    not null,
     foreign key (user_id) references users (userid)
 );
 
@@ -104,14 +105,15 @@ create table favorites
     user_id      int                    not null,
     product_id   int                    not null,
     product_type enum ('seed', 'plant') not null,
+    amount       int                    not null,
     foreign key (user_id) references users (userid)
 );
 
 
 create table locations
 (
-    longitude double             not null,
-    latitude  double             not null,
+    longitude double                not null,
+    latitude  double                not null,
     crop_id   int                not null,
     ratio     int                not null,
     primary key (longitude, latitude),

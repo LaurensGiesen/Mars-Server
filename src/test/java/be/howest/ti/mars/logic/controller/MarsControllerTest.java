@@ -18,8 +18,7 @@ import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MarsControllerTest {
@@ -69,6 +68,67 @@ class MarsControllerTest {
     }
 
     @Test
+    void registerTest(){
+        User user = new User(2,"Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM), new Address("Foo", 1,"Test"));
+        marsController.createUser("Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM), 1 );
+        assertEquals(user, marsController.getUserById(2));
+    }
+
+    @Test
+    void getPlants(){
+        List<Product> products = new LinkedList<>();
+        Product product = new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT);
+        products.add(product);
+        products.add(new Product(1,"Carrot",2,marsController.getUserById(1),LocalDate.of(2052, 5, 11),15, "",ProductType.PLANT));
+        products.add(new Product(1,"Banana",2,marsController.getUserById(1),LocalDate.of(2052, 7, 9),8, "",ProductType.PLANT));
+        products.add(new Product(1,"Grapes",2,marsController.getUserById(1),LocalDate.of(2052, 7, 6),12, "",ProductType.PLANT));
+        products.add(new Product(1,"Strawberry",2,marsController.getUserById(1),LocalDate.of(2052, 2, 6),12, "",ProductType.PLANT));
+        List<Product> products1 = marsController.getProduct(ProductType.PLANT);
+        assertEquals(products, products1);
+    }
+
+    @Test
+    void getSeeds(){
+        List<Product> products = new LinkedList<>();
+        Product product = new Product(1,"Apple",2,null,null,-1, null,ProductType.SEED);
+        products.add(product);
+        products.add(new Product(2,"Apricot",3.5,null,null,-1, null,ProductType.SEED));
+        products.add(new Product(3,"Banana",1,null,null,-1, null,ProductType.SEED));
+        products.add(new Product(4,"Asparagus",5,null,null,-1, null,ProductType.SEED));
+        products.add(new Product(5,"Broccoli",4.5,null,null,-1, null,ProductType.SEED));
+        products.add(new Product(6,"Tomato",3,null,null,-1, null,ProductType.SEED));
+        List<Product> products1 = marsController.getProduct(ProductType.SEED);
+        assertEquals(products, products1);
+    }
+
+    @Test
+    void addProduct(){
+        Product product = new Product(1, "Foo", 5.0, marsController.getUserById(1), LocalDate.of(2050, 1,1), 4, "data:image/png;base64,image", ProductType.PLANT);
+        boolean check = marsController.createProduct("Foo", 5.0, 1, "01-01-2020", 4,"data:image/png;base64,imag", "plant");
+        assertTrue(check);
+        assertTrue(marsController.getProduct(ProductType.PLANT).contains(product) );
+    }
+
+    @Test
+    void removeProduct(){
+        assertEquals(5, marsController.getProduct(ProductType.PLANT).size());
+        marsController.removeProduct(1, 5, "plant");
+        assertEquals(4, marsController.getProduct(ProductType.PLANT).size());
+    }
+
+    @Test
+    void addProductToFavorite(){
+        marsController.addProductToFavorite(1,1,"plant", 3);
+        assertEquals(1, marsController.getFavorites(1).size());
+    }
+
+    @Test
+    void addProductToBasket(){
+        marsController.addProductToBasket(1,1,"plant", 3);
+        assertEquals(1, marsController.getBasket(1).size());
+    }
+
+    @Test
     void getCropByLocationTest() {
         List<CropTypes> cropTypes = marsController.getCropByLocation(-2, 3);
         CropTypes cropTypes1 = new CropTypes(-2.8472767, 2.218816, "Apple", "fruit", 5);
@@ -110,27 +170,6 @@ class MarsControllerTest {
         crops.add(new Crop("Tomato", "vegetable"));
         List<Crop> crops1 = marsController.getCropNames();
         assertEquals(crops, crops1);
-    }
-
-    @Test
-    void addPlants(){
-        Product product = new Product(1, "Foo", 5.0, marsController.getUserById(1), LocalDate.of(2050, 1,1), 4, "data:image/png;base64,image", ProductType.PLANT);
-        boolean check = marsController.createProduct("Foo", 5.0, 1, "01-01-2020", 4,"data:image/png;base64,imag", "plant");
-        assertTrue(check);
-        assertTrue(marsController.getProduct(ProductType.PLANT).contains(product) );
-    }
-
-    @Test
-    void getPlants(){
-        List<Product> products = new LinkedList<>();
-        Product product = new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT);
-        products.add(product);
-        products.add(new Product(1,"Carrot",2,marsController.getUserById(1),LocalDate.of(2052, 5, 11),15, "",ProductType.PLANT));
-        products.add(new Product(1,"Banana",2,marsController.getUserById(1),LocalDate.of(2052, 7, 9),8, "",ProductType.PLANT));
-        products.add(new Product(1,"Grapes",2,marsController.getUserById(1),LocalDate.of(2052, 7, 6),12, "",ProductType.PLANT));
-        products.add(new Product(1,"Strawberry",2,marsController.getUserById(1),LocalDate.of(2052, 2, 6),12, "",ProductType.PLANT));
-        List<Product> products1 = marsController.getProduct(ProductType.PLANT);
-        assertEquals(products, products1);
     }
 
 }
