@@ -209,4 +209,8 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         int subscriptionId = Integer.parseInt(ctx.request().getParam("subscriptionId"));
         return controller.updateSubscription(userId, subscriptionId);
     }
+
+    public List<Crop> getCrops(RoutingContext ctx) {
+        return controller.getCropNames();
+    }
 }

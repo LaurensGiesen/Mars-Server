@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -42,7 +43,8 @@ public class MarsRepository {
     private String url;
 
 
-    private MarsRepository() { }
+    private MarsRepository() {
+    }
 
     public static MarsRepository getInstance() {
         return INSTANCE;
@@ -72,10 +74,10 @@ public class MarsRepository {
 
     public Product getSeedByName(String crop1) {
         List<Product> seeds = databaseProduct.find(crop1, ProductType.SEED);
-        if (seeds == null || seeds.isEmpty()){
+        if (seeds == null || seeds.isEmpty()) {
             return null;
         }
-        return databaseProduct.find(crop1,ProductType.SEED).get(0);
+        return databaseProduct.find(crop1, ProductType.SEED).get(0);
     }
 
     public List<Product> getProduct(ProductType type) {
@@ -83,11 +85,13 @@ public class MarsRepository {
     }
 
     public void createProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
-        int id = databaseProduct.add(name,price,owner,date1,amount,image,type);
+        int id = databaseProduct.add(name, price, owner, date1, amount, image, type);
         createImage(image, id);
     }
 
     private void createImage(String image, int id) {
+        System.out.println("kfjdslmk");
+        System.out.println(image);
         String base64Image = image.split(",")[1];
         String extension = image.split("/")[1].split(";")[0];
         byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
@@ -107,7 +111,7 @@ public class MarsRepository {
         databaseUser.addToFavorite(id, products);
     }
 
-    public boolean addProductToFavorite(int userId ,int productId,String productType) {
+    public boolean addProductToFavorite(int userId, int productId, String productType) {
         Product product = databaseProduct.getById(productId, productType);
         return databaseUser.updateProductOfUser(userId, product, DatabaseUsersRepository.SQL_INSERT_FAVORITE);
     }
@@ -156,7 +160,7 @@ public class MarsRepository {
     }
 
     public int addAddress(String street, int number, String dome) {
-        return databaseUser.addAddress(street,number, dome);
+        return databaseUser.addAddress(street, number, dome);
     }
 
     public Boolean updateUser(String firstname, String lastname, String email, LocalDate newDate, int id) {
@@ -169,5 +173,24 @@ public class MarsRepository {
 
     public Boolean updateSubscription(int userId, int subscriptionId) {
         return databaseUser.updateSubscription(userId, subscriptionId);
+    }
+
+    public List<Crop> getCropNames() {
+        List<Crop> crops = new LinkedList<>();
+        getCropTypes().forEach(cropType -> {
+            if (!cropsAlreadyInList(crops, cropType)) {
+                crops.add(new Crop(cropType.getCropName(), cropType.getCropType()));
+            }
+        });
+        return crops;
+    }
+
+    private boolean cropsAlreadyInList(List<Crop> crops, CropTypes cropType) {
+        for (Crop crop: crops){
+            if (crop.getName().equals(cropType.getCropName())){
+                return true;
+            }
+        }
+        return false;
     }
 }
