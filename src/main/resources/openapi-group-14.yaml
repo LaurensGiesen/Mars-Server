@@ -11,6 +11,15 @@ servers:
 
 components:
   schemas:
+    crop:
+      type: object
+      properties:
+        cropName:
+          type: string
+          example: Apple
+        cropType:
+          type: string
+          example: fruit
     location:
       type: object
       properties:
@@ -509,6 +518,28 @@ paths:
       responses:
         '200':
           description: Ok
+          content:
+            text/plain:
+              schema:
+                items:
+                  $ref: "#/components/schemas/User"
+        '401':
+          description: Absent or mallformed authentication
+        '500':
+          description: Internal Server Error
+
+  /api/getCrops:
+    get:
+      summary: get all crops
+      operationId: getCrops
+      responses:
+        '200':
+          description: Ok
+          content:
+            text/plain:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Crop"
         '401':
           description: Absent or mallformed authentication
         '500':
