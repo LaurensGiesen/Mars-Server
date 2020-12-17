@@ -64,7 +64,6 @@ public class DatabaseUsersRepository {
             }
             return user;
         } catch (SQLException ex) {
-            ex.printStackTrace();
             LOGGER.log(Level.WARNING, "Failed To Get User");
             throw new ProductException("Failed To Get User", ex);
         }
