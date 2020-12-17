@@ -97,7 +97,7 @@ public class DatabaseUsersRepository {
     }
 
     public void addToFavorite(int id, List<Product> products, int amount) {
-        products.forEach(product -> updateProductOfUser(id, product,amount, SQL_INSERT_FAVORITE));
+        products.forEach(product -> updateProductOfUser(id, product, amount, SQL_INSERT_FAVORITE));
     }
 
     public Boolean updateProductOfUser(int userId, Product product, int amount, String query) {
@@ -122,11 +122,13 @@ public class DatabaseUsersRepository {
     private Product resultSetToFavorites(ResultSet rs) throws SQLException {
         int productId = rs.getInt("product_id");
         String productType = rs.getString("product_type");
-        return usersRepository.getById(productId, productType);
+        int amount = rs.getInt("amount");
+        Product product = usersRepository.getById(productId, productType);
+        product.setAmount(amount);
+        return product;
     }
-
     public Boolean addToBasket(int userId, Product product, int amount) {
-        return updateProductOfUser(userId, product,amount , SQL_INSERT_BASKET);
+        return updateProductOfUser(userId, product, amount, SQL_INSERT_BASKET);
     }
 
     public List<Product> getBasket(int id) {
@@ -152,12 +154,12 @@ public class DatabaseUsersRepository {
     }
 
     public Boolean removeProductFromFavorite(int userId, Product product, int amount) {
-        return updateProductOfUser(userId, product, amount ,SQL_REMOVE_FAVORITE);
+        return updateProductOfUser(userId, product, amount, SQL_REMOVE_FAVORITE);
 
     }
 
-    public Boolean removeProductFromBasket(int userId, Product product, int amount ) {
-        return updateProductOfUser(userId, product,amount, SQL_REMOVE_BASKET);
+    public Boolean removeProductFromBasket(int userId, Product product, int amount) {
+        return updateProductOfUser(userId, product, amount, SQL_REMOVE_BASKET);
     }
 
     public int addAddress(String street, int number, String dome) {

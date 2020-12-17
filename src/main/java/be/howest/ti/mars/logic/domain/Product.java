@@ -6,12 +6,12 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Product {
-    private int productId;
+    private final int productId;
     private final String name;
     private final double price;
     private final User owner;
     private final LocalDate date;
-    private final int amount;
+    private int amount;
     private final String image;
     private final ProductType type;
 
@@ -81,5 +81,8 @@ public class Product {
 
     public ProductType getType() {
         return type;
+    }
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 }
