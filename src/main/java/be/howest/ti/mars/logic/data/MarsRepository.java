@@ -3,7 +3,6 @@ package be.howest.ti.mars.logic.data;
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
 import be.howest.ti.mars.logic.exceptions.UserException;
-import be.howest.ti.mars.logic.unit.Config;
 import org.h2.tools.Server;
 
 import java.io.FileOutputStream;

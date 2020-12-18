@@ -5,8 +5,6 @@ import be.howest.ti.mars.logic.exceptions.ConfigException;
 import be.howest.ti.mars.logic.exceptions.ProductException;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
