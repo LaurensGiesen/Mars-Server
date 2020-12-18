@@ -165,9 +165,11 @@ public class DatabaseProductRepository{
 
     private String getImage(int id) {
         try{
-            byte[] fileContent = FileUtils.readFileToByteArray(Config.getInstance().getFile("images/" + id + ".png"));
+            byte[] fileContent = Config.getInstance().getFile("images/" + id + ".png");
+            System.out.println(Base64.getEncoder().encodeToString(fileContent));
             return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
-        }catch (IOException | URISyntaxException ex){
+
+        }catch (IOException ex){
             LOGGER.log(Level.WARNING, "Failed To Get Image");
             return null;
         }
