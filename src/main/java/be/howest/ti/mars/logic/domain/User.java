@@ -1,5 +1,7 @@
 package be.howest.ti.mars.logic.domain;
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -9,7 +11,7 @@ public class User {
     private int id;
     private final LocalDate dateOfBirth;
     private final Subscription subscription;
-    private final Basket basket;
+    private final List<Product> basket;
     private final Address address;
 
 
@@ -21,7 +23,7 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.subscription = subscription;
         this.address = address;
-        this.basket = new Basket();
+        this.basket = new LinkedList<>();
     }
 
     public User(String firstName, String lastName, String email, LocalDate dateOfBirth, Subscription subscription, Address address) {
@@ -56,7 +58,7 @@ public class User {
         this.id = id;
     }
 
-    public Basket getBasket() {
+    public List<Product> getBasket() {
         return basket;
     }
 

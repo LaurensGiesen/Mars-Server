@@ -21,8 +21,6 @@ import io.vertx.ext.web.handler.FaviconHandler;
 import io.vertx.ext.web.handler.LoggerFormat;
 import io.vertx.ext.web.handler.LoggerHandler;
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.function.Function;
