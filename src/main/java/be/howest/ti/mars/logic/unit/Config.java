@@ -2,10 +2,9 @@ package be.howest.ti.mars.logic.unit;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.ConfigException;
+import be.howest.ti.mars.logic.exceptions.ProductException;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -49,12 +48,17 @@ public class Config {
         }
     }
 
-    public byte[] getFile(String filename) throws IOException {
+    public byte[] getFile(String filename) {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
         if (inputStream == null) {
             throw new IllegalArgumentException("file not found!");
         } else {
-            return inputStream.readAllBytes();
+            try {
+                return inputStream.readAllBytes();
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "Failed to get file");
+                throw new ConfigException("Failed to get file");
+            }
         }
     }
 }
