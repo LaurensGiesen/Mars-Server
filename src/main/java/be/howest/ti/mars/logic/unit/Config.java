@@ -49,13 +49,12 @@ public class Config {
         }
     }
 
-    public File getFile(String filename) throws URISyntaxException {
-        URL resource = getClass().getClassLoader().getResource(filename);
-        if (resource == null) {
+    public byte[] getFile(String filename) throws IOException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
+        if (inputStream == null) {
             throw new IllegalArgumentException("file not found!");
         } else {
-            return new File(resource.toURI());
+            return inputStream.readAllBytes();
         }
     }
-
 }
