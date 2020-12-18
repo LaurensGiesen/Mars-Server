@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class DatabaseMapRepository {
 
     private static final Logger LOGGER = Logger.getLogger(DatabaseMapRepository.class.getName());
+    private static final String ERROR_MESSAGE = "Unable to get crop types";
 
     private static final String SQL_SELECT_ALL_CROP_TYPES = "select l.*, s.name, s.type from locations l join seeds s on l.crop_id = s.id";
     private static final String SQL_SELECT_CROPS_WHERE_NAME_IS_LIKE = "select l.*, s.name, s.type from locations l join seeds s on l.crop_id = s.id where lower(s.name) like ?";
@@ -46,7 +47,7 @@ public class DatabaseMapRepository {
             }
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new CropTypeException("Unable to get crop types");
+            throw new CropTypeException(ERROR_MESSAGE);
         }
     }
 
@@ -82,7 +83,7 @@ public class DatabaseMapRepository {
             return getCropTypesForUsersSubscription(cropTypes, type);
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new CropTypeException("Unable to get crop types");
+            throw new CropTypeException(ERROR_MESSAGE);
         }
     }
 
@@ -107,7 +108,7 @@ public class DatabaseMapRepository {
             return getCropTypesForUsersSubscription(cropTypes, type);
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
-            throw new CropTypeException("Unable to get crop types");
+            throw new CropTypeException(ERROR_MESSAGE);
         }
     }
 }

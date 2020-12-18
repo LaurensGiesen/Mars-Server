@@ -22,10 +22,6 @@ import io.vertx.ext.web.handler.LoggerHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.function.Function;
 import java.util.logging.Level;

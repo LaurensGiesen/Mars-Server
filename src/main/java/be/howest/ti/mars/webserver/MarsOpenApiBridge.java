@@ -5,9 +5,7 @@ import be.howest.ti.mars.logic.domain.*;
 import io.vertx.ext.web.RoutingContext;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {

@@ -4,8 +4,6 @@ import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.ConfigException;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
