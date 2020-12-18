@@ -201,10 +201,12 @@ public class WebServer extends AbstractVerticle {
             .errorHandler(401, this::onUnAuthorised)
             .errorHandler(403, this::onForbidden)
             .errorHandler(404, this::onNotFound)
+            .errorHandler(409, this::onConflict)
             .errorHandler(500, this::onInternalServerError);
 
         router.route().handler(ctx -> ctx.fail(404, new RuntimeException()));
     }
+
 
     private CorsHandler createCorsHandler() {
         return CorsHandler.create(".*.")
@@ -241,6 +243,12 @@ public class WebServer extends AbstractVerticle {
 
     private void onForbidden(RoutingContext ctx) {
         replyWithFailure(ctx, 403, "Forbidden", null);
+    }
+
+    private void onConflict(RoutingContext ctx) {
+        LOGGER.info(() -> String.format("onConflict at %s", ctx.request().absoluteURI()));
+        replyWithFailure(ctx, 409, "Conflict", ctx.failure().getMessage());
+
     }
 
     private void onInternalServerError(RoutingContext ctx) {

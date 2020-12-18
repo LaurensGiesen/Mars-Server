@@ -131,4 +131,13 @@ public class MarsController {
     public List<Crop> getCropNames() {
         return  repo.getCropNames();
     }
+
+    public Product getProductById(int productId) {
+        for (Product product: getProduct(ProductType.PLANT)){
+            if (product.getProductId() == productId){
+                return product;
+            }
+        }
+        return null;
+    }
 }
