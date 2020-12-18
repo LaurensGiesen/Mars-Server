@@ -2,7 +2,7 @@ package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
-import be.howest.ti.mars.logic.exceptions.UsersException;
+import be.howest.ti.mars.logic.exceptions.UserException;
 import org.h2.tools.Server;
 
 import java.io.FileOutputStream;
@@ -90,8 +90,6 @@ public class MarsRepository {
     }
 
     private void createImage(String image, int id) {
-        System.out.println("kfjdslmk");
-        System.out.println(image);
         String base64Image = image.split(",")[1];
         String extension = image.split("/")[1].split(";")[0];
         byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
@@ -103,8 +101,8 @@ public class MarsRepository {
         }
     }
 
-    public int createUser(String firstname, String lastname, String email, LocalDate newDate, Subscription subscription, int addressId) {
-        return databaseUser.add(firstname, lastname, email, newDate, subscription, addressId);
+    public int createUser(String firstname, String lastname, String email, LocalDate newDate, SubscriptionType subscriptionType, int addressId) {
+        return databaseUser.add(firstname, lastname, email, newDate, subscriptionType, addressId);
     }
 
     public void addFavoriteToUser(int id, List<Product> products, int amount) {
@@ -142,7 +140,7 @@ public class MarsRepository {
     public Boolean removeProduct(int userId, int productId, String productType) {
         Product product = databaseProduct.getById(productId, productType);
         if (product.getOwner().getId() != userId) {
-            throw new UsersException("You Can Not Remove A Product That Is Not Yours");
+            throw new UserException("You Can Not Remove A Product That Is Not Yours");
         }
         return databaseProduct.removeProduct(product);
     }

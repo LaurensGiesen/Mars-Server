@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MarsControllerTest {
 
@@ -38,7 +39,7 @@ class MarsControllerTest {
     }
 
     private void createDatabase() throws IOException, SQLException {
-        executeScript("src/test/recourses/databaseTest.sql");
+        executeScript("databaseTest.sql");
     }
 
     private void executeScript(String fileName) throws IOException, SQLException {
@@ -70,14 +71,14 @@ class MarsControllerTest {
 
     @Test
     void registerTest(){
-        User user = new User(2,"Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM), new Address("Foo", 1,"Test"));
+        User user = new User(2,"Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM, 100), new Address("Foo", 1,"Test"));
         List<Product> products = new LinkedList<>();
         products.add(new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT));
         products.add(new Product(1,"Apple2",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT));
         products.add(new Product(1,"Apple3",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT));
         marsController.createFavorites(new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT), new Product(1,"Apple2",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT), new Product(1,"Apple3",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT));
         marsController.addFavoriteToUser(1, products, 1);
-        marsController.createUser("Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM), 1 );
+        marsController.createUser("Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),SubscriptionType.PREMIUM, 1 );
         assertEquals(2,marsController.addAddress("Foo", 1, "Foo2"));
         assertEquals(user, marsController.getUserById(2));
     }
@@ -212,7 +213,7 @@ class MarsControllerTest {
 
     @Test
     void getUserTest(){
-        User sys = new User(1,"Kurt", "Sys", "Kurt.Sys@hotmail.com", LocalDate.of(2030, 5, 20), new Subscription(SubscriptionType.PREMIUM),new Address(1, "The Moon", 404, "1337"));
+        User sys = new User(1,"Kurt", "Sys", "Kurt.Sys@hotmail.com", LocalDate.of(2030, 5, 20), new Subscription(SubscriptionType.PREMIUM, 100),new Address(1, "The Moon", 404, "1337"));
         User sys2 = marsController.getUserById(1);
         assertEquals(sys, sys2);
     }

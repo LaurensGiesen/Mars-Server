@@ -56,28 +56,12 @@ public class User {
         return subscription;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public void setId(int id) {
         this.id = id;
     }
 
     public Basket getBasket() {
         return basket;
-    }
-
-    public void changeSubscription(Subscription subscription) {
-        this.subscription = subscription;
-    }
-
-    public ProductCollection getHarvest() {
-        return harvest;
-    }
-
-    public ProductCollection getHistory() {
-        return history;
     }
 
     public Address getAddress() {

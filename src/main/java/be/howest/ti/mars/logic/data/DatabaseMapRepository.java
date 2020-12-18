@@ -52,7 +52,7 @@ public class DatabaseMapRepository {
         }
     }
 
-    private List<CropTypes> getCropTypesForUsersSubscription(List<CropTypes> cropTypes, SubscriptionType type) {
+    public List<CropTypes> getCropTypesForUsersSubscription(List<CropTypes> cropTypes, SubscriptionType type) {
         if(type == SubscriptionType.FREE){
             return filterCropTypes(cropTypes, 0,3);
         }else if(type == SubscriptionType.BASIC){

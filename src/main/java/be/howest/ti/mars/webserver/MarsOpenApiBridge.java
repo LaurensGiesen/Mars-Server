@@ -75,7 +75,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         List<Product> products = controller.createFavorites(crop1, crop2, crop3);
         LocalDate newDate = controller.createDate(date);
         int addressId = controller.addAddress(street, number, dome);
-        int id = controller.createUser(firstname, lastname, email, newDate, new Subscription(SubscriptionType.PREMIUM), addressId);
+        int id = controller.createUser(firstname, lastname, email, newDate, SubscriptionType.PREMIUM, addressId);
         controller.addFavoriteToUser(id, products, 1);
         return true;
     }
