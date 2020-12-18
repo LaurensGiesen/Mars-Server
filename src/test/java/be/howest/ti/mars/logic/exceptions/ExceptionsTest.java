@@ -64,4 +64,9 @@ public class ExceptionsTest {
         assertThrows(UserException.class, () -> databaseUsersRepository.updateAddress("Foo", 1, "200", 0));
     }
 
+    @Test
+    void ConfigExceptionTest(){
+        assertThrows(ConfigException.class, () -> Config.getInstance().getFile("Foo"));
+    }
+
 }

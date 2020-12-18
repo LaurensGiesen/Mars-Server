@@ -50,7 +50,7 @@ public class Config {
     public byte[] getFile(String filename) {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
         if (inputStream == null) {
-            throw new IllegalArgumentException("file not found!");
+            throw new ConfigException("file not found!");
         } else {
             try {
                 return inputStream.readAllBytes();
