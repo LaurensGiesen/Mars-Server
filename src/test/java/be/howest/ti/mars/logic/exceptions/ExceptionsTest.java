@@ -35,7 +35,7 @@ public class ExceptionsTest {
     }
 
     private void createDatabase() throws IOException, SQLException {
-        executeScript("src/test/recourses/dropTablesTest.sql");
+        executeScript("dropTablesTest.sql");
     }
 
     private void executeScript(String fileName) throws IOException, SQLException {
