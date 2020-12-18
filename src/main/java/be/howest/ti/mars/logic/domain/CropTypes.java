@@ -9,17 +9,6 @@ public class CropTypes {
     private final String cropType;
     private final int ratio;
 
-    @Override
-    public String toString() {
-        return "CropTypes{" +
-                "longitude=" + longitude +
-                ", latitude=" + latitude +
-                ", cropName='" + cropName + '\'' +
-                ", cropType='" + cropType + '\'' +
-                ", ratio='" + ratio + '\'' +
-                '}';
-    }
-
     public CropTypes(double longitude, double latitude, String cropName, String cropType, int ratio) {
         this.longitude = longitude;
         this.latitude = latitude;

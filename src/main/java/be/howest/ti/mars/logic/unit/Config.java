@@ -2,7 +2,6 @@ package be.howest.ti.mars.logic.unit;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.ConfigException;
-import be.howest.ti.mars.logic.exceptions.ProductException;
 
 import java.io.*;
 import java.sql.Connection;
@@ -51,7 +50,7 @@ public class Config {
     public byte[] getFile(String filename) {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
         if (inputStream == null) {
-            throw new IllegalArgumentException("file not found!");
+            throw new ConfigException("file not found!");
         } else {
             try {
                 return inputStream.readAllBytes();

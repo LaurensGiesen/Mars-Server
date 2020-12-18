@@ -2,7 +2,7 @@ package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.data.MarsRepository;
-import be.howest.ti.mars.logic.exceptions.DatabaseException;
+import be.howest.ti.mars.logic.exceptions.ConfigException;
 import be.howest.ti.mars.logic.unit.Config;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
@@ -21,8 +21,6 @@ import io.vertx.ext.web.handler.FaviconHandler;
 import io.vertx.ext.web.handler.LoggerFormat;
 import io.vertx.ext.web.handler.LoggerHandler;
 import org.apache.commons.lang3.StringUtils;
-
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.function.Function;
@@ -99,13 +97,13 @@ public class WebServer extends AbstractVerticle {
         }
         try {
             createDatabase();
-        } catch (IOException | SQLException ex) {
+        } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Failed To Load Database");
-            throw new DatabaseException(ex.getMessage());
+            throw new ConfigException(ex.getMessage());
         }
     }
 
-    private void createDatabase() throws IOException, SQLException {
+    private void createDatabase() throws SQLException {
         Config.getInstance().executeScript("databaseStructure.sql");
         Config.getInstance().executeScript("populateDatabase.sql");
     }

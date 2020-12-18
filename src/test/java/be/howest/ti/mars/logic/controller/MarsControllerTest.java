@@ -89,6 +89,12 @@ class MarsControllerTest {
     }
 
     @Test
+    void getSeedByName(){
+        Product product = new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, img,ProductType.SEED);
+        assertEquals(product, marsController.getSeedByName("Apple"));
+    }
+
+    @Test
     void getPlantsTest(){
         List<Product> products = new LinkedList<>();
         Product product = new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, img,ProductType.PLANT);
