@@ -2,6 +2,7 @@ package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.DatabaseException;
+import be.howest.ti.mars.logic.unit.Config;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.AsyncResult;
@@ -86,24 +87,11 @@ public class WebServer extends AbstractVerticle {
     }
 
     private void createDatabase() throws IOException, SQLException {
-        executeScript("databaseStructure.sql"); // src/main/resources/
-        executeScript("populateDatabase.sql"); // src/main/resources/
+        Config.getInstance().executeScript("databaseStructure.sql");
+         // src/main/resources/
+        Config.getInstance().executeScript("populateDatabase.sql"); // src/main/resources/
     }
 
-    private void executeScript(String fileName) throws IOException, SQLException {
-        String createDbSql = readFile(fileName);
-        try (
-                Connection con = MarsRepository.getConnection();
-                PreparedStatement stmt = con.prepareStatement(createDbSql)
-                ) {
-            stmt.executeUpdate();
-        }
-    }
-
-    private String readFile(String fileName) throws IOException{
-        Path file = Path.of(fileName);
-        return Files.readString(file);
-    }
 
     private void configureOpenApiServer(Promise<Void> promise, String apiSpecification, int port) {
         LOGGER.info(() -> String.format("Starting webserver with spec %s", apiSpecification));
