@@ -9,6 +9,8 @@ import org.h2.tools.Server;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -86,22 +88,13 @@ public class MarsRepository {
     }
 
     public void createProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
-        int id = databaseProduct.add(name, price, owner, date1, amount, image, type);
-        createImage(image, id);
+        byte[] imgBytes = getImageBytes(image);
+        int id = databaseProduct.add(name, price, owner, date1, amount, imgBytes, type);
     }
 
-    private void createImage(String image, int id) {
+    private byte[] getImageBytes(String image) {
         String base64Image = image.split(",")[1];
-        String extension = image.split("/")[1].split(";")[0];
-        byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-        String path = getClass().getResource("/images").getPath().replace("%20", " ");
-        try (OutputStream stream = new FileOutputStream(path + "/" + id + "." + extension)) {
-            stream.write(imageBytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-            LOGGER.log(Level.SEVERE, "Failed To Create Image");
-            throw new ProductException("Failed To Create Image");
-        }
+        return javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
     }
 
     public int createUser(String firstname, String lastname, String email, LocalDate newDate, SubscriptionType subscriptionType, int addressId) {

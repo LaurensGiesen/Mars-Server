@@ -1,5 +1,6 @@
 package be.howest.ti.mars.webserver;
 
+import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.DatabaseException;
 import be.howest.ti.mars.logic.unit.Config;
@@ -22,11 +23,14 @@ import io.vertx.ext.web.handler.LoggerHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.Base64;
 import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,8 +61,29 @@ public class WebServer extends AbstractVerticle {
                 configureDatabase(dbProperties);
                 int port = properties.getJsonObject("http").getInteger("port");
                 LOGGER.info(String.format("Starting web server on port %s ", port));
-
                 configureOpenApiServer(promise, OPEN_API_SPEC, port);
+
+                MarsController marsController = new MarsController();
+
+                String prefix = "data:image/png;base64,";
+                String type = "plant";
+
+                String img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/1.png"));
+                marsController.createProduct("Apple", 2.0, 1, "20-08-2052",5, img, type);
+
+                img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/2.png"));
+                marsController.createProduct("Carrot", 3.0, 1, "11-05-2052",15, img, type);
+
+                img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/3.png"));
+                marsController.createProduct("Banana", 1.0, 1, "09-07-2052",8, img, type);
+
+                img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/4.png"));
+                marsController.createProduct("Grapes", 3.0, 1, "05-06-2052",12, img, type);
+
+                img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/5.png"));
+                marsController.createProduct("Strawberry", 3.0, 1, "06-02-2052",12, img, type);
+
+
             }
         });
     }

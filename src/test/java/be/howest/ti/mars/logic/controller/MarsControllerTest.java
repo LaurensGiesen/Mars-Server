@@ -13,6 +13,7 @@ import org.junit.jupiter.api.TestInstance;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class MarsControllerTest {
 
+
+    String img;
 
     MarsController marsController;
     @BeforeAll
@@ -33,6 +36,26 @@ class MarsControllerTest {
     void init() throws IOException, SQLException {
         createDatabase();
         marsController = new MarsController();
+        String prefix = "data:image/png;base64,";
+        String type = "plant";
+        img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/1.png"));
+
+
+        String img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/1.png"));
+        marsController.createProduct("Apple", 2.0, 1, "20-08-2052",5, img, type);
+
+        img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/2.png"));
+        marsController.createProduct("Carrot", 3.0, 1, "11-05-2052",15, img, type);
+
+        img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/3.png"));
+        marsController.createProduct("Banana", 1.0, 1, "09-07-2052",8, img, type);
+
+        img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/4.png"));
+        marsController.createProduct("Grapes", 3.0, 1, "05-06-2052",12, img, type);
+
+        img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/5.png"));
+        marsController.createProduct("Strawberry", 3.0, 1, "06-02-2052",12, img, type);
+
     }
 
     private void createDatabase() throws IOException, SQLException {
@@ -68,12 +91,12 @@ class MarsControllerTest {
     @Test
     void getPlantsTest(){
         List<Product> products = new LinkedList<>();
-        Product product = new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT);
+        Product product = new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, img,ProductType.PLANT);
         products.add(product);
-        products.add(new Product(1,"Carrot",2,marsController.getUserById(1),LocalDate.of(2052, 5, 11),15, "",ProductType.PLANT));
-        products.add(new Product(1,"Banana",2,marsController.getUserById(1),LocalDate.of(2052, 7, 9),8, "",ProductType.PLANT));
-        products.add(new Product(1,"Grapes",2,marsController.getUserById(1),LocalDate.of(2052, 7, 6),12, "",ProductType.PLANT));
-        products.add(new Product(1,"Strawberry",2,marsController.getUserById(1),LocalDate.of(2052, 2, 6),12, "",ProductType.PLANT));
+        products.add(new Product(1,"Carrot",2,marsController.getUserById(1),LocalDate.of(2052, 5, 11),15, img,ProductType.PLANT));
+        products.add(new Product(1,"Banana",2,marsController.getUserById(1),LocalDate.of(2052, 7, 9),8, img,ProductType.PLANT));
+        products.add(new Product(1,"Grapes",2,marsController.getUserById(1),LocalDate.of(2052, 7, 6),12, img,ProductType.PLANT));
+        products.add(new Product(1,"Strawberry",2,marsController.getUserById(1),LocalDate.of(2052, 2, 6),12, img,ProductType.PLANT));
         List<Product> products1 = marsController.getProduct(ProductType.PLANT);
         assertEquals(products, products1);
     }
@@ -94,7 +117,7 @@ class MarsControllerTest {
 
     @Test
     void addProductTest(){
-        Product product = new Product(1, "Foo", 5.0, marsController.getUserById(1), LocalDate.of(2050, 1,1), 4, "data:image/png;base64,image", ProductType.PLANT);
+        Product product = new Product(1, "Foo", 5.0, marsController.getUserById(1), LocalDate.of(2050, 1,1), 4, img, ProductType.PLANT);
         boolean check = marsController.createProduct("Foo", 5.0, 1, "01-01-2020", 4,"data:image/png;base64,imag", "plant");
         assertTrue(check);
         assertThrows(ProductException.class, () -> marsController.createProduct("Foo", 5.0, 1, "01-01-2020", 4,"data:image/png;base64,imag", "FOO"));
@@ -110,6 +133,7 @@ class MarsControllerTest {
 
     @Test
     void addProductToFavoriteTest(){
+
         marsController.addProductToFavorite(1,1,"plant", 3);
         assertEquals(1, marsController.getFavorites(1).size());
     }
@@ -122,7 +146,7 @@ class MarsControllerTest {
 
     @Test
     void getFavoritesOfUserTest(){
-        Product product = new Product(1,"Apple",2,null,null,-1, null,ProductType.PLANT);
+        Product product = new Product(1,"Apple",2,null,null,-1, img,ProductType.PLANT);
         marsController.addProductToFavorite(1,1,"plant", 3);
         assertEquals(1, marsController.getFavorites(1).size());
         assertEquals(product, marsController.getFavorites(1).get(0));
@@ -130,7 +154,7 @@ class MarsControllerTest {
 
     @Test
     void getBasketOfUserTest(){
-        Product product = new Product(1,"Apple",2,null,null,-1, null,ProductType.PLANT);
+        Product product = new Product(1,"Apple",2,null,null,-1, img,ProductType.PLANT);
         marsController.addProductToBasket(1,1,"plant", 3);
         assertEquals(1, marsController.getBasket(1).size());
         assertEquals(product, marsController.getBasket(1).get(0));
