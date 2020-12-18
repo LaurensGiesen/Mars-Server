@@ -22,6 +22,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     }
 
     public Object getMessage(RoutingContext ctx) {
+        ctx.failed();
         return controller.getMessage();
     }
 
@@ -40,12 +41,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     @Override
     public List<Product> getPlants(RoutingContext ctx) {
         LOGGER.info("getPlants");
-        try{
-            return controller.getProduct(ProductType.PLANT);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
-        return null;
+        return controller.getProduct(ProductType.PLANT);
     }
 
     @Override
@@ -65,7 +61,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     @Override
     public Boolean createUser(RoutingContext ctx) {
         LOGGER.info("createUser");
-        try{
+        try {
             String firstname = ctx.getBodyAsJson().getString("firstname");
             String lastname = ctx.getBodyAsJson().getString("lastname");
             String email = ctx.getBodyAsJson().getString("email");
@@ -82,7 +78,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
             int id = controller.createUser(firstname, lastname, email, newDate, SubscriptionType.PREMIUM, addressId);
             controller.addFavoriteToUser(id, products, 1);
             return true;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return false;
         }
     }
@@ -188,6 +184,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     }
 
     public List<Crop> getCrops(RoutingContext ctx) {
+        ctx.failed();
         return controller.getCropNames();
     }
 }

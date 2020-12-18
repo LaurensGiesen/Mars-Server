@@ -99,13 +99,13 @@ public class WebServer extends AbstractVerticle {
         }
         try {
             createDatabase();
-        } catch (IOException | SQLException ex) {
+        } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Failed To Load Database");
             throw new DatabaseException(ex.getMessage());
         }
     }
 
-    private void createDatabase() throws IOException, SQLException {
+    private void createDatabase() throws SQLException {
         Config.getInstance().executeScript("databaseStructure.sql");
         Config.getInstance().executeScript("populateDatabase.sql");
     }

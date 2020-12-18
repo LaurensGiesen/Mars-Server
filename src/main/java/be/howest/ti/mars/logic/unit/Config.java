@@ -2,7 +2,6 @@ package be.howest.ti.mars.logic.unit;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.ConfigException;
-import be.howest.ti.mars.logic.exceptions.ProductException;
 
 import java.io.*;
 import java.sql.Connection;
