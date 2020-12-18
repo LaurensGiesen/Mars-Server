@@ -2,4 +2,3 @@ build
 .idea
 .gradle
 conf
-src/main/resources/images
