@@ -28,7 +28,9 @@ public class Config {
                 Connection con = MarsRepository.getConnection();
                 PreparedStatement stmt = con.prepareStatement(createDbSql)
         ) {
+            System.out.println("Try execute");
             stmt.executeUpdate();
+            System.out.println("Executed");
         }
     }
 
@@ -44,8 +46,9 @@ public class Config {
                 }
                 return res.toString();
             }
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Cannot read file: " + fileName, e);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Cannot read file: " + fileName, ex);
             throw new ConfigException("Cannot read file: " + fileName);
         }
     }
