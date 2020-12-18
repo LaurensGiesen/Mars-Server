@@ -2,10 +2,12 @@ package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
+import be.howest.ti.mars.logic.unit.Config;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -163,9 +165,9 @@ public class DatabaseProductRepository{
 
     private String getImage(int id) {
         try{
-            byte[] fileContent = FileUtils.readFileToByteArray(new File("images/" + id + ".png"));
+            byte[] fileContent = FileUtils.readFileToByteArray(Config.getInstance().getFile("images/" + id + ".png"));
             return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
-        }catch (IOException ex){
+        }catch (IOException | URISyntaxException ex){
             LOGGER.log(Level.WARNING, "Failed To Get Image");
             return null;
         }

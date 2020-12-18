@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.data;
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
 import be.howest.ti.mars.logic.exceptions.UserException;
+import be.howest.ti.mars.logic.unit.Config;
 import org.h2.tools.Server;
 
 import java.io.FileOutputStream;
@@ -93,9 +94,11 @@ public class MarsRepository {
         String base64Image = image.split(",")[1];
         String extension = image.split("/")[1].split(";")[0];
         byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-        try (OutputStream stream = new FileOutputStream("images/" + id + "." + extension)) {
+        String path = getClass().getResource("/images").getPath().replace("%20", " ");
+        try (OutputStream stream = new FileOutputStream(path + "/" + id + "." + extension)) {
             stream.write(imageBytes);
         } catch (IOException e) {
+            e.printStackTrace();
             LOGGER.log(Level.SEVERE, "Failed To Create Image");
             throw new ProductException("Failed To Create Image");
         }
