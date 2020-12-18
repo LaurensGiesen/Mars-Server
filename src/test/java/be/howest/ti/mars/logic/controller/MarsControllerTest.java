@@ -3,6 +3,7 @@ package be.howest.ti.mars.logic.controller;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
+import be.howest.ti.mars.logic.unit.Config;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,10 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -39,22 +36,7 @@ class MarsControllerTest {
     }
 
     private void createDatabase() throws IOException, SQLException {
-        executeScript("databaseTest.sql");
-    }
-
-    private void executeScript(String fileName) throws IOException, SQLException {
-        String createDbSql = readFile(fileName);
-        try (
-                Connection con = MarsRepository.getConnection();
-                PreparedStatement stmt = con.prepareStatement(createDbSql)
-        ) {
-            stmt.executeUpdate();
-        }
-    }
-
-    private String readFile(String fileName) throws IOException {
-        Path file = Path.of(fileName);
-        return Files.readString(file);
+        Config.getInstance().executeScript("databaseTest.sql");
     }
 
     @Test
