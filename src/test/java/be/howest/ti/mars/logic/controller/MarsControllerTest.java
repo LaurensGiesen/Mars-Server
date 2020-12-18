@@ -2,6 +2,7 @@ package be.howest.ti.mars.logic.controller;
 
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.domain.*;
+import be.howest.ti.mars.logic.exceptions.ProductException;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,7 +71,14 @@ class MarsControllerTest {
     @Test
     void registerTest(){
         User user = new User(2,"Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM), new Address("Foo", 1,"Test"));
+        List<Product> products = new LinkedList<>();
+        products.add(new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT));
+        products.add(new Product(1,"Apple2",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT));
+        products.add(new Product(1,"Apple3",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT));
+        marsController.createFavorites(new Product(1,"Apple",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT), new Product(1,"Apple2",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT), new Product(1,"Apple3",2,marsController.getUserById(1),LocalDate.of(2052, 8, 20),5, "",ProductType.PLANT));
+        marsController.addFavoriteToUser(1, products, 1);
         marsController.createUser("Alice", "Foo", "Alice@Foo.com", LocalDate.of(2000,1,1),new Subscription(SubscriptionType.PREMIUM), 1 );
+        assertEquals(2,marsController.addAddress("Foo", 1, "Foo2"));
         assertEquals(user, marsController.getUserById(2));
     }
 
@@ -106,6 +114,7 @@ class MarsControllerTest {
         Product product = new Product(1, "Foo", 5.0, marsController.getUserById(1), LocalDate.of(2050, 1,1), 4, "data:image/png;base64,image", ProductType.PLANT);
         boolean check = marsController.createProduct("Foo", 5.0, 1, "01-01-2020", 4,"data:image/png;base64,imag", "plant");
         assertTrue(check);
+        assertThrows(ProductException.class, () -> marsController.createProduct("Foo", 5.0, 1, "01-01-2020", 4,"data:image/png;base64,imag", "FOO"));
         assertTrue(marsController.getProduct(ProductType.PLANT).contains(product) );
     }
 
