@@ -1,7 +1,6 @@
 package be.howest.ti.mars.logic.domain;
 
 
-import javax.validation.constraints.Null;
 import java.time.LocalDate;
 import java.util.Objects;
 
