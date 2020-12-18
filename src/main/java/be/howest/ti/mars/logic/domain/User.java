@@ -5,12 +5,10 @@ import java.util.Objects;
 public class User {
     private final String firstName;
     private final String lastName;
-    private String email;
+    private final String email;
     private int id;
     private final LocalDate dateOfBirth;
-    private Subscription subscription;
-    private final ProductCollection harvest;
-    private final ProductCollection history;
+    private final Subscription subscription;
     private final Basket basket;
     private final Address address;
 
@@ -23,8 +21,6 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.subscription = subscription;
         this.address = address;
-        this.harvest = new Harvest();
-        this.history = new History();
         this.basket = new Basket();
     }
 
@@ -77,8 +73,6 @@ public class User {
                 ", id=" + id +
                 ", dateOfBirth=" + dateOfBirth +
                 ", subscription=" + subscription +
-                ", harvested=" + harvest +
-                ", history=" + history +
                 ", basket=" + basket +
                 '}';
     }
