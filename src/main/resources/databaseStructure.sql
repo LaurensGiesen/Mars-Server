@@ -49,7 +49,7 @@ create table plants
     owner_id int                not null,
     date     nvarchar(255)      not null,
     amount   int                not null,
-    image    nvarchar(1024),
+    PictureData VARBINARY(MAX),
     primary key (id),
     foreign key (owner_id) references users (userid)
 );

@@ -2,8 +2,7 @@ package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.ProductException;
-import be.howest.ti.mars.logic.unit.Config;
-
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
@@ -20,10 +19,10 @@ public class DatabaseProductRepository{
     private static final Logger LOGGER = Logger.getLogger(DatabaseProductRepository.class.getName());
 
     private static final String SQL_SELECT_ALL_PLANT = "select * from plants";
-    private static final String SQL_ADD_PLANT = "insert into plants(name, price, owner_id, date, amount, image) values(?,?,?,?,?,?)";
+    private static final String SQL_ADD_PLANT = "insert into plants(name, price, owner_id, date, amount, PictureData) values(?,?,?,?,?,?)";
     private static final String SQL_FIND_PLANT = "select * from plants where lower(name) like lower(?)";
 
-    private static final String SQL_ADD_SEED = "insert into seeds(name, price, owner_id, date, amount, image) values(?,?,?,?,?,?)";
+    private static final String SQL_ADD_SEED = "insert into seeds(name, price, owner_id, date, amount, PictureData) values(?,?,?,?,?,?)";
     private static final String SQL_SELECT_ALL_SEEDS = "select * from seeds";
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_FRUIT = "select * from seeds where type='fruit'";
     private static final String SQL_SELECT_ALL_SEEDS_WHERE_TYPE_IS_VEGETABLE = "select * from seeds where type='vegetable'";
@@ -35,7 +34,7 @@ public class DatabaseProductRepository{
     private static final String SQL_REMOVE_SEED = "delete from seeds where id=?";
     private static final String SQL_REMOVE_PLANT = "delete from plants where id=?";
 
-    public int add(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
+    public int add(String name, Double price, User owner, LocalDate date1, int amount, byte[] image, ProductType type) {
         if (type == ProductType.PLANT){
             return addProduct(name,price,owner,date1,amount,image, SQL_ADD_PLANT);
         } else if(type == ProductType.SEED){
@@ -78,7 +77,7 @@ public class DatabaseProductRepository{
 
     }
 
-    private int addProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, String query) {
+    private int addProduct(String name, Double price, User owner, LocalDate date1, int amount, byte[] image, String query) {
         try (Connection con = MarsRepository.getConnection();
              PreparedStatement stmt = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, name);
@@ -86,7 +85,7 @@ public class DatabaseProductRepository{
             stmt.setInt(3, owner.getId());
             stmt.setDate(4, Date.valueOf(date1));
             stmt.setInt(5, amount);
-            stmt.setString(6, "image");
+            stmt.setBlob(6, new SerialBlob(image));
             stmt.executeUpdate();
             try (ResultSet autoId = stmt.getGeneratedKeys()) {
                 autoId.next();
@@ -147,10 +146,23 @@ public class DatabaseProductRepository{
         double price = rs.getDouble("price");
         LocalDate date = rs.getDate("date").toLocalDate();
         int amount = rs.getInt("amount");
-        String image = getImage(id);
+        String image = blobToBase64(rs.getBlob("PictureData"));
         int ownerId = rs.getInt("owner_id");
         User owner = databaseUser.getById(ownerId);
         return new Product(id, name, price, owner, date, amount, image, ProductType.PLANT);
+    }
+
+    private String blobToBase64(Blob pictureData) {
+        try {
+            byte[] imgBytes = pictureData.getBinaryStream().readAllBytes();
+            return "data:image/png;base64," + new String(Base64.getEncoder().encode(imgBytes));
+        }catch (NullPointerException ex){
+            return null;
+        }
+        catch (IOException | SQLException ex) {
+            LOGGER.log(Level.WARNING, "Failed To convert Blob to base64");
+            throw new ProductException("Failed To convert Blob to base64", ex);
+        }
     }
 
     private Product resultSetToSeed(ResultSet rs) throws SQLException {
@@ -160,17 +172,6 @@ public class DatabaseProductRepository{
         return new Product(id, name, price, ProductType.SEED);
     }
 
-    private String getImage(int id) {
-        try{
-            byte[] fileContent = Config.getInstance().getFile("images/" + id + ".png");
-            System.out.println(Base64.getEncoder().encodeToString(fileContent));
-            return "data:image/png;base64," + Base64.getEncoder().encodeToString(fileContent);
-
-        }catch (IOException ex){
-            LOGGER.log(Level.WARNING, "Failed To Get Image");
-            return null;
-        }
-    }
 
     public Product getById(int productId, String productType) {
         if (productType.equalsIgnoreCase(ProductType.PLANT.name())){

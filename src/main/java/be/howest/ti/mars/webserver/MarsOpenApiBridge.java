@@ -40,7 +40,12 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
     @Override
     public List<Product> getPlants(RoutingContext ctx) {
         LOGGER.info("getPlants");
-        return controller.getProduct(ProductType.PLANT);
+        try{
+            return controller.getProduct(ProductType.PLANT);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     @Override
