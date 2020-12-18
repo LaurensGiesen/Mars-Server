@@ -32,14 +32,7 @@ public class ExceptionsTest {
     }
 
     private void createDatabase() throws SQLException {
-        Config.getInstance().executeScript("dropTablesTest.sql");
-    }
-
-
-    @Test
-    void CropTypeException(){
-        DatabaseMapRepository databaseMapRepository = new DatabaseMapRepository();
-        assertThrows(CropTypeException.class, () -> databaseMapRepository.getCropsByLocation(Double.NaN,Double.MAX_VALUE,1,  SubscriptionType.PREMIUM));
+        Config.getInstance().executeScript("databaseTest.sql");
     }
 
     @Test
@@ -58,12 +51,4 @@ public class ExceptionsTest {
         cropTypesList.add(new CropTypes(1,2, "foo", "fruit",1));
         assertThrows(SubscriptionException.class, () -> databaseMapRepository.getCropTypesForUsersSubscription(cropTypesList, null));
     }
-
-    @Test
-    void UserExceptionTest(){
-        DatabaseUsersRepository databaseUsersRepository = new DatabaseUsersRepository();
-        assertThrows(UserException.class, () -> databaseUsersRepository.getById(0));
-        assertThrows(UserException.class, () -> databaseUsersRepository.updateAddress("Foo", 1, "200", 0));
-    }
-
 }

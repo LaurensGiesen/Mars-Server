@@ -23,8 +23,6 @@ public class DatabaseMapRepository {
     private static final String SQL_SELECT_CROPS_WHERE_NAME_IS_LIKE = "select l.*, s.name, s.type from locations l join seeds s on l.crop_id = s.id where lower(s.name) like ?";
     private static final String SQL_SELECT_CROPS_BY_LONG_AND_LAT = "select l.*, s.name, s.type from locations l join seeds s on l.crop_id = s.id where l.longitude >= ? and l.longitude <= ? and l.latitude >= ? and l.latitude <= ?";
 
-    private final DatabaseUsersRepository usersRepository = new DatabaseUsersRepository();
-
     public CropTypes resultSetToCropType(ResultSet rs) throws SQLException {
         double lng = rs.getDouble("longitude");
         double lat = rs.getDouble("latitude");
