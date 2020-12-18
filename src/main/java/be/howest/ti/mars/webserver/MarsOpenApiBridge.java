@@ -82,7 +82,6 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         }catch (Exception ex){
             return false;
         }
-
     }
 
     public boolean addProduct(RoutingContext ctx) {

@@ -228,7 +228,7 @@ public class WebServer extends AbstractVerticle {
 
     private void onInternalServerError(RoutingContext ctx) {
         LOGGER.log(Level.SEVERE, () -> String.format("onInternalServerError at %s", ctx.request().absoluteURI()));
-        replyWithFailure(ctx, 500, "Internal Server Error", null);
+        replyWithFailure(ctx, 500, "Internal Server Error", ctx.failure().getMessage());
     }
 
     private void replyWithFailure(RoutingContext ctx, int statusCode, String message, String cause) {
