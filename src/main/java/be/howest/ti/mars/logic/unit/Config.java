@@ -3,10 +3,9 @@ package be.howest.ti.mars.logic.unit;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.ConfigException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -28,13 +27,11 @@ public class Config {
                 Connection con = MarsRepository.getConnection();
                 PreparedStatement stmt = con.prepareStatement(createDbSql)
         ) {
-            System.out.println("Try execute");
             stmt.executeUpdate();
-            System.out.println("Executed");
         }
     }
 
-    private String readFile(String fileName) {
+    public String readFile(String fileName) {
         try (InputStream recourse = getClass().getClassLoader().getResourceAsStream(fileName)) {
             assert recourse != null;
             try (BufferedReader r = new BufferedReader(new InputStreamReader(recourse))) {
@@ -47,9 +44,18 @@ public class Config {
                 return res.toString();
             }
         } catch (IOException ex) {
-            ex.printStackTrace();
             LOGGER.log(Level.SEVERE, "Cannot read file: " + fileName, ex);
             throw new ConfigException("Cannot read file: " + fileName);
         }
     }
+
+    public File getFile(String filename) throws URISyntaxException {
+        URL resource = getClass().getClassLoader().getResource(filename);
+        if (resource == null) {
+            throw new IllegalArgumentException("file not found!");
+        } else {
+            return new File(resource.toURI());
+        }
+    }
+
 }

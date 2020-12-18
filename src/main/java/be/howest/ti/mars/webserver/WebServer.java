@@ -81,7 +81,6 @@ public class WebServer extends AbstractVerticle {
         try {
             createDatabase();
         } catch (IOException | SQLException ex) {
-            ex.printStackTrace();
             LOGGER.log(Level.SEVERE, "Failed To Load Database");
             throw new DatabaseException(ex.getMessage());
         }
@@ -89,11 +88,7 @@ public class WebServer extends AbstractVerticle {
 
     private void createDatabase() throws IOException, SQLException {
         Config.getInstance().executeScript("databaseStructure.sql");
-        System.out.println("databaseStructure");
-        // src/main/resources/
-
-        Config.getInstance().executeScript("populateDatabase.sql"); // src/main/resources/
-        System.out.println("populateDatabase");
+        Config.getInstance().executeScript("populateDatabase.sql");
     }
 
 
