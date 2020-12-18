@@ -67,19 +67,6 @@ public class User {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", id=" + id +
-                ", dateOfBirth=" + dateOfBirth +
-                ", subscription=" + subscription +
-                ", basket=" + basket +
-                '}';
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

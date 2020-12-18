@@ -2,7 +2,7 @@ package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.data.MarsRepository;
-import be.howest.ti.mars.logic.exceptions.DatabaseException;
+import be.howest.ti.mars.logic.exceptions.ConfigException;
 import be.howest.ti.mars.logic.unit.Config;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
@@ -99,7 +99,7 @@ public class WebServer extends AbstractVerticle {
             createDatabase();
         } catch (SQLException ex) {
             LOGGER.log(Level.SEVERE, "Failed To Load Database");
-            throw new DatabaseException(ex.getMessage());
+            throw new ConfigException(ex.getMessage());
         }
     }
 
