@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +25,7 @@ public class ExceptionsTest {
     }
 
     @BeforeEach
-    void init() throws IOException, SQLException {
+    void init() throws  SQLException {
         createDatabase();
     }
 
@@ -64,6 +62,11 @@ public class ExceptionsTest {
         DatabaseUsersRepository databaseUsersRepository = new DatabaseUsersRepository();
         assertThrows(UserException.class, () -> databaseUsersRepository.getById(0));
         assertThrows(UserException.class, () -> databaseUsersRepository.updateAddress("Foo", 1, "200", 0));
+    }
+
+    @Test
+    void ConfigExceptionTest(){
+        assertThrows(ConfigException.class, () -> Config.getInstance().getFile("Foo"));
     }
 
 }

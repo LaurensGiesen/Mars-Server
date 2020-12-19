@@ -1,23 +1,14 @@
 package be.howest.ti.mars.logic.data;
 
 import be.howest.ti.mars.logic.domain.*;
-import be.howest.ti.mars.logic.exceptions.ProductException;
 import be.howest.ti.mars.logic.exceptions.UserException;
 import org.h2.tools.Server;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
 MBL: this is only a starter class to use a H2 database.
@@ -34,8 +25,6 @@ public class MarsRepository {
     private final DatabaseUsersRepository databaseUser = new DatabaseUsersRepository();
     private final DatabaseProductRepository databaseProduct = new DatabaseProductRepository();
     private final DatabaseMapRepository databaseMap = new DatabaseMapRepository();
-
-    private static final Logger LOGGER = Logger.getLogger(DatabaseMapRepository.class.getName());
 
 
     private static final MarsRepository INSTANCE = new MarsRepository();
@@ -88,7 +77,7 @@ public class MarsRepository {
 
     public void createProduct(String name, Double price, User owner, LocalDate date1, int amount, String image, ProductType type) {
         byte[] imgBytes = getImageBytes(image);
-        int id = databaseProduct.add(name, price, owner, date1, amount, imgBytes, type);
+        databaseProduct.add(name, price, owner, date1, amount, imgBytes, type);
     }
 
     private byte[] getImageBytes(String image) {
