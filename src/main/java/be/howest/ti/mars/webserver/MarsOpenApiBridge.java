@@ -2,6 +2,7 @@ package be.howest.ti.mars.webserver;
 
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.domain.*;
+import be.howest.ti.mars.logic.exceptions.MarsException;
 import be.howest.ti.mars.logic.exceptions.ProductException;
 import io.vertx.ext.web.RoutingContext;
 
@@ -102,7 +103,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
         int amount = ctx.getBodyAsJson().getInteger(AMOUNT);
         Product product = controller.getProductById(productId);
-        if (controller.getFavorites(userId).contains(product)){
+        if (controller.getFavorites(userId).contains(product)) {
             ctx.fail(409, new ProductException("Product Already In Favorites"));
         }
         return controller.addProductToFavorite(userId, productId, productType, amount);
@@ -114,10 +115,12 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         String productType = ctx.getBodyAsJson().getString(PRODUCT_TYPE);
         int amount = ctx.getBodyAsJson().getInteger(AMOUNT);
         Product product = controller.getProductById(productId);
-        if (controller.getBasket(userId).contains(product)){
-            ctx.fail(409, new ProductException("Product Already In Basket"));
+        if (controller.getBasket(userId).contains(product)) {
+            //ctx.fail(409, new ProductException("Product Already In Basket"));
+            throw new MarsException("Product Already In Basket");
+        } else {
+            return controller.addProductToBasket(userId, productId, productType, amount);
         }
-        return controller.addProductToBasket(userId, productId, productType, amount);
     }
 
 

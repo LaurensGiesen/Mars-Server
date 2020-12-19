@@ -3,6 +3,7 @@ package be.howest.ti.mars.webserver;
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.data.MarsRepository;
 import be.howest.ti.mars.logic.exceptions.ConfigException;
+import be.howest.ti.mars.logic.exceptions.MarsException;
 import be.howest.ti.mars.logic.unit.Config;
 import io.vertx.config.ConfigRetriever;
 import io.vertx.core.AbstractVerticle;
@@ -21,6 +22,7 @@ import io.vertx.ext.web.handler.FaviconHandler;
 import io.vertx.ext.web.handler.LoggerFormat;
 import io.vertx.ext.web.handler.LoggerHandler;
 import org.apache.commons.lang3.StringUtils;
+
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.function.Function;
@@ -61,19 +63,19 @@ public class WebServer extends AbstractVerticle {
                 String type = "plant";
 
                 String img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/1.png"));
-                marsController.createProduct("Apple", 2.0, 1, "20-08-2052",5, img, type);
+                marsController.createProduct("Apple", 2.0, 1, "20-08-2052", 5, img, type);
 
                 img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/2.png"));
-                marsController.createProduct("Carrot", 3.0, 1, "11-05-2052",15, img, type);
+                marsController.createProduct("Carrot", 3.0, 1, "11-05-2052", 15, img, type);
 
                 img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/3.png"));
-                marsController.createProduct("Banana", 1.0, 1, "09-07-2052",8, img, type);
+                marsController.createProduct("Banana", 1.0, 1, "09-07-2052", 8, img, type);
 
                 img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/4.png"));
-                marsController.createProduct("Grapes", 3.0, 1, "05-06-2052",12, img, type);
+                marsController.createProduct("Grapes", 3.0, 1, "05-06-2052", 12, img, type);
 
                 img = prefix + Base64.getEncoder().encodeToString(Config.getInstance().getFile("images/5.png"));
-                marsController.createProduct("Strawberry", 3.0, 1, "06-02-2052",12, img, type);
+                marsController.createProduct("Strawberry", 3.0, 1, "06-02-2052", 12, img, type);
 
 
             }
@@ -93,7 +95,7 @@ public class WebServer extends AbstractVerticle {
                     dbProps.getInteger("webconsole.port", DB_WEB_CONSOLE_FALLBACK));
             LOGGER.info("Database webconsole started on port: " + dbProps.getInteger("webconsole.port"));
         } catch (SQLException ex) {
-            LOGGER.log(Level.SEVERE,"DB web console is unavailable", ex);
+            LOGGER.log(Level.SEVERE, "DB web console is unavailable", ex);
         }
         try {
             createDatabase();
@@ -120,7 +122,7 @@ public class WebServer extends AbstractVerticle {
                                 .requestHandler(createRequestHandler(ar.result()))
                                 .listen(port, x -> listen(promise, x));
                     } else {
-                        LOGGER.log(Level.SEVERE," Failed to load API specification", ar.cause());
+                        LOGGER.log(Level.SEVERE, " Failed to load API specification", ar.cause());
                         LOGGER.info("Shutting down");
                         vertx.close();
                     }
@@ -187,7 +189,7 @@ public class WebServer extends AbstractVerticle {
     }
 
     private void addRouteWithCtxFunction(OpenAPI3RouterFactory factory, String operationId,
-                                            Function<RoutingContext, Object> bridgeFunction) {
+                                         Function<RoutingContext, Object> bridgeFunction) {
         factory.addHandlerByOperationId(operationId,
                 ctx -> handleResult(bridgeFunction.apply(ctx), ctx));
     }
@@ -198,11 +200,11 @@ public class WebServer extends AbstractVerticle {
 
     private void installGeneralErrorHandlers(Router router) {
         router.errorHandler(400, this::onBadRequest)
-            .errorHandler(401, this::onUnAuthorised)
-            .errorHandler(403, this::onForbidden)
-            .errorHandler(404, this::onNotFound)
-            .errorHandler(409, this::onConflict)
-            .errorHandler(500, this::onInternalServerError);
+                .errorHandler(401, this::onUnAuthorised)
+                .errorHandler(403, this::onForbidden)
+                .errorHandler(404, this::onNotFound)
+                //.errorHandler(409, this::onConflict)
+                .errorHandler(500, this::onInternalServerError);
 
         router.route().handler(ctx -> ctx.fail(404, new RuntimeException()));
     }
@@ -244,16 +246,24 @@ public class WebServer extends AbstractVerticle {
     private void onForbidden(RoutingContext ctx) {
         replyWithFailure(ctx, 403, "Forbidden", null);
     }
-
+/*
     private void onConflict(RoutingContext ctx) {
         LOGGER.info(() -> String.format("onConflict at %s", ctx.request().absoluteURI()));
         replyWithFailure(ctx, 409, "Conflict", ctx.failure().getMessage());
 
-    }
+    }*/
 
     private void onInternalServerError(RoutingContext ctx) {
-        LOGGER.log(Level.SEVERE, () -> String.format("onInternalServerError at %s", ctx.request().absoluteURI()));
-        replyWithFailure(ctx, 500, "Internal Server Error", ctx.failure().getMessage());
+        try {
+            throw ctx.failure();
+        } catch (MarsException failure) {
+            LOGGER.log(Level.SEVERE, failure.getMessage());
+            replyWithFailure(ctx, 409, "Failed to add product", ctx.failure().getMessage());
+        } catch (Throwable failure) {
+            LOGGER.log(Level.SEVERE, () -> String.format("onInternalServerError at %s", ctx.request().absoluteURI()));
+            replyWithFailure(ctx, 500, "Internal Server Error", ctx.failure().getMessage());
+
+        }
     }
 
     private void replyWithFailure(RoutingContext ctx, int statusCode, String message, String cause) {
