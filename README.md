@@ -7,9 +7,13 @@
 Om de server op te zetten start je met het [Clonen](#installatie) van de server. Als de server succesvol gecloned is kan
 je deze [configureren](#configuratie) in de **conf/config.json**. Hier moet je een poort specifiëren waarop je de server
 wilt draaien. In deze configuratie file kan u ook de gegevens voor de database wijzigen. In de
-file: [MarsOpenApiBridge](NYI) worden alle requests afgehandeld die in de [OpenAPI File](NYI) omschreven zijn. Deze file
-staat in contact met de [MarsController](NYI), in deze MarsController worden de repo's aangemaakt waarmee we zaken
-kunnen doen zoals gebruikers aanmaken, gewassen oplijsten, ...
+file: [MarsOpenApiBridge](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/java/be/howest/ti/mars/webserver/MarsOpenApiBridge.java)
+worden alle requests afgehandeld die in
+de [OpenAPI File](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/resources/openapi-group-14.yaml)
+omschreven zijn. Deze file staat in contact met
+de [MarsController](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/java/be/howest/ti/mars/logic/controller/MarsController.java)
+, in deze MarsController worden de repo's aangemaakt waarmee we zaken kunnen doen zoals gebruikers aanmaken, gewassen
+oplijsten, ...
 <br>
 
 ## Installatie
