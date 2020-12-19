@@ -104,7 +104,7 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         int amount = ctx.getBodyAsJson().getInteger(AMOUNT);
         Product product = controller.getProductById(productId);
         if (controller.getFavorites(userId).contains(product)) {
-            ctx.fail(409, new ProductException("Product Already In Favorites"));
+            throw new MarsException("Product Already In Favorites");
         }
         return controller.addProductToFavorite(userId, productId, productType, amount);
     }
@@ -116,11 +116,9 @@ class MarsOpenApiBridge implements MarsOpenApiBridgeInterface {
         int amount = ctx.getBodyAsJson().getInteger(AMOUNT);
         Product product = controller.getProductById(productId);
         if (controller.getBasket(userId).contains(product)) {
-            //ctx.fail(409, new ProductException("Product Already In Basket"));
             throw new MarsException("Product Already In Basket");
-        } else {
-            return controller.addProductToBasket(userId, productId, productType, amount);
         }
+        return controller.addProductToBasket(userId, productId, productType, amount);
     }
 
 
