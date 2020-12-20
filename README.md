@@ -2,7 +2,9 @@
 
 *door Timo De Clercq, Annelin De Gols, Robin De Kinders Laurens Giesen, Cedric Puystjens*
 
-## Informatie
+## Server
+
+### Informatie
 
 Om de server op te zetten start je met het [Clonen](#installatie) van de server. Als de server succesvol gecloned is kan
 je deze [configureren](#configuratie) in de **conf/config.json**. Hier moet je een poort specifiëren waarop je de server
@@ -16,7 +18,7 @@ de [MarsController](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects
 oplijsten, ...
 <br>
 
-## Installatie
+### Installatie
 
 ```
 git clone git@git.ti.howest.be:TI/2020-2021/s3/project-ii/projects/groep-14/server.git
@@ -30,7 +32,7 @@ git clone https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/
 
 ```
 
-## Configuratie
+### Configuratie
 
 **Path: conf/config.json**
 
@@ -47,3 +49,16 @@ git clone https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/
     "webconsole.port": 9000
   }
 }
+
+```
+
+### Database
+
+[Aanmaken van de database](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/resources/databaseStructure.sql)
+
+[Toevoegen van gegevens aan de database](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/resources/populateDatabase.sql)
+---
+
+## OpenAPI
+
+[Link](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/resources/openapi-group-14.yaml)
