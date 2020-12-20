@@ -131,6 +131,8 @@ paths:
     get:
       description: Get a nice message
       operationId: getMessage
+      tags:
+        - Message
       responses:
         '200':
           description: OK
@@ -142,6 +144,8 @@ paths:
     post:
       summary: create new user
       operationId: createUser
+      tags:
+        - Users
       requestBody:
         required: true
         content:
@@ -161,6 +165,8 @@ paths:
     get:
       summary: Get all plants
       operationId: getPlants
+      tags:
+        - Product
       responses:
         '200':
           description: OK
@@ -179,6 +185,8 @@ paths:
     get:
       summary: Get all Seeds
       operationId: getSeeds
+      tags:
+        - Product
       responses:
         '200':
           description: OK
@@ -195,8 +203,10 @@ paths:
 
   /api/getCrop/{userId}/{name}:
     get:
-      summary: Get all Seeds by part of name
+      summary: Get all crops by part of name
       operationId: getCropsWhereNameIsLike
+      tags:
+        - Crops
       parameters:
         - name: "name"
           in: "path"
@@ -226,6 +236,8 @@ paths:
     post:
       summary: Add new product
       operationId: addProduct
+      tags:
+        - Product
       requestBody:
         required: true
         content:
@@ -246,6 +258,8 @@ paths:
     post:
       summary: Remove a product from your basket
       operationId: removeProduct
+      tags:
+        - Product
       requestBody:
         required: true
         content:
@@ -267,6 +281,8 @@ paths:
     post:
       summary: Add a product to your favorits
       operationId: addProductToFavorite
+      tags:
+        - Product
       requestBody:
         required: true
         content:
@@ -288,6 +304,8 @@ paths:
     post:
       summary: Add a product to your basket
       operationId: addProductToBasket
+      tags:
+        - Product
       requestBody:
         required: true
         content:
@@ -309,6 +327,8 @@ paths:
     get:
       summary: Get The favorites Of A User
       operationId: getFavorites
+      tags:
+        - Users
       parameters:
         - name: "userId"
           in: "path"
@@ -333,6 +353,8 @@ paths:
     get:
       summary: Get The B Of A User
       operationId: getBasket
+      tags:
+        - Users
       parameters:
         - name: "userId"
           in: "path"
@@ -356,6 +378,8 @@ paths:
     post:
       summary: Remove a product from your favorits
       operationId: removeProductFromFavorite
+      tags:
+        - Product
       requestBody:
         required: true
         content:
@@ -376,6 +400,8 @@ paths:
     post:
       summary: Remove a product from your basket
       operationId: removeProductFromBasket
+      tags:
+        - Product
       requestBody:
         required: true
         content:
@@ -396,6 +422,8 @@ paths:
     get:
       summary: Get all locations
       operationId: getLocations
+      tags:
+        - Location
       parameters:
         - name: "userId"
           in: "path"
@@ -420,6 +448,8 @@ paths:
     get:
       summary: Get all locations for specific crop id
       operationId: getLocationByCropId
+      tags:
+        - Location
       parameters:
         - name: "userId"
           in: "path"
@@ -448,6 +478,8 @@ paths:
     get:
       summary: Get all crop for specific location
       operationId: getCropByLocation
+      tags:
+        - Crops
       parameters:
         - name: "userId"
           in: "path"
@@ -481,6 +513,8 @@ paths:
     post:
       summary: Update user info
       operationId: updateUser
+      tags:
+        - Users
       parameters:
         - name: "userId"
           in: "path"
@@ -506,6 +540,8 @@ paths:
     get:
       summary: get info of user
       operationId: getUser
+      tags:
+        - Users
       parameters:
         - name: "userId"
           in: "path"
@@ -529,6 +565,8 @@ paths:
     get:
       summary: Update subscription
       operationId: updateSubscription
+      tags:
+        - Users
       parameters:
         - name: "userId"
           in: "path"
@@ -557,6 +595,8 @@ paths:
     get:
       summary: get all crops
       operationId: getCrops
+      tags:
+        - Crops
       responses:
         '200':
           description: Ok
