@@ -3,7 +3,6 @@ package be.howest.ti.mars.webserver;
 import be.howest.ti.mars.logic.controller.MarsController;
 import be.howest.ti.mars.logic.domain.*;
 import be.howest.ti.mars.logic.exceptions.MarsException;
-import be.howest.ti.mars.logic.exceptions.ProductException;
 import io.vertx.ext.web.RoutingContext;
 
 import java.time.LocalDate;
