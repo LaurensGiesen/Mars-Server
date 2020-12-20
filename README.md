@@ -1,68 +1,118 @@
-# Project II - Mars Server
-This is the **server side start-project** for Project II. 
+# Mars Agriculture and Research Service - Server (groep 14)
 
-You can change the whole code to the wishes of your team.
+*door Timo De Clercq, Annelin De Gols, Robin De Kinders Laurens Giesen, Cedric Puystjens*
 
-The start project provides the basic scaffolding for an openapi webserver.
+## Server
+### Informatie
+Om de server op te zetten start u met het [Clonen](#installatie) van de server. Als de server succesvol werd gecloned,
+kunt u deze [configureren](#configuratie) in de **conf/config.json**. Hier moet u een poort specifiëren waarop je de
+server wilt draaien. In deze configuratie file kan u ook de gegevens voor de database wijzigen. In de
+file: [MarsOpenApiBridge](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/java/be/howest/ti/mars/webserver/MarsOpenApiBridge.java)
+worden alle requests afgehandeld die in
+de [OpenAPI File](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/resources/openapi-group-14.yaml)
+omschreven zijn. Deze file staat in contact met
+de [MarsController](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/java/be/howest/ti/mars/logic/controller/MarsController.java)
+, in deze MarsController worden de repo's aangemaakt waarmee we zaken kunnen doen zoals gebruikers aanmaken, gewassen
+oplijsten, ...
+<br>
 
-## Before you start:
-- Choose Zulu jdk version 11 (Configure through this through intelij)
-- Install the sonarlint plugin through intelij plugins.
-- **Assign your group number** to the following locations (change XX by your group number, 2 digits, zero-padding):
-  - `settings.gradle`: `rootProject.name = "2020.project-ii.mars-server-14"`
-  - `gradle.properties`: `systemProp.sonar.projectName=2020.project-ii.mars-server-14`
-  - `openapi-group-14.yaml`: `https://project-ii.ti.howest.be/mars-14`
-  - `WebServer.java`: `OPEN_API_SPEC = "openapi-group-14.yaml";`
-  - `replace 14 in file name openapi-group-14.yaml`
-  - Search the string 14 in all files (ctr shift f)
-    - There should only be readme entries
+### Installatie
+```
+git clone git@git.ti.howest.be:TI/2020-2021/s3/project-ii/projects/groep-14/server.git
 
-- **Attach the TI sonarqube server to your project in intelij.**
-    - Go to Intelij settings/other settings/SonarLint General Settings
-        - Create a new connection by clicking on the plus sign.
-        - Choose a configuration name.
-        - Choose sonarcube.
-        - Enter URL: https://sonar.ti.howest.be/sonar
-        - Use token: `a71c618ef467e72256e59bbbb48a8eb441cf3629`
-        - Save configuration.
-    - Go to Intelij settings/other settings/SonarLint Project Settings
-        - Choose your newly created connection.
-        - Choose your project by clicking **search in list.**
-    - Go to Intelij settings/other settings/SonarLint General Settings
-        - Click update binding (no error messages should pop up).
-- At the bottom of your screen a sonarlint tab should be available.
-    - Code smells will be available at this location.
+```
+Of
+``` 
+git clone https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server.git
 
-## How to run the start project
-In Intelij choose gradle task run.
+```
 
-## What is included
-  - a very basic openapi spec
-    - localhost:8080/api/message
-  - H2 database web console
-  - The setup of a vert.x web api (WebServer.java)
-    - It's allowed to change this file.
-  
-## Local locations
- - H2 web client
-   - localhost:9000
-   - url: ~/mars-db
-   - no credentials
- - Web api
-   - localhost:8080/api/message
-   - map openapi paths to the MarsOpenApiBridge in the WebServer.java
-     - function: addRouteWithCtxFunction
-  
-## Public locations
- - H2 web client
-   - https://project-ii.ti.howest.be/db-14
-       - url: jdbc:h2:/opt/group-14/db-14
-   - username:group-14
-   - password: see leho
- - Web api
-   - https://project-ii.ti.howest.be/mars-14/api/
- - Web client
-   - https://project-ii.ti.howest.be/mars-14
- - Sonar
-   - https://sonar.ti.howest.be/sonar/dashboard?id=2020.project-ii%3Amars-server-14
-   - https://sonar.ti.howest.be/sonar/dashboard?id=2020.project-ii%3Amars-client-14
+### Configuratie
+
+**Path: conf/config.json**
+
+```json
+
+{
+  "http": {
+    "port": 8080
+  },
+  "db" : {
+    "url": "jdbc:h2:~/mars-db",
+    "username": "group-14",
+    "password": "t3sfe1k3nUe",
+    "webconsole.port": 9000
+  }
+}
+
+```
+
+### Gradle
+
+De server is een java gradle project. Gradle is een opensource-automatiseringstool die is ontworpen om flexibel genoeg
+te zijn om bijna elk type software te bouwen.
+
+<br>
+
+Gradle builden:
+
+```bash
+gradle build
+```
+
+Gradle runnen:
+
+```bash
+gradle run
+```
+
+Voor extra infomatie over gradle kan u terecht bij
+de [documentatie](https://docs.gradle.org/current/userguide/userguide.html)
+
+<br>
+
+### Database
+
+De database is beschikbaar op localhost, op de hierboven ingestelde poort. bijvoorbeeld [localhost:9000](localhost:9000)
+. De database wordt gestart bij het opstarten van de server. Zorg er dus voor dat uw server aanstaat als je de database
+wilt bereiken.
+<br>
+
+Bij het opstarten van de server zullen de tables uit de database verwijderd en daarna opnieuw aangemaakt worden. Dit
+gebeurt via het
+script [databaseStructure.sql](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/resources/databaseStructure.sql)
+<br>
+
+In de database worden er testwaarden voorzien bij het opstarten van de server. Deze kan u aanpassen in de
+file [populateDatabase.sql](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/resources/populateDatabase.sql)
+.
+
+---
+
+## OpenAPI
+
+<br>
+
+Voor extra informatie over de werking van OpenAPI kan u altijd de [documentatie](https://swagger.io/specification/)
+raadplegen.
+
+<br>
+
+
+De endpoints van onze server kan u terug vinden in onze
+[OpenAPI](https://git.ti.howest.be/TI/2020-2021/s3/project-ii/projects/groep-14/server/-/blob/master/src/main/resources/openapi-group-14.yaml)
+file.
+
+Er zijn ook enkele endpoints die nog niet uitgewerkt zijn. Deze vind u hieronder.
+
+* Inloggen
+* Gereedschappen uitlenen
+* Gereedschappen toevoegen aan favorieten
+* Gereedschappen zoeken op naam
+* Bestelgeschiedenis opvragen van persoon
+* In bestelgeschiedenis zoeken op naam bij bepaald een persoon
+* zaadjes toevoegen aan favorieten
+* zaadjes verwijderen uit favorieten
+* zaadjes toevoegen aan winkelmandje
+* zaadjes verwijderen uit winkelmandje
+  <br>
